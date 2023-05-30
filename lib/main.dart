@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'package:restart_app/restart_app.dart';
 
 
 
@@ -213,7 +214,7 @@ class SettingsPage extends StatelessWidget {
         title: Text("Settings"),
       ),
       body: Column(children: [
-        ElevatedButton.icon(onPressed: () => deleteSavedData(), icon: Icon(Icons.warning_amber), label: Text("delete all saved data"))
+        ElevatedButton.icon(onPressed: () { deleteSavedData(); Restart.restartApp();}, icon: Icon(Icons.warning_amber), label: Text("delete all saved data"))
       ]),
     );
   }
