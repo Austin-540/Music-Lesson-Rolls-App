@@ -32,16 +32,7 @@ def uploadLesson(listOfDetails):
             else:
                 client.collection('students').create({"name": listOfDetails[j], "homeroom":homeroom});
     
-    """
-    Required Data:
-    teacher id -done
-    instrument -done
-    students db ids -done
-    weekday -done
-    time -done
-    """
 
-   
     all_teachers = client.collection("users").get_full_list() 
     #It is supposedly possible to use the get_one method with a filter to accomplish this, but it was giving me rediculously unhelpful error messages
     print(all_teachers)
