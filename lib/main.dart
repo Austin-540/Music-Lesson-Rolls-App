@@ -131,7 +131,7 @@ final storage = new FlutterSecureStorage();
   }
   Future waitAndPushToHome() async {
     await Future.delayed(Duration(milliseconds: 600)); //Minimum time seems to be 400ms
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Screen")));
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Screen")), (route) => false);
   }
 
 
