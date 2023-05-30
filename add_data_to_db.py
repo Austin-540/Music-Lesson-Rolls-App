@@ -16,10 +16,10 @@ print(list_of_names_in_DB)
 
 
 
-homeroom = "00EXM" #For now, because my CSV file doesn't have homerooms yet
 
 
 def uploadLesson(listOfDetails):
+    homeroom = "00EXM" #For now, because my CSV file doesn't have homerooms yet
     students_in_lesson = []
     time = listOfDetails[0]
     for j in range(len(listOfDetails)):
