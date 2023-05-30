@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pocketbase/pocketbase.dart';
 
+
+final storage = new FlutterSecureStorage();
+
+final pb = PocketBase('http://127.0.0.1:8090');
 
 void main() {
   runApp(const MyApp());
@@ -32,10 +38,46 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future logIn() async {
-    return "Hello";
-  }
 
+Future logIn() async {
+    Future.delayed(Duration(milliseconds: 500));
+
+  String? email;
+  String? password;
+  RecordAuth? authData;
+
+    try {
+    String? email = await storage.read(key: "email");
+    String? password = await storage.read(key: "pasword");
+
+    if (email == null) {
+      throw "no saved data";
+    }
+
+    final authData = await pb.collection('users').authWithPassword(
+  email!, password!,
+    );
+    print(authData);
+    return authData;
+
+
+    } catch (e) {
+      //TODO push to login screen here
+      String? email = "a@example.com";
+      String? password = "password";
+
+      final authData = await pb.collection('users').authWithPassword(
+  email!, password!,
+    );
+    print(authData);
+    return authData;
+
+    }
+    //first try to see if password is already saved, then if its not push to login screen
+
+    
+
+  }
   int _counter = 0;
 
   void _incrementCounter() {
@@ -53,24 +95,19 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        child: FutureBuilder(
+          future: logIn(),
+          initialData: null,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data.toString());
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), 
-    );
+    ));
   }
 }
+
+
