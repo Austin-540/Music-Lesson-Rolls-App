@@ -62,6 +62,7 @@ Future logIn() async {
 
 
     } catch (e) {
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
       //TODO push to login screen here
       String? email = "a@example.com";
       String? password = "password";
@@ -111,3 +112,68 @@ Future logIn() async {
 }
 
 
+
+class LoginScreen extends StatefulWidget {
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState(); }
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  String _email = "example@example.com";
+  String _password = "password";
+  
+
+
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text("Login")
+        ),
+      body: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(50.0),
+            child: Column(
+              
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                  ),
+                  
+                  onSaved: (value) {
+                    _email = value!;
+                  },
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                  ),
+                  onSaved: (value) {
+                    _password = value!;
+                  },
+                  
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    _formKey.currentState!.save();
+                    if (_email != "" && _password != "") {
+                      //TODO verify password + go to home screen
+                      
+                        
+                    }
+                  },
+                  child: Text('Login'),
+                ),
+              ],
+            ),
+          )),
+    );
+  }
+}
