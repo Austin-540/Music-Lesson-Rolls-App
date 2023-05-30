@@ -1,3 +1,4 @@
+#This file will be run at the beginning of the year after the music lesson timetable has been finalised. It will take in a CSV file and add the data to the PocketBase server.
 import csv
 from pocketbase import PocketBase 
 
@@ -59,7 +60,7 @@ def uploadLesson(listOfDetails):
     )
 
 
-with open("./shorter_csv.csv") as csv_file:
+with open("./music_timetable_replica - Sheet1.csv") as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     data = list(csv_reader) #CSV_file -> list (rows) of lists (columns)
     print(data)
