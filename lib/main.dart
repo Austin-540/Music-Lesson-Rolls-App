@@ -48,7 +48,7 @@ Future logIn() async {
 
     try {
     String? email = await storage.read(key: "email");
-    String? password = await storage.read(key: "pasword");
+    String? password = await storage.read(key: "password");
 
     if (email == null) {
       throw "no saved data";
@@ -63,9 +63,7 @@ Future logIn() async {
 
     } catch (e) {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
-      //TODO push to login screen here
-      String? email = "a@example.com";
-      String? password = "password";
+
 
       final authData = await pb.collection('users').authWithPassword(
   email!, password!,
@@ -123,6 +121,20 @@ class _LoginScreenState extends State<LoginScreen> {
   String _email = "example@example.com";
   String _password = "password";
   
+  Future logIn(email, password) async {
+    try {
+    final authData = await pb.collection('users').authWithPassword(
+  email, password,
+);
+
+  await storage.write(key: "email", value: email);
+  await storage.write(key: "password", value: password);
+  return authData;
+    } catch (e) {
+      return "Fail";
+    }
+
+  }
 
 
   @override
@@ -165,6 +177,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     _formKey.currentState!.save();
                     if (_email != "" && _password != "") {
                       //TODO verify password + go to home screen
+
+                        print("trying login");
+                        logIn(_email, _password);
+
+
                       
                         
                     }
