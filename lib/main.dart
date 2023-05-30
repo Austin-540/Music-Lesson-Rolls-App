@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 
-final storage = new FlutterSecureStorage();
+
 
 final pb = PocketBase('http://127.0.0.1:8090');
 
@@ -47,6 +47,7 @@ Future logIn() async {
   RecordAuth? authData;
 
     try {
+    final storage = new FlutterSecureStorage();
     String? email = await storage.read(key: "email");
     String? password = await storage.read(key: "password");
 
@@ -64,27 +65,14 @@ Future logIn() async {
     } catch (e) {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
 
-
-      final authData = await pb.collection('users').authWithPassword(
-  email!, password!,
-    );
-    print(authData);
-    return authData;
-
     }
     //first try to see if password is already saved, then if its not push to login screen
 
     
 
   }
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      logIn();
-      _counter++;
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +80,9 @@ Future logIn() async {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: [
+          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder:(context) => SettingsPage())), icon: Icon(Icons.settings))
+        ],
       ),
       body: Center(
         child: FutureBuilder(
@@ -127,6 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
   email, password,
 );
 
+
+final storage = new FlutterSecureStorage();
   await storage.write(key: "email", value: email);
   await storage.write(key: "password", value: password);
   return authData;
@@ -134,6 +127,10 @@ class _LoginScreenState extends State<LoginScreen> {
       return "Fail";
     }
 
+  }
+  Future waitAndPushToHome() async {
+    await Future.delayed(Duration(milliseconds: 600)); //Minimum time seems to be 400ms
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Screen")));
   }
 
 
@@ -179,7 +176,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       //TODO verify password + go to home screen
 
                         print("trying login");
-                        logIn(_email, _password);
+                        if (logIn(_email, _password) == "Fail") {
+                          print("login fail");
+                        } else {
+                          waitAndPushToHome();
+                          
+                        }
 
 
                       
@@ -191,6 +193,28 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           )),
+    );
+  }
+}
+
+
+class SettingsPage extends StatelessWidget {
+  Future deleteSavedData() async {
+    final storage = new FlutterSecureStorage();
+    await storage.deleteAll();
+  }
+
+  const SettingsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Settings"),
+      ),
+      body: Column(children: [
+        ElevatedButton.icon(onPressed: () => deleteSavedData(), icon: Icon(Icons.warning_amber), label: Text("delete all saved data"))
+      ]),
     );
   }
 }
