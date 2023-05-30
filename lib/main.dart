@@ -116,8 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future logIn(email, password) async {
     try {
     final authData = await pb.collection('users').authWithPassword(
-  email, password,
-);
+  email, password,);
 
 
 final storage = new FlutterSecureStorage();
@@ -177,12 +176,18 @@ final storage = new FlutterSecureStorage();
                       //TODO verify password + go to home screen
 
                         print("trying login");
-                        if (logIn(_email, _password) == "Fail") {
+                        logIn(_email, _password).then((value) {
+                        var status = value;
+                        if (status == "Fail") {
                           print("login fail");
+                          //TODO have a popup showing that password/email is incorrect
                         } else {
                           waitAndPushToHome();
                           
                         }
+
+                        } 
+                        );
 
 
                       
