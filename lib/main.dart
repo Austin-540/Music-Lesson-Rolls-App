@@ -230,7 +230,11 @@ class SettingsPage extends StatelessWidget {
               icon: Icon(Icons.warning_amber), 
               label: Text("Delete All Saved Data")
             ),
-        )
+        ),
+        Center(child: Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Text("This button deletes your saved email and password. Use it if you need to log out. The app will restart when it is pressed.", textAlign: TextAlign.center,),
+        ))
       ]),
     );
   }
