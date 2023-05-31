@@ -218,8 +218,15 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Settings"),
       ),
-      body: Column(children: [
-        ElevatedButton.icon(onPressed: () { deleteSavedData(); Restart.restartApp();}, icon: Icon(Icons.warning_amber), label: Text("delete all saved data"))
+      body: Column(
+        children: [
+        ElevatedButton.icon(
+          onPressed: () { 
+            deleteSavedData(); Restart.restartApp();
+            }, 
+            icon: Icon(Icons.warning_amber), 
+            label: Text("Delete All Saved Data")
+          )
       ]),
     );
   }
