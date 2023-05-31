@@ -215,9 +215,24 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: Column(children: [
-        ElevatedButton.icon(onPressed: () { deleteSavedData(); Restart.restartApp();}, icon: Icon(Icons.warning_amber), label: Text("delete all saved data"))
+      body: Column(
+        children: [
+          SizedBox(height: 20,),
+        Center(
+          child: ElevatedButton.icon(
+            onPressed: () { 
+              deleteSavedData(); Restart.restartApp();
+              }, 
+              icon: Icon(Icons.warning_amber), 
+              label: Text("Delete All Saved Data")
+            ),
+        ),
+        Center(child: Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Text("This button deletes your saved email and password. Use it if you need to log out. The app will restart when it is pressed.", textAlign: TextAlign.center,),
+        ))
       ]),
     );
   }
