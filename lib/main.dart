@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
   email, password,);
 
 
-final storage = new FlutterSecureStorage();
+  final storage = new FlutterSecureStorage();
   await storage.write(key: "email", value: email);
   await storage.write(key: "password", value: password);
   return authData;
@@ -173,8 +173,6 @@ final storage = new FlutterSecureStorage();
                   onPressed: () {
                     _formKey.currentState!.save();
                     if (_email != "" && _password != "") {
-                      //TODO verify password + go to home screen
-
                         print("trying login");
                         logIn(_email, _password).then((value) {
                         var status = value;
