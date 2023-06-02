@@ -32,13 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
   }
-  Future waitAndPushToHome() async {
-    showDialog(context: context, builder: (context) => AlertDialog(
-      title: CircularProgressIndicator(),
-    ));
-    await Future.delayed(Duration(milliseconds: 600)); //Minimum time seems to be 400ms
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Screen")), (route) => false);
-  }
+  
+  
 
 
   @override
@@ -87,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           print("login fail");
                           //TODO have a popup showing that password/email is incorrect
                         } else {
-                          waitAndPushToHome();
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Screen")), (route) => false);
                           
                         }
 
