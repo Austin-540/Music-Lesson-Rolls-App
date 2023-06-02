@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pocketbase/pocketbase.dart';
@@ -62,9 +64,24 @@ Future logIn() async {
     return authData;
 
 
-    } catch (e) {
+    } on SocketException {
+      print("SocketException");
+      showDialog(context: context, builder: (BuildContext context) {
+        print("Internet error");
+        return AlertDialog(title: Text("Internet error"),
+        );
+      });
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
 
+    } on ClientException {
+      showDialog(context: context, builder: (BuildContext context) {
+        return AlertDialog(title: Text("Wrong password/email"),
+        );
+      });
+
+    } catch (e) {
+      print("Caught $e");
+       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
     }
     //first try to see if password is already saved, then if its not push to login screen
 
@@ -92,6 +109,7 @@ Future logIn() async {
             if (snapshot.hasData) {
               return Text(snapshot.data.toString());
             } else {
+              print("108");
               return CircularProgressIndicator();
             }
           },
