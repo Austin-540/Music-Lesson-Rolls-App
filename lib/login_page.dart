@@ -108,28 +108,7 @@ class ConfirmLoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary),
-      body: FutureBuilder(
-        future: logIn(email, password),
-        initialData: null,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data == "Fail") {
-              return Placeholder();
-            } else {
-            return Placeholder();
-            }
-            
-          } else {
-          return Center(
-        child: CircularProgressIndicator()
-          );
-
-        }
-
-
-          }
-
-      ),
+      body: Placeholder()
       
       
       
