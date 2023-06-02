@@ -113,11 +113,12 @@ class ConfirmLoginPage extends StatelessWidget {
         initialData: null,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
+            if (snapshot.data == "Fail") {
+              return Placeholder();
+            } else {
             return Placeholder();
-
-          } else if (snapshot.hasError) {
-            return Placeholder();
-
+            }
+            
           } else {
           return Center(
         child: CircularProgressIndicator()
