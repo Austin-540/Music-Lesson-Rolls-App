@@ -5,58 +5,32 @@ import 'globals.dart';
 import 'main.dart';
 import 'package:restart_app/restart_app.dart';
 
-
-
 class LoginScreen extends StatefulWidget {
-
   @override
-  _LoginScreenState createState() => _LoginScreenState(); }
+  _LoginScreenState createState() => _LoginScreenState();
+}
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   String _email = "";
   String _password = "";
-  
-  Future logIn(email, password) async {
-    try {
-    final authData = await pb.collection('users').authWithPassword(
-  email, password,);
-
-
-  final storage = new FlutterSecureStorage();
-  await storage.write(key: "email", value: email);
-  await storage.write(key: "password", value: password);
-  return authData;
-    } catch (e) {
-      return "Fail";
-    }
-
-  }
-  Future waitAndPushToHome() async {
-    await Future.delayed(Duration(milliseconds: 600)); //Minimum time seems to be 400ms
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Screen")), (route) => false);
-  }
-
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Login")
-        ),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text("Login")),
       body: Form(
           key: _formKey,
           child: Padding(
             padding: const EdgeInsets.all(50.0),
             child: Column(
-              
               children: [
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Email',
                   ),
-                  
                   onSaved: (value) {
                     _email = value!;
                   },
@@ -70,30 +44,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   onSaved: (value) {
                     _password = value!;
                   },
-                  
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     _formKey.currentState!.save();
                     if (_email != "" && _password != "") {
-                        print("trying login");
-                        logIn(_email, _password).then((value) {
-                        var status = value;
-                        if (status == "Fail") {
-                          print("login fail");
-                          //TODO have a popup showing that password/email is incorrect
-                        } else {
-                          waitAndPushToHome();
-                          
-                        }
-
-                        } 
-                        );
-
-
-                      
-                        
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ConfirmLoginPage(
+                                  email: _email, password: _password)), (route) => false,);
                     }
                   },
                   child: Text('Login'),
@@ -105,4 +66,46 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
+class ConfirmLoginPage extends StatelessWidget {
+  const ConfirmLoginPage(
+      {super.key, required this.email, required this.password});
+  final String email;
+  final String password;
 
+  Future logIn(email, password) async {
+    try {
+      await Future.delayed(
+          Duration(milliseconds: 500)); //To make testing easier
+      //* Remember to remove before completing project
+
+      final authData = await pb.collection('users').authWithPassword(
+            email,
+            password,
+          );
+
+      final storage = new FlutterSecureStorage();
+      await storage.write(key: "email", value: email);
+      await storage.write(key: "password", value: password);
+      return authData;
+    } catch (e) {
+      return "Fail";
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: logIn(email, password),
+      initialData: null,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return MyHomePage(title: "Home");
+        } else {
+          return Scaffold(
+            appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: Text("Loading"),),
+            body: Center(child: CircularProgressIndicator()));
+        }
+      },
+    );
+  }
+}
