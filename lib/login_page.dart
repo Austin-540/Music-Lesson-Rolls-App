@@ -99,7 +99,11 @@ class ConfirmLoginPage extends StatelessWidget {
       initialData: null,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
+          if (snapshot.data != "Fail") {
           return MyHomePage(title: "Home");
+          } else {
+            return LoginScreen();
+          }
         } else {
           return Scaffold(
             appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: Text("Loading"),),
