@@ -33,6 +33,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   }
   Future waitAndPushToHome() async {
+    showDialog(context: context, builder: (context) => AlertDialog(
+      title: CircularProgressIndicator(),
+    ));
     await Future.delayed(Duration(milliseconds: 600)); //Minimum time seems to be 400ms
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Screen")), (route) => false);
   }
