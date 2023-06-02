@@ -14,8 +14,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  String _email = "example@example.com";
-  String _password = "password";
+  String _email = "";
+  String _password = "";
   
   Future logIn(email, password) async {
     try {
