@@ -83,6 +83,8 @@ class ConfirmLoginPage extends StatelessWidget {
   final String email;
   final String password;
 
+
+
   Future logIn(email, password) async {
     try {
 
@@ -106,14 +108,16 @@ class ConfirmLoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary),
-      body: Placeholder()
-      
-      
-      
-      
-      
+    return FutureBuilder(
+      future: logIn(email, password),
+      initialData: null,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return Placeholder();
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
     );
   }
 }
