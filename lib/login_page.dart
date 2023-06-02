@@ -17,21 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _email = "";
   String _password = "";
   
-  Future logIn(email, password) async {
-    try {
-    final authData = await pb.collection('users').authWithPassword(
-  email, password,);
 
-
-  final storage = new FlutterSecureStorage();
-  await storage.write(key: "email", value: email);
-  await storage.write(key: "password", value: password);
-  return authData;
-    } catch (e) {
-      return "Fail";
-    }
-
-  }
   
   
 
@@ -75,19 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     _formKey.currentState!.save();
                     if (_email != "" && _password != "") {
-                        print("trying login");
-                        logIn(_email, _password).then((value) {
-                        var status = value;
-                        if (status == "Fail") {
-                          print("login fail");
-                          //TODO have a popup showing that password/email is incorrect
-                        } else {
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Screen")), (route) => false);
-                          
-                        }
-
-                        } 
-                        );
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmLoginPage(email: _email, password: _password)));
 
 
                       
@@ -104,3 +78,62 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 
+class ConfirmLoginPage extends StatelessWidget {
+  const ConfirmLoginPage({super.key, required this.email, required this.password});
+  final String email;
+  final String password;
+
+  Future logIn(email, password) async {
+    try {
+
+    await Future.delayed(Duration(milliseconds: 500)); //To make testing easier
+    //* Remember to remove before completing project
+
+    final authData = await pb.collection('users').authWithPassword(
+  email, password,);
+
+
+  final storage = new FlutterSecureStorage();
+  await storage.write(key: "email", value: email);
+  await storage.write(key: "password", value: password);
+  return authData;
+    } catch (e) {
+      return "Fail";
+    }
+
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary),
+      body: FutureBuilder(
+        future: logIn(email, password),
+        initialData: null,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return Placeholder();
+
+          } else if (snapshot.hasError) {
+            return Placeholder();
+
+          } else {
+          return Center(
+        child: CircularProgressIndicator()
+          );
+
+        }
+
+
+          }
+
+      ),
+      
+      
+      
+      
+      
+    );
+  }
+}
