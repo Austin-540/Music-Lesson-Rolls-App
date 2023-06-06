@@ -38,5 +38,9 @@ jobs:
       # Your project will need to have tests in test/ and a dependency on
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
-      - name: Flutter tests
-        run: flutter test
+      - name: Flutter tests (integration_test)
+        run: flutter test integration_test
+
+      # - name: Flutter tests (widget tests)
+      #   run: flutter test
+      # Un-comment this once they exist

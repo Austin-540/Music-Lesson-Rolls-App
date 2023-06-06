@@ -46,18 +46,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    _formKey.currentState!.save();
-                    if (_email != "" && _password != "") {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ConfirmLoginPage(
-                                  email: _email, password: _password)));
-                    }
-                  },
-                  child: Text('Login'),
+
+                Semantics(
+                  label: "Login Button",
+                  child: ElevatedButton(
+                    
+                    onPressed: () {
+                      _formKey.currentState!.save();
+                      if (_email != "" && _password != "") {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ConfirmLoginPage(
+                                    email: _email, password: _password)));
+                      }
+                    },
+                    child: Text('Login'),
+                  ),
                 ),
               ],
             ),
