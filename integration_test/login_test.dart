@@ -9,7 +9,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Login Test - Looking for failed login', () {
-    testWidgets('Try to login with bad details',
+    testWidgets('Try to login with no/bad/good details',
         (tester) async {
         final storage = new FlutterSecureStorage();
         await storage.deleteAll();
