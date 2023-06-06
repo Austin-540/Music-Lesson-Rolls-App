@@ -46,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 SizedBox(height: 20),
+
                 Semantics(
                   label: "Login Button",
                   child: ElevatedButton(
@@ -103,13 +104,41 @@ class ConfirmLoginPage extends StatelessWidget {
       initialData: null,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
+          if (snapshot.data != "Fail") {
           return MyHomePage(title: "Home");
+          } else {
+            return FailedLoginPage();
+          }
         } else {
           return Scaffold(
-            appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: Text("Loading"),),
+            appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: Text("Loading"), automaticallyImplyLeading: false,),
             body: Center(child: CircularProgressIndicator()));
         }
       },
+    );
+  }
+}
+
+
+
+class FailedLoginPage extends StatelessWidget {
+  const FailedLoginPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, automaticallyImplyLeading: false, leading: null,
+    ),
+    body: Center(
+      child: Column(children: [
+        SizedBox(height: 10,),
+        Text("Something went wrong"),
+        Text("Make sure your email and password are correct."),
+        SizedBox(height: 20,),
+        ElevatedButton(onPressed: () {Navigator.pop(context);}, child: Text("Try Again"))
+      ]),
+    ),
+    
     );
   }
 }
