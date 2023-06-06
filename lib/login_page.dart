@@ -53,11 +53,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       _formKey.currentState!.save();
                       if (_email != "" && _password != "") {
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ConfirmLoginPage(
-                                    email: _email, password: _password)), (route) => false,);
+                                    email: _email, password: _password)));
                       }
                     },
                     child: Text('Login'),
