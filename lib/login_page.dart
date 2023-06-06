@@ -102,7 +102,7 @@ class ConfirmLoginPage extends StatelessWidget {
           if (snapshot.data != "Fail") {
           return MyHomePage(title: "Home");
           } else {
-            return LoginScreen();
+            return FailedLoginPage();
           }
         } else {
           return Scaffold(
@@ -114,3 +114,13 @@ class ConfirmLoginPage extends StatelessWidget {
   }
 }
 
+
+
+class FailedLoginPage extends StatelessWidget {
+  const FailedLoginPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold();
+  }
+}
