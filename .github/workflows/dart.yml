@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -28,8 +28,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
         
-      - name: Config Setup
-        run: flutter config --enable-windows-desktop
+ 
            
 
       # Uncomment this step to verify the use of 'dart format' on each commit.
@@ -42,9 +41,8 @@ jobs:
       # Your project will need to have tests in test/ and a dependency on
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
-      - name: Flutter tests (integration_test)
-        run: flutter test -d windows integration_test
 
-      # - name: Flutter tests (widget tests)
-      #   run: flutter test
-      # Un-comment this once they exist
+
+      - name: Flutter tests (widget tests)
+        run: flutter test
+
