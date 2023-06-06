@@ -13,21 +13,28 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      // Verify the counter starts at 0.
+
       expect(find.text('Login'), findsNWidgets(2));
 
-      // Finds the floating action button to tap on.
-      final loginButton = find.bySemanticsLabel("Login Button");
+  
+      //Expect nothing to happen if login triggered after doing nothing
 
+
+
+      // await tester.tap(find.bySemanticsLabel("Email Field"));
+
+      expect(find.byType(TextFormField), findsNWidgets(2));
+
+      await tester.enterText(find.byType(TextFormField).first, "x@x.com");
+      await tester.enterText(find.byType(TextFormField).last, "passw");
+      final loginButton = find.bySemanticsLabel("Login Button");
       // Emulate a tap on the floating action button.
       await tester.tap(loginButton);
-
-      // Trigger a frame.
+      
       await tester.pumpAndSettle();
 
-      expect(find.text('Login'), findsNWidgets(2));
+      expect(find.text("Something went wrong"), findsOneWidget);
 
-      //Expect nothing to happen if login triggered after doing nothing
     });
   });
 }
