@@ -121,6 +121,16 @@ class FailedLoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+    ),
+    body: Center(
+      child: Column(children: [
+        Text("Something went wrong"),
+        Text("Make sure your email and password are correct.")
+      ]),
+    ),
+    
+    );
   }
 }
