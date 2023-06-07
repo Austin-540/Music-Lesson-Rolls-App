@@ -151,9 +151,9 @@ class LessonDetailsInList extends StatelessWidget {
     final now = DateTime.now();
     final formattedNow = "${now.hour}".padLeft(2) + "${now.hour}".padLeft(2);
     if (int.parse(formattedNow) <= int.parse(time)) {
-      return Text("After Now");
+      return Text("Upcoming");
     } else {
-      return Text("Before Now");
+      return Text("Past");
     }
   }
 
