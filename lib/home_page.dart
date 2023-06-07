@@ -136,7 +136,9 @@ class LessonDetailsInList extends StatelessWidget {
                   children: [
                   Text(instrument),
                   Text(status),
-                  Text(numberOfStudents + " Students")
+                  numberOfStudents == "1"?
+                    Text(numberOfStudents + " Student"):
+                    Text(numberOfStudents + " Students")
                   
                 ],),
               ),
