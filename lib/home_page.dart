@@ -148,13 +148,17 @@ class LessonDetailsInList extends StatelessWidget {
   final String numberOfStudents;
 
   Future getStatusOfLesson() async {
+    Future.delayed(Duration(milliseconds: 100));
     final now = DateTime.now();
-    final formattedNow = "${now.hour}".padLeft(2) + "${now.hour}".padLeft(2);
-    if (int.parse(formattedNow) <= int.parse(time)) {
+    final formattedNow = "${now.hour}".padLeft(2) + "${now.hour}" .padLeft(2, "0");
+    if (lessonDetails['date_last_marked'] == now.day) {
+      return Text("Completed");
+    } else {
+      if (int.parse(formattedNow) <= int.parse(time)) {
       return Text("Upcoming");
     } else {
-      return Text("Past");
-    }
+      return Text("Overdue");
+    }}
   }
 
   @override
