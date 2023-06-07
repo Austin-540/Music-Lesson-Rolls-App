@@ -52,7 +52,7 @@ Future logIn() async {
 
     } on ClientException {
       showDialog(context: context, builder: (BuildContext context) {
-        return AlertDialog(title: Text("Wrong password/email"),
+        return AlertDialog(title: Text("Internet Connection Error"),
         );
       });
 
