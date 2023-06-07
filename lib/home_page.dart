@@ -84,7 +84,16 @@ Future logIn() async {
           initialData: null,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return Text(snapshot.data.toString());
+              return Column(
+                children: [
+                  Text(snapshot.data.toString()),
+                  LessonDetailsInList(
+                    instrument: "Trumpet", 
+                    time: "12:30", 
+                    status: "Upcoming", 
+                    numberOfStudents: "5", )
+                ],
+              );
             } else {
               return CircularProgressIndicator();
             }
@@ -95,12 +104,11 @@ Future logIn() async {
 }
 
 class LessonDetailsInList extends StatelessWidget {
-  const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.status, required this.numberOfStudents, required this.lessonId}) : super(key: key);
+  const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.status, required this.numberOfStudents}) : super(key: key);
   final String instrument;
   final String time;
   final String status;
   final String numberOfStudents;
-  final String lessonId;
 
   @override
   Widget build(BuildContext context) {
