@@ -51,7 +51,7 @@ void main() {
       
       await tester.pumpAndSettle();
 
-      print(find.byType(ElevatedButton).toString());
+
       expect(find.textContaining("AustinS"), findsOneWidget);
 
       
