@@ -132,7 +132,7 @@ class ListOfLessons extends StatelessWidget {
         LessonDetailsInList(
           instrument: lessonList[x]["instrument"], 
           time: lessonList[x]["time"], 
-          status: "Upcoming", //TODO: Fix this
+          lessonDetails: lessonList[x],
           numberOfStudents: lessonList[x]["students"].length.toString())
       ]
     ]),);
@@ -141,11 +141,21 @@ class ListOfLessons extends StatelessWidget {
 
 
 class LessonDetailsInList extends StatelessWidget {
-  const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.status, required this.numberOfStudents}) : super(key: key);
+  const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.lessonDetails, required this.numberOfStudents}) : super(key: key);
   final String instrument;
   final String time;
-  final String status;
+  final Map lessonDetails;
   final String numberOfStudents;
+
+  Future getStatusOfLesson() async {
+    final now = DateTime.now();
+    final formattedNow = "${now.hour}".padLeft(2) + "${now.hour}".padLeft(2);
+    if (int.parse(formattedNow) <= int.parse(time)) {
+      return Text("After Now");
+    } else {
+      return Text("Before Now");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +182,17 @@ class LessonDetailsInList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                   Text(instrument),
-                  Text(status),
+                  FutureBuilder(
+                    future: getStatusOfLesson(),
+                    initialData: null,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return snapshot.data;
+                      } else {
+                        return Text("...");
+                      }
+                    },
+                  ),
                   numberOfStudents == "1"?
                     Text(numberOfStudents + " Student"):
                     Text(numberOfStudents + " Students")
