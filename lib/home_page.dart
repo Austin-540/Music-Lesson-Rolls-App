@@ -66,7 +66,7 @@ Future logIn() async {
 
 Future getLessons() async {
   final lessonList = await pb.collection('lessons').getFullList(
-      sort: '-created',
+      sort: '+time',
       expand: "students"
       );
       print(lessonList);
@@ -161,7 +161,7 @@ class LessonDetailsInList extends StatelessWidget {
             children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Text(time, style: TextStyle(fontSize: 35),),
+              child: Text("${time.substring(0,2)}:${time.substring(2,4)}" , style: TextStyle(fontSize: 35),),
             ),
             Spacer(),
             Padding(
