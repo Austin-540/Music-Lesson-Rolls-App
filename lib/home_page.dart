@@ -86,11 +86,58 @@ Future logIn() async {
             if (snapshot.hasData) {
               return Text(snapshot.data.toString());
             } else {
-              print("108");
               return CircularProgressIndicator();
             }
           },
         ),
     ));
+  }
+}
+
+class LessonDetailsInList extends StatelessWidget {
+  const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.status, required this.numberOfStudents, required this.lessonId}) : super(key: key);
+  final String instrument;
+  final String time;
+  final String status;
+  final String numberOfStudents;
+  final String lessonId;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Placeholder())); 
+        },
+        child: Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          child: Row(
+            children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Icon(Icons.music_note),
+            ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                  Text(instrument),
+                  Text(time),
+                  Text(status),
+                  Text(numberOfStudents + " Students")
+                  
+                ],),
+              ),
+            )
+          ],)
+          
+          ),
+      ),
+    );
   }
 }
