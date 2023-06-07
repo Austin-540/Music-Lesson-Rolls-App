@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -61,9 +62,17 @@ Future logIn() async {
     }
     //first try to see if password is already saved, then if its not push to login screen
 
-    
-
   }
+
+Future getLessons() async {
+  final lessonList = await pb.collection('lessons').getFullList(
+      sort: '-created',
+      expand: "students"
+      );
+      print(lessonList);
+      final x = jsonDecode(lessonList.toString());
+      return x;
+}
 
 
 
@@ -87,11 +96,19 @@ Future logIn() async {
               return Column(
                 children: [
                   Text(snapshot.data.toString()),
-                  LessonDetailsInList(
-                    instrument: "Trumpet", 
-                    time: "12:30", 
-                    status: "Upcoming", 
-                    numberOfStudents: "5", )
+                  FutureBuilder(
+                    future: getLessons(),
+                    initialData: null,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return ListOfLessons(lessonList: snapshot.data);
+                      } else if (snapshot.hasError) {
+                        return Text("error");
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
                 ],
               );
             } else {
@@ -102,6 +119,26 @@ Future logIn() async {
     ));
   }
 }
+
+
+class ListOfLessons extends StatelessWidget {
+  final lessonList;
+  const ListOfLessons({super.key, required this.lessonList});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(child: Column(children: [
+      for (int x=0; x<= lessonList.length-1; x++) ... [
+        LessonDetailsInList(
+          instrument: lessonList[x]["instrument"], 
+          time: lessonList[x]["time"], 
+          status: "Upcoming", //TODO: Fix this
+          numberOfStudents: lessonList[x]["students"].length.toString())
+      ]
+    ]),);
+  }
+}
+
 
 class LessonDetailsInList extends StatelessWidget {
   const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.status, required this.numberOfStudents}) : super(key: key);
