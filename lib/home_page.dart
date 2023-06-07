@@ -124,7 +124,7 @@ class LessonDetailsInList extends StatelessWidget {
             children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Icon(Icons.music_note),
+              child: Text(time, style: TextStyle(fontSize: 35),),
             ),
             Spacer(),
             Padding(
@@ -135,7 +135,6 @@ class LessonDetailsInList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                   Text(instrument),
-                  Text(time),
                   Text(status),
                   Text(numberOfStudents + " Students")
                   
