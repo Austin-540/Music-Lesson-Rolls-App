@@ -93,23 +93,25 @@ Future getLessons() async {
           initialData: null,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return Column(
-                children: [
-                  Text(snapshot.data.toString()),
-                  FutureBuilder(
-                    future: getLessons(),
-                    initialData: null,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        return ListOfLessons(lessonList: snapshot.data);
-                      } else if (snapshot.hasError) {
-                        return Text("error");
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    },
-                  ),
-                ],
+              return ListView(
+                children: [Column(
+                  children: [
+                    Text(snapshot.data.toString()),
+                    FutureBuilder(
+                      future: getLessons(),
+                      initialData: null,
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return ListOfLessons(lessonList: snapshot.data);
+                        } else if (snapshot.hasError) {
+                          return Text("error");
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      },
+                    ),
+                  ],
+                ),]
               );
             } else {
               return CircularProgressIndicator();
