@@ -43,7 +43,7 @@ void main() {
     //Uncomment this when it is implemented
   });
 
-  testWidgets("Test when time is in the past", (WidgetTester tester) async {
+  testWidgets("Test when time is in the past + Overdue", (WidgetTester tester) async {
     final now = DateTime.now();
     final hourminusone = now.hour - 1;
     final hour = "$hourminusone".padLeft(2);
@@ -55,7 +55,11 @@ void main() {
       instrument: "Trumpet",
       numberOfStudents: "1",
       time: time,
-      lessonDetails:{"id":"rgwldcvo3hsycqi","created":"2023-06-07 09:02:16.823Z","updated":"2023-06-07 09:02:16.823Z","collectionId":"as04pbul6udp6bt","collectionName":"lessons","expand":{"students":[{"id":"xi3cfl60750ax2j","created":"2023-06-07 09:02:16.798Z","updated":"2023-06-07 09:02:16.798Z","collectionId":"4kiqg55j5hqvh5h","collectionName":"students","expand":{},"homeroom":"00EXM","name":"Junior Jazz Band"}]},"instrument":"Guitar","students":["xi3cfl60750ax2j"],"teacher":"q5z39hisfadxgf9","time":"0730","weekday":"Monday"},
+      lessonDetails:
+      {"id":"rgwldcvo3hsycqi","created":"2023-06-07 09:02:16.823Z",
+      "updated":"2023-06-07 09:02:16.823Z","collectionId":"as04pbul6udp6bt",
+      "collectionName":"lessons",
+      "expand":{"students":[{"id":"xi3cfl60750ax2j","created":"2023-06-07 09:02:16.798Z","updated":"2023-06-07 09:02:16.798Z","collectionId":"4kiqg55j5hqvh5h","collectionName":"students","expand":{},"homeroom":"00EXM","name":"Junior Jazz Band"}]},"instrument":"Guitar","students":["xi3cfl60750ax2j"],"teacher":"q5z39hisfadxgf9","time":"0730","weekday":"Monday", "last_marked": "${DateTime.now().day-1}"},
       ),));
 
     await tester.pumpAndSettle(Duration(seconds: 1));
@@ -63,7 +67,7 @@ void main() {
  
 
 
-    expect(find.text("Past"), findsOneWidget);
+    expect(find.text("Overdue"), findsOneWidget);
   });
 
     testWidgets("Test when time is in the future", (WidgetTester tester) async {
