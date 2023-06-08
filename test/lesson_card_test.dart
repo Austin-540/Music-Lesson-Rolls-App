@@ -49,7 +49,7 @@ void main() {
     final hour = "00";
     final minute = "01";
     final time = "$hour$minute";
-    print(time);
+
 
     await tester.pumpWidget(MaterialApp(home: LessonDetailsInList(
       instrument: "Trumpet",
@@ -76,7 +76,7 @@ void main() {
     final hour = "23";
     final minute = "59";
     final time = "$hour$minute";
-    print(time);
+
 
     await tester.pumpWidget(MaterialApp(home: LessonDetailsInList(
       instrument: "Trumpet",
