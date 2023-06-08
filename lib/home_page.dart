@@ -41,7 +41,9 @@ Future logIn() async {
   email!, password!,
     );
     print(authData);
-    return authData;
+
+    final x = jsonDecode(authData.toString());
+    return x;
 
 
     } on SocketException {
@@ -99,7 +101,7 @@ Future getLessons() async {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    Text(snapshot.data.toString()),
+                    Text("Welcome ${snapshot.data['record']['first_name']}", style: TextStyle(fontSize: 30),),
                     showAll == false?
                     Column(
                       children: [
