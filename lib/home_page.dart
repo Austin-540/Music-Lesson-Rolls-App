@@ -160,7 +160,7 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(minutes: 1), (Timer t) => setState((){}));
+    timer = Timer.periodic(Duration(seconds: 20), (Timer t) => setState((){print("Refresh");}));
   }
 
   @override
