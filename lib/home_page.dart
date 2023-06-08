@@ -128,6 +128,20 @@ class ListOfLessons extends StatelessWidget {
   final lessonList;
   const ListOfLessons({super.key, required this.lessonList});
 
+  String getLessonStatus(x) {
+    DateTime now = new DateTime.now();
+    String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
+
+    if (lessonList[x]['date_last_marked'] == now.day) {
+      return "Completed";
+    } else {
+      if (int.parse(formattedNow) <= int.parse(lessonList[x]["time"])){
+      return "Upcoming";
+    } else {
+      return "Overdue";
+    }}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(child: Column(children: [
@@ -136,7 +150,9 @@ class ListOfLessons extends StatelessWidget {
           instrument: lessonList[x]["instrument"], 
           time: lessonList[x]["time"], 
           lessonDetails: lessonList[x],
-          numberOfStudents: lessonList[x]["students"].length.toString())
+          numberOfStudents: lessonList[x]["students"].length.toString(),
+          status: getLessonStatus(x),
+          )
       ]
     ]),);
   }
@@ -144,11 +160,12 @@ class ListOfLessons extends StatelessWidget {
 
 
 class LessonDetailsInList extends StatefulWidget {
-  const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.lessonDetails, required this.numberOfStudents}) : super(key: key);
+  const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.lessonDetails, required this.numberOfStudents, required this.status}) : super(key: key);
   final String instrument;
   final String time;
   final Map lessonDetails;
   final String numberOfStudents;
+  final String status;
 
 
   @override
@@ -168,19 +185,6 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
     super.dispose();
     timer!.cancel();
     
-  }
-  Widget getStatusOfLesson() {
-    DateTime now = DateTime.now();
-    String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
-
-    if (widget.lessonDetails['date_last_marked'] == now.day) {
-      return Text("Completed");
-    } else {
-      if (int.parse(formattedNow) <= int.parse(widget.time)) {
-      return Text("Upcoming");
-    } else {
-      return Text("Overdue");
-    }}
   }
 
   @override
@@ -209,17 +213,7 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                   Text(widget.instrument),
-                  Builder(
-                    builder: (context) {
-                       {
-                          final w = getStatusOfLesson();
-                          
-                            return w;
-                          }}
-                        
-                      
-                    
-                  ),
+                  Text(widget.status),
                   widget.numberOfStudents == "1"?
                     Text(widget.numberOfStudents + " Student"):
                     Text(widget.numberOfStudents + " Students")
