@@ -91,16 +91,16 @@ void main() {
     expect(find.text("Upcoming"), findsOneWidget);
   });
 
-    // testWidgets("Test when lesson is completed", (tester) async {
-    //   final time = "";
+    testWidgets("Test when lesson is completed", (tester) async {
+      final time = "0101";
 
-    //   await tester.pumpWidget(MaterialApp(home: LessonDetailsInList(
-    //     instrument: "Trumpet",
-    //     numberOfStudents: "1",
-    //     time: time,
-    //     lessonDetails: {"id":"rgwldcvo3hsycqi","created":"2023-06-07 09:02:16.823Z","updated":"2023-06-07 09:02:16.823Z","collectionId":"as04pbul6udp6bt","collectionName":"lessons","expand":{"students":[{"id":"xi3cfl60750ax2j","created":"2023-06-07 09:02:16.798Z","updated":"2023-06-07 09:02:16.798Z","collectionId":"4kiqg55j5hqvh5h","collectionName":"students","expand":{},"homeroom":"00EXM","name":"Junior Jazz Band"}]},"instrument":"Guitar","students":["xi3cfl60750ax2j"],"teacher":"q5z39hisfadxgf9","time":"0730","weekday":"Monday"},
-    //   )));
+      await tester.pumpWidget(MaterialApp(home: LessonDetailsInList(
+        instrument: "Trumpet",
+        numberOfStudents: "1",
+        time: time,
+        lessonDetails: {"id":"rgwldcvo3hsycqi","created":"2023-06-07 09:02:16.823Z","updated":"2023-06-07 09:02:16.823Z","collectionId":"as04pbul6udp6bt","collectionName":"lessons","expand":{"students":[{"id":"xi3cfl60750ax2j","created":"2023-06-07 09:02:16.798Z","updated":"2023-06-07 09:02:16.798Z","collectionId":"4kiqg55j5hqvh5h","collectionName":"students","expand":{},"homeroom":"00EXM","name":"Junior Jazz Band"}]},"instrument":"Guitar","students":["xi3cfl60750ax2j"],"teacher":"q5z39hisfadxgf9","time":"0730","weekday":"Monday", "date_last_marked": "${DateTime.now().day}"},
+      )));
 
 
-    // });
+    });
 }
