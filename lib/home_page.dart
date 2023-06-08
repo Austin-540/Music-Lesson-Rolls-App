@@ -114,8 +114,8 @@ Future getLessons() async {
           initialData: null,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return SingleChildScrollView(
-                child: Column(
+              return ListView(
+                children: [Column(
                   children: [
                     Text("Welcome ${snapshot.data['record']['first_name']}", style: TextStyle(fontSize: 30),),
                     showAll == false?
@@ -144,7 +144,7 @@ Future getLessons() async {
                       },
                     ),
                   ],
-                ),
+                ),]
               );
             } else {
               return CircularProgressIndicator();
@@ -178,6 +178,7 @@ class ListOfLessons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(showAll.toString() + "- 151");
+    if (lessonList.length != 0) {
     if (showAll == false) {
     return Container(child: Column(children: [
       for (int x=0; x<= lessonList.length-1; x++) ... [
@@ -205,6 +206,14 @@ class ListOfLessons extends StatelessWidget {
 
       ]
       ]),);
+    }} else {
+      return Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Card(child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text("Looks like there's nothing to show", style: TextStyle(fontSize: 15),),
+        ),),
+      );
     }
   }
 }
