@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
+
 import 'dart:io';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'globals.dart';
@@ -76,7 +77,8 @@ Future logIn() async {
 Future getLessons() async {
   final lessonList = await pb.collection('lessons').getFullList(
       sort: '+time',
-      expand: "students"
+      expand: "students",
+      filter: "weekday = '${DateFormat('EEEE').format(DateTime.now())}'"
       );
       // print(lessonList);
       final x = jsonDecode(lessonList.toString());
