@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool showAll = false;
 
 Future logIn() async {
     Future.delayed(Duration(milliseconds: 500));
@@ -98,12 +100,15 @@ Future getLessons() async {
                 child: Column(
                   children: [
                     Text(snapshot.data.toString()),
+                    ElevatedButton(onPressed: () => setState(() {
+                      showAll = true;
+                    }), child: Text("Show All")),
                     FutureBuilder(
                       future: getLessons(),
                       initialData: null,
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.hasData) {
-                          return ListOfLessons(lessonList: snapshot.data);
+                          return ListOfLessons(lessonList: snapshot.data, showAll: showAll,);
                         } else if (snapshot.hasError) {
                           return Text("error");
                         } else {
@@ -126,13 +131,14 @@ Future getLessons() async {
 
 class ListOfLessons extends StatelessWidget {
   final lessonList;
-  const ListOfLessons({super.key, required this.lessonList});
+  final showAll;
+  const ListOfLessons({super.key, required this.lessonList, required this.showAll});
 
   String getLessonStatus(x) {
     DateTime now = new DateTime.now();
     String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
 
-    if (lessonList[x]['date_last_marked'] == now.day) {
+    if (lessonList[x]['date_last_marked'] == "${now.day}") {
       return "Completed";
     } else {
       if (int.parse(formattedNow) <= int.parse(lessonList[x]["time"])){
@@ -144,8 +150,24 @@ class ListOfLessons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(showAll.toString() + "- 151");
+    if (showAll == false) {
     return Container(child: Column(children: [
       for (int x=0; x<= lessonList.length-1; x++) ... [
+        getLessonStatus(x) == "Upcoming" || getLessonStatus(x) == "Overdue"?
+        LessonDetailsInList(
+          instrument: lessonList[x]["instrument"], 
+          time: lessonList[x]["time"], 
+          lessonDetails: lessonList[x],
+          numberOfStudents: lessonList[x]["students"].length.toString(),
+          status: getLessonStatus(x),
+          ): SizedBox()
+      ]
+    ]),);
+
+    } else {
+      return Container(child: Column(children: [
+        for (int x=0; x<= lessonList.length-1; x++) ... [
         LessonDetailsInList(
           instrument: lessonList[x]["instrument"], 
           time: lessonList[x]["time"], 
@@ -153,8 +175,10 @@ class ListOfLessons extends StatelessWidget {
           numberOfStudents: lessonList[x]["students"].length.toString(),
           status: getLessonStatus(x),
           )
+
       ]
-    ]),);
+      ]),);
+    }
   }
 }
 
