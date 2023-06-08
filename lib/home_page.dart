@@ -100,9 +100,17 @@ Future getLessons() async {
                 child: Column(
                   children: [
                     Text(snapshot.data.toString()),
-                    ElevatedButton(onPressed: () => setState(() {
-                      showAll = true;
-                    }), child: Text("Show All")),
+                    showAll == false?
+                    Column(
+                      children: [
+                        Text("Only Showing Lessons Overdue/Upcoming You Teach"),
+                        ElevatedButton(onPressed: () => setState(() {
+                          showAll = true;
+                        }), child: Text("Show All"))
+                      ]
+                    ): ElevatedButton(onPressed: () => setState(() {
+                      showAll = false;
+                    }), child: Text("Filter Lessons")),
                     FutureBuilder(
                       future: getLessons(),
                       initialData: null,
