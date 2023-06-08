@@ -151,7 +151,8 @@ class LessonDetailsInList extends StatelessWidget {
 
   Widget getStatusOfLesson() {
     final now = DateTime.now();
-    final formattedNow = "${now.hour}".padLeft(2) + "${now.hour}" .padLeft(2, "0");
+    final formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
+
     if (lessonDetails['date_last_marked'] == now.day) {
       return Text("Completed");
     } else {
