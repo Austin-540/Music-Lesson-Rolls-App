@@ -42,7 +42,11 @@ Future logIn() async {
     );
     print(authData);
 
+
+    
     final x = jsonDecode(authData.toString());
+    loggedInTeacher = x["record"]["id"];
+    
     return x;
 
 
@@ -76,10 +80,22 @@ Future getLessons() async {
       );
       // print(lessonList);
       final x = jsonDecode(lessonList.toString());
-      return x;
+
+      var y = [];
+      
+        for (int i = 0; i<= x.length-1; i++) {
+          if (showAll == false) {
+          if (loggedInTeacher == x[i]['teacher']) {
+            y.add(x[i]);
+          }
+        
+      } else {
+        y.add(x[i]);
+      }}
+      return y;
 }
 
-
+  String? loggedInTeacher;
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +133,7 @@ Future getLessons() async {
                       future: getLessons(),
                       initialData: null,
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        print(snapshot.data);
                         if (snapshot.hasData) {
                           return ListOfLessons(lessonList: snapshot.data, showAll: showAll,);
                         } else if (snapshot.hasError) {
