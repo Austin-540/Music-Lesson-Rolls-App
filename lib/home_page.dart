@@ -156,10 +156,17 @@ class LessonDetailsInList extends StatefulWidget {
 }
 
 class _LessonDetailsInListState extends State<LessonDetailsInList> {
+  Timer? timer;
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(minutes: 1), (Timer t) => setState((){}));
+    timer = Timer.periodic(Duration(minutes: 1), (Timer t) => setState((){}));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer!.cancel();
     
   }
   Widget getStatusOfLesson() {
