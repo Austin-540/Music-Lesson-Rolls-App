@@ -121,7 +121,7 @@ Future getLessons() async {
                     showAll == false?
                     Column(
                       children: [
-                        Text("Only Showing Lessons Overdue/Upcoming You Teach"),
+                        Text("Only Showing Today's Lessons Overdue/Upcoming You Teach", style: TextStyle(fontSize: 12),),
                         ElevatedButton(onPressed: () => setState(() {
                           showAll = true;
                         }), child: Text("Show All"))
