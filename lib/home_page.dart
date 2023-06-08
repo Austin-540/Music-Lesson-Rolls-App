@@ -147,8 +147,7 @@ class LessonDetailsInList extends StatelessWidget {
   final Map lessonDetails;
   final String numberOfStudents;
 
-  Future getStatusOfLesson() async {
-    Future.delayed(Duration(milliseconds: 100));
+  Widget getStatusOfLesson() {
     final now = DateTime.now();
     final formattedNow = "${now.hour}".padLeft(2) + "${now.hour}" .padLeft(2, "0");
     if (lessonDetails['date_last_marked'] == now.day) {
@@ -186,16 +185,16 @@ class LessonDetailsInList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                   Text(instrument),
-                  FutureBuilder(
-                    future: getStatusOfLesson(),
-                    initialData: null,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        return snapshot.data;
-                      } else {
-                        return Text("...");
-                      }
-                    },
+                  Builder(
+                    builder: (context) {
+                       {
+                          final w = getStatusOfLesson();
+                          
+                            return w;
+                          }}
+                        
+                      
+                    
                   ),
                   numberOfStudents == "1"?
                     Text(numberOfStudents + " Student"):
