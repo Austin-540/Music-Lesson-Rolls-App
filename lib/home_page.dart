@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -69,7 +70,7 @@ Future getLessons() async {
       sort: '+time',
       expand: "students"
       );
-      print(lessonList);
+      // print(lessonList);
       final x = jsonDecode(lessonList.toString());
       return x;
 }
@@ -142,21 +143,33 @@ class ListOfLessons extends StatelessWidget {
 }
 
 
-class LessonDetailsInList extends StatelessWidget {
+class LessonDetailsInList extends StatefulWidget {
   const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.lessonDetails, required this.numberOfStudents}) : super(key: key);
   final String instrument;
   final String time;
   final Map lessonDetails;
   final String numberOfStudents;
 
-  Widget getStatusOfLesson() {
-    final now = DateTime.now();
-    final formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
 
-    if (lessonDetails['date_last_marked'] == now.day) {
+  @override
+  State<LessonDetailsInList> createState() => _LessonDetailsInListState();
+}
+
+class _LessonDetailsInListState extends State<LessonDetailsInList> {
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(Duration(minutes: 1), (Timer t) => setState((){}));
+    
+  }
+  Widget getStatusOfLesson() {
+    DateTime now = DateTime.now();
+    String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
+
+    if (widget.lessonDetails['date_last_marked'] == now.day) {
       return Text("Completed");
     } else {
-      if (int.parse(formattedNow) <= int.parse(time)) {
+      if (int.parse(formattedNow) <= int.parse(widget.time)) {
       return Text("Upcoming");
     } else {
       return Text("Overdue");
@@ -165,6 +178,7 @@ class LessonDetailsInList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: GestureDetector(
@@ -177,7 +191,7 @@ class LessonDetailsInList extends StatelessWidget {
             children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Text("${time.substring(0,2)}:${time.substring(2,4)}" , style: TextStyle(fontSize: 35),),
+              child: Text("${widget.time.substring(0,2)}:${widget.time.substring(2,4)}" , style: TextStyle(fontSize: 35),),
             ),
             Spacer(),
             Padding(
@@ -187,7 +201,7 @@ class LessonDetailsInList extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                  Text(instrument),
+                  Text(widget.instrument),
                   Builder(
                     builder: (context) {
                        {
@@ -199,9 +213,9 @@ class LessonDetailsInList extends StatelessWidget {
                       
                     
                   ),
-                  numberOfStudents == "1"?
-                    Text(numberOfStudents + " Student"):
-                    Text(numberOfStudents + " Students")
+                  widget.numberOfStudents == "1"?
+                    Text(widget.numberOfStudents + " Student"):
+                    Text(widget.numberOfStudents + " Students")
                   
                 ],),
               ),
