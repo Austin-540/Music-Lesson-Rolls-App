@@ -94,8 +94,8 @@ Future getLessons() async {
           initialData: null,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return ListView(
-                children: [Column(
+              return SingleChildScrollView(
+                child: Column(
                   children: [
                     Text(snapshot.data.toString()),
                     FutureBuilder(
@@ -112,7 +112,7 @@ Future getLessons() async {
                       },
                     ),
                   ],
-                ),]
+                ),
               );
             } else {
               return CircularProgressIndicator();
