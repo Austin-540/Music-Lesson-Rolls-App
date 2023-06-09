@@ -167,7 +167,7 @@ class ListOfLessons extends StatelessWidget {
     DateTime now = new DateTime.now();
     String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
 
-    if (lessonList[x]['date_last_marked'] == "${now.day}") {
+  if (lessonList[x]['date_last_marked'] == "${now.day}_${now.month}") {
       return "Completed";
     } else {
       if (int.parse(formattedNow) <= int.parse(lessonList[x]["time"])){
