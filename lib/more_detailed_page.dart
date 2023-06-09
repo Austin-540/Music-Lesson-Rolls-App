@@ -81,7 +81,12 @@ class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDeta
   String weekday =  DateFormat('EEEE').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
-
+    var newListOfLessons = [];
+    for (int x = 0; x<= widget.lessonsDetails.length-1; x++) {
+      if (widget.lessonsDetails[x]['weekday'] == weekday) {
+        newListOfLessons.add(widget.lessonsDetails[x]);
+      }
+    }
 
     return Container(child: Column(children: [
       PopupMenuButton(
@@ -100,7 +105,7 @@ class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDeta
           PopupMenuItem(child: Text("Friday"), value: "Friday",),
           ]
       ), 
-      ListOfLessons(lessonList: widget.lessonsDetails, showAll: true)
+      ListOfLessons(lessonList: newListOfLessons, showAll: true)
     ]),);
   }
 }
