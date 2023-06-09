@@ -89,21 +89,33 @@ class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDeta
     }
 
     return Container(child: Column(children: [
-      PopupMenuButton(
-        onSelected: (item) => setState(() {
-          print(item);
-          weekday = item;
-          print("weekday = $weekday");
-
-        }),
-        itemBuilder: (context) =>
-        [
-          PopupMenuItem(child: Text("Monday"), value: "Monday",),
-          PopupMenuItem(child: Text("Tuesday"), value: "Tuesday",),
-          PopupMenuItem(child: Text("Wednesday"), value: "Wednesday",),
-          PopupMenuItem(child: Text("Thursday"), value: "Thursday",),
-          PopupMenuItem(child: Text("Friday"), value: "Friday",),
-          ]
+      Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text("${weekday}'s Lessons", style: TextStyle(fontSize: 30,),),
+          ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: PopupMenuButton(
+              onSelected: (item) => setState(() {
+                print(item);
+                weekday = item;
+                print("weekday = $weekday");
+          
+              }),
+              itemBuilder: (context) =>
+              [
+                PopupMenuItem(child: Text("Monday"), value: "Monday",),
+                PopupMenuItem(child: Text("Tuesday"), value: "Tuesday",),
+                PopupMenuItem(child: Text("Wednesday"), value: "Wednesday",),
+                PopupMenuItem(child: Text("Thursday"), value: "Thursday",),
+                PopupMenuItem(child: Text("Friday"), value: "Friday",),
+                ]
+            ),
+          ),
+        ],
       ), 
       ListOfLessons(lessonList: newListOfLessons, showAll: true)
     ]),);
