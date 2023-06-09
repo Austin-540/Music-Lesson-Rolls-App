@@ -163,6 +163,8 @@ class ListOfLessons extends StatelessWidget {
     DateTime now = DateTime.now();
     String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
 
+    
+
   if (lessonList[x]['date_last_marked'] == "${now.day}_${now.month}") {
       return "Completed";
     } else {
@@ -228,6 +230,7 @@ class LessonDetailsInList extends StatefulWidget {
   final bool showTeacher;
 
 
+
   @override
   State<LessonDetailsInList> createState() => _LessonDetailsInListState();
 }
@@ -251,6 +254,12 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
 
   @override
   Widget build(BuildContext context) {
+      String? i12hrTime;
+  if (int.parse(widget.time.substring(0,2)) > 12) {
+      i12hrTime = "${int.parse(widget.time.substring(0,2))-12}:${widget.time.substring(2,4)} PM";
+    } else {
+      i12hrTime = "${widget.time.substring(0,2)}:${widget.time.substring(2,4)} AM";
+    }
     Color? colour;
     
     if (widget.status == "Upcoming"){
@@ -275,7 +284,7 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
             children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Text("${widget.time.substring(0,2)}:${widget.time.substring(2,4)}" , style: const TextStyle(fontSize: 35),),
+              child: Text(i12hrTime , style: const TextStyle(fontSize: 35),),
             ),
             const Spacer(),
             Padding(
