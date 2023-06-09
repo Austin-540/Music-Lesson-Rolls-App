@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'dart:io';
+
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
@@ -131,7 +132,7 @@ Future getLessons() async {
                       initialData: null,
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.hasData) {
-                          return ListOfLessons(lessonList: snapshot.data, showAll: showAll,);
+                          return ListOfLessons(lessonList: snapshot.data, showAll: showAll, showTeacher: false,);
                         } else if (snapshot.hasError) {
                           return const Text("error");
                         } else {
@@ -153,9 +154,10 @@ Future getLessons() async {
 
 
 class ListOfLessons extends StatelessWidget {
+  final bool showTeacher;
   final List lessonList;
   final bool showAll;
-  const ListOfLessons({super.key, required this.lessonList, required this.showAll});
+  const ListOfLessons({super.key, required this.lessonList, required this.showAll, required this.showTeacher});
 
   String getLessonStatus(x) {
     DateTime now = DateTime.now();
@@ -184,6 +186,7 @@ class ListOfLessons extends StatelessWidget {
           lessonDetails: lessonList[x],
           numberOfStudents: lessonList[x]["students"].length.toString(),
           status: getLessonStatus(x),
+          showTeacher: false,
           ): const SizedBox()
       ]
     ]);
@@ -197,6 +200,7 @@ class ListOfLessons extends StatelessWidget {
           lessonDetails: lessonList[x],
           numberOfStudents: lessonList[x]["students"].length.toString(),
           status: getLessonStatus(x),
+          showTeacher: showTeacher,
           )
 
       ]
@@ -215,12 +219,13 @@ class ListOfLessons extends StatelessWidget {
 
 
 class LessonDetailsInList extends StatefulWidget {
-  const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.lessonDetails, required this.numberOfStudents, required this.status}) : super(key: key);
+  const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.lessonDetails, required this.numberOfStudents, required this.status, required this.showTeacher}) : super(key: key);
   final String instrument;
   final String time;
   final Map lessonDetails;
   final String numberOfStudents;
   final String status;
+  final bool showTeacher;
 
 
   @override
@@ -284,7 +289,10 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
                   Text(widget.status),
                   widget.numberOfStudents == "1"?
                     Text("${widget.numberOfStudents} Student"):
-                    Text("${widget.numberOfStudents} Students")
+                    Text("${widget.numberOfStudents} Students"),
+
+                  widget.showTeacher == false?
+                    SizedBox(): Text(widget.lessonDetails['teacher']),
                   
                 ],),
               ),

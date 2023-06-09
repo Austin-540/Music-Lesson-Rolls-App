@@ -117,7 +117,7 @@ class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDeta
           ),
         ],
       ), 
-      ListOfLessons(lessonList: newListOfLessons, showAll: true)
+      ListOfLessons(lessonList: newListOfLessons, showAll: true, showTeacher: true,)
     ]),);
   }
 }
