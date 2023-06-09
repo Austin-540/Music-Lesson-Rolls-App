@@ -10,6 +10,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'settings_page.dart';
 import 'login_page.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'more_detailed_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -292,22 +293,6 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
           
           ),
       ),
-    );
-  }
-}
-
-class MoreDetailedLessonsPage extends StatefulWidget {
-  const MoreDetailedLessonsPage({super.key});
-
-  @override
-  State<MoreDetailedLessonsPage> createState() => _MoreDetailedLessonsPageState();
-}
-
-class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("More Options",), backgroundColor: Theme.of(context).colorScheme.inversePrimary),
     );
   }
 }
