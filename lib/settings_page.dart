@@ -33,7 +33,11 @@ class SettingsPage extends StatelessWidget {
         Center(child: Padding(
           padding: const EdgeInsets.all(25.0),
           child: Text("This button deletes your saved email and password. Use it if you need to log out. The app will restart when it is pressed.", textAlign: TextAlign.center,),
-        ))
+        )),
+
+        Center(child: ElevatedButton.icon(icon: Icon(Icons.info), label: Text("App Info"), 
+        onPressed: () => showAboutDialog(context: context, applicationIcon: Icon(Icons.class_outlined), applicationVersion: "v0.0", 
+        applicationLegalese: "Created by Austin-540. Check out the source code on GitHub if you want."),),)
       ]),
     );
   }
