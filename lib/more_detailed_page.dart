@@ -19,7 +19,7 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
   Future getLessons() async {
     await Future.delayed(Duration(milliseconds: 200));
     final lessons = await pb.collection('lessons').getFullList(
-      sort: '-created',
+      sort: '+time',
 );
     // print(lessons.toString());
     return jsonDecode(lessons.toString());
