@@ -99,7 +99,9 @@ Future getLessons() async {
         title: Text(widget.title),
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder:(context) => const SettingsPage())), icon: const Icon(Icons.settings))
+          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreDetailedLessonsPage())), icon: const Icon(Icons.more_horiz)),
+          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder:(context) => const SettingsPage())), icon: const Icon(Icons.settings)),
+
         ],
       ),
       body: Center(
@@ -290,6 +292,22 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
           
           ),
       ),
+    );
+  }
+}
+
+class MoreDetailedLessonsPage extends StatefulWidget {
+  const MoreDetailedLessonsPage({super.key});
+
+  @override
+  State<MoreDetailedLessonsPage> createState() => _MoreDetailedLessonsPageState();
+}
+
+class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("More Options",), backgroundColor: Theme.of(context).colorScheme.inversePrimary),
     );
   }
 }
