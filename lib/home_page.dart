@@ -23,14 +23,10 @@ class _MyHomePageState extends State<MyHomePage> {
   bool showAll = false;
 
 Future logIn() async {
-    Future.delayed(Duration(milliseconds: 500));
-
-  String? email;
-  String? password;
-  RecordAuth? authData;
+    Future.delayed(const Duration(milliseconds: 500));
 
     try {
-    final storage = new FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     String? email = await storage.read(key: "email");
     String? password = await storage.read(key: "password");
 
@@ -39,9 +35,8 @@ Future logIn() async {
     }
 
     final authData = await pb.collection('users').authWithPassword(
-  email!, password!,
+  email, password!,
     );
-    print(authData);
 
 
     
@@ -52,22 +47,19 @@ Future logIn() async {
 
 
     } on SocketException {
-      print("SocketException");
       showDialog(context: context, builder: (BuildContext context) {
-        print("Internet error");
-        return AlertDialog(title: Text("Internet error"),
+        return const AlertDialog(title: Text("Internet error"),
         );
       });
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
 
     } on ClientException {
       showDialog(context: context, builder: (BuildContext context) {
-        return AlertDialog(title: Text("Internet Connection Error"),
+        return const AlertDialog(title: Text("Internet Connection Error"),
         );
       });
 
     } catch (e) {
-      print("Caught $e");
        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
     }
     //first try to see if password is already saved, then if its not push to login screen
@@ -107,7 +99,7 @@ Future getLessons() async {
         title: Text(widget.title),
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder:(context) => SettingsPage())), icon: Icon(Icons.settings))
+          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder:(context) => const SettingsPage())), icon: const Icon(Icons.settings))
         ],
       ),
       body: Center(
@@ -119,29 +111,28 @@ Future getLessons() async {
               return ListView(
                 children: [Column(
                   children: [
-                    Text("Welcome ${snapshot.data['record']['first_name']}", style: TextStyle(fontSize: 30),),
+                    Text("Welcome ${snapshot.data['record']['first_name']}", style: const TextStyle(fontSize: 30),),
                     showAll == false?
                     Column(
                       children: [
-                        Text("Only Showing Today's Lessons Overdue/Upcoming You Teach", style: TextStyle(fontSize: 12),),
+                        const Text("Only Showing Today's Lessons Overdue/Upcoming You Teach", style: TextStyle(fontSize: 12),),
                         ElevatedButton(onPressed: () => setState(() {
                           showAll = true;
-                        }), child: Text("Show All"))
+                        }), child: const Text("Show All"))
                       ]
                     ): ElevatedButton(onPressed: () => setState(() {
                       showAll = false;
-                    }), child: Text("Filter Lessons")),
+                    }), child: const Text("Filter Lessons")),
                     FutureBuilder(
                       future: getLessons(),
                       initialData: null,
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        print(snapshot.data);
                         if (snapshot.hasData) {
                           return ListOfLessons(lessonList: snapshot.data, showAll: showAll,);
                         } else if (snapshot.hasError) {
-                          return Text("error");
+                          return const Text("error");
                         } else {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(child: CircularProgressIndicator());
                         }
                       },
                     ),
@@ -149,7 +140,7 @@ Future getLessons() async {
                 ),]
               );
             } else {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
           },
         ),
@@ -159,12 +150,12 @@ Future getLessons() async {
 
 
 class ListOfLessons extends StatelessWidget {
-  final lessonList;
-  final showAll;
+  final List lessonList;
+  final bool showAll;
   const ListOfLessons({super.key, required this.lessonList, required this.showAll});
 
   String getLessonStatus(x) {
-    DateTime now = new DateTime.now();
+    DateTime now = DateTime.now();
     String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
 
   if (lessonList[x]['date_last_marked'] == "${now.day}_${now.month}") {
@@ -179,10 +170,9 @@ class ListOfLessons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(showAll.toString() + "- 151");
-    if (lessonList.length != 0) {
+    if (lessonList.isNotEmpty) {
     if (showAll == false) {
-    return Container(child: Column(children: [
+    return Column(children: [
       for (int x=0; x<= lessonList.length-1; x++) ... [
         getLessonStatus(x) == "Upcoming" || getLessonStatus(x) == "Overdue"?
         LessonDetailsInList(
@@ -191,12 +181,12 @@ class ListOfLessons extends StatelessWidget {
           lessonDetails: lessonList[x],
           numberOfStudents: lessonList[x]["students"].length.toString(),
           status: getLessonStatus(x),
-          ): SizedBox()
+          ): const SizedBox()
       ]
-    ]),);
+    ]);
 
     } else {
-      return Container(child: Column(children: [
+      return Column(children: [
         for (int x=0; x<= lessonList.length-1; x++) ... [
         LessonDetailsInList(
           instrument: lessonList[x]["instrument"], 
@@ -207,12 +197,12 @@ class ListOfLessons extends StatelessWidget {
           )
 
       ]
-      ]),);
+      ]);
     }} else {
-      return Padding(
-        padding: const EdgeInsets.all(20.0),
+      return const Padding(
+        padding: EdgeInsets.all(20.0),
         child: Card(child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(10.0),
           child: Text("Looks like there's nothing to show", style: TextStyle(fontSize: 15),),
         ),),
       );
@@ -241,7 +231,7 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 20), (Timer t) => setState((){print("Refresh");}));
+    timer = Timer.periodic(const Duration(seconds: 20), (Timer t) => setState((){}));
   }
 
   @override
@@ -253,23 +243,21 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
 
   @override
   Widget build(BuildContext context) {
-    var colour;
+    Color? colour;
     
     if (widget.status == "Upcoming"){
-      colour = Color.fromARGB(255, 255, 255, 255);
+      colour = const Color.fromARGB(255, 255, 255, 255);
     } else if (widget.status == "Overdue") {
-      colour = Color.fromARGB(255, 249, 171, 171);
+      colour = const Color.fromARGB(255, 252, 199, 199);
     } else if (widget.status == "Completed") {
-      colour = Color.fromARGB(255, 174, 255, 187);
+      colour = const Color.fromARGB(255, 213, 255, 220);
     }
-    print(colour);
-    print(widget.status);
     
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Placeholder())); 
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const Placeholder())); 
         },
         child: Card(
           color: colour,
@@ -279,9 +267,9 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
             children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Text("${widget.time.substring(0,2)}:${widget.time.substring(2,4)}" , style: TextStyle(fontSize: 35),),
+              child: Text("${widget.time.substring(0,2)}:${widget.time.substring(2,4)}" , style: const TextStyle(fontSize: 35),),
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               child: Align(
@@ -292,8 +280,8 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
                   Text(widget.instrument),
                   Text(widget.status),
                   widget.numberOfStudents == "1"?
-                    Text(widget.numberOfStudents + " Student"):
-                    Text(widget.numberOfStudents + " Students")
+                    Text("${widget.numberOfStudents} Student"):
+                    Text("${widget.numberOfStudents} Students")
                   
                 ],),
               ),
