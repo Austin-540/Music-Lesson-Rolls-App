@@ -235,6 +235,8 @@ class LessonDetailsInList extends StatefulWidget {
 }
 
 class _LessonDetailsInListState extends State<LessonDetailsInList> {
+
+
   Timer? timer;
   @override
   void initState() {
@@ -251,6 +253,17 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
 
   @override
   Widget build(BuildContext context) {
+    var colour;
+    
+    if (widget.status == "Upcoming"){
+      colour = Color.fromARGB(255, 255, 255, 255);
+    } else if (widget.status == "Overdue") {
+      colour = Color.fromARGB(255, 249, 171, 171);
+    } else if (widget.status == "Completed") {
+      colour = Color.fromARGB(255, 174, 255, 187);
+    }
+    print(colour);
+    print(widget.status);
     
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -259,6 +272,8 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
           Navigator.push(context, MaterialPageRoute(builder: (context) => Placeholder())); 
         },
         child: Card(
+          color: colour,
+          
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           child: Row(
             children: [
