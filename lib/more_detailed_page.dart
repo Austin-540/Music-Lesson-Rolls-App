@@ -1,8 +1,14 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:music_lessons_attendance/home_page.dart';
+import 'globals.dart';
+import 'package:intl/intl.dart';
 
 
 class MoreDetailedLessonsPage extends StatefulWidget {
+  
+
   const MoreDetailedLessonsPage({super.key});
 
   @override
@@ -10,6 +16,15 @@ class MoreDetailedLessonsPage extends StatefulWidget {
 }
 
 class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
+  Future getLessons() async {
+    await Future.delayed(Duration(milliseconds: 200));
+    final lessons = await pb.collection('lessons').getFullList(
+      sort: '-created',
+);
+    // print(lessons.toString());
+    return jsonDecode(lessons.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,10 +41,66 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
                 label: Text("Mark a one-off lesson")
                 ),
             ),
-          )
+          ),
+
+          FutureBuilder(
+            future: getLessons(),
+            initialData: null,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return Column(children: [
+                  ListOfLessonsWithMoreDetails(lessonsDetails: snapshot.data)
+                ],);
+              } else if (snapshot.hasError) {
+                return Text("Error");
+
+              } else {
+                return Center(child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: CircularProgressIndicator(),
+                ));
+              }
+            },
+          ),
           
         ],
       ),
     );
+  }
+}
+
+class ListOfLessonsWithMoreDetails extends StatefulWidget {
+  const ListOfLessonsWithMoreDetails({super.key, required this.lessonsDetails});
+  final lessonsDetails;
+
+  @override
+  State<ListOfLessonsWithMoreDetails> createState() => _ListOfLessonsWithMoreDetailsState();
+}
+
+class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDetails> {
+  String weekday =  DateFormat('EEEE').format(DateTime.now());
+  @override
+  Widget build(BuildContext context) {
+
+
+    return Container(child: Column(children: [
+      PopupMenuButton(
+        onSelected: (item) => setState(() {
+          print(item);
+          weekday = item;
+          print("weekday = $weekday");
+
+        }),
+        itemBuilder: (context) =>
+        [
+          PopupMenuItem(child: Text("Monday"), value: "Monday",),
+          PopupMenuItem(child: Text("Tuesday"), value: "Tuesday",),
+          PopupMenuItem(child: Text("Wednesday"), value: "Wednesday",),
+          PopupMenuItem(child: Text("Thursday"), value: "Thursday",),
+          PopupMenuItem(child: Text("Friday"), value: "Friday",),
+          ]
+      ), 
+      ListOfLessons(lessonList: widget.lessonsDetails, showAll: true)
+    ]),);
   }
 }
