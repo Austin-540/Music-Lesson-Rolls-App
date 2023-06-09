@@ -20,8 +20,9 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
     await Future.delayed(Duration(milliseconds: 200));
     final lessons = await pb.collection('lessons').getFullList(
       sort: '+time',
+      expand: "teacher"
 );
-    // print(lessons.toString());
+    print(lessons.toString());
     return jsonDecode(lessons.toString());
   }
 

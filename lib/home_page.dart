@@ -292,7 +292,7 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
                     Text("${widget.numberOfStudents} Students"),
 
                   widget.showTeacher == false?
-                    SizedBox(): Text(widget.lessonDetails['teacher']),
+                    SizedBox(): Text(widget.lessonDetails['expand']['teacher']['username']),
                   
                 ],),
               ),
@@ -304,3 +304,5 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
     );
   }
 }
+
+
