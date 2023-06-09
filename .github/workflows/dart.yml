@@ -43,6 +43,6 @@ jobs:
       # want to change this to 'flutter test'.
 
 
-#       - name: Flutter tests (widget tests)
-#         run: flutter test
+      - name: Flutter tests (widget tests)
+        run: flutter test
 
