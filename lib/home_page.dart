@@ -22,7 +22,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool showAll = false;
 
 Future logIn() async {
     Future.delayed(const Duration(milliseconds: 500));
@@ -80,14 +79,13 @@ Future getLessons() async {
       var y = [];
       
         for (int i = 0; i<= x.length-1; i++) {
-          if (showAll == false) {
+
           if (loggedInTeacher == x[i]['teacher']) {
             y.add(x[i]);
           }
+          
         
-      } else {
-        y.add(x[i]);
-      }}
+      }
       return y;
 }
 
@@ -116,23 +114,13 @@ Future getLessons() async {
                 children: [Column(
                   children: [
                     Text("Welcome ${snapshot.data['record']['first_name']}", style: const TextStyle(fontSize: 30),),
-                    showAll == false?
-                    Column(
-                      children: [
-                        const Text("Only Showing Today's Lessons Overdue/Upcoming You Teach", style: TextStyle(fontSize: 12),),
-                        ElevatedButton(onPressed: () => setState(() {
-                          showAll = true;
-                        }), child: const Text("Show All"))
-                      ]
-                    ): ElevatedButton(onPressed: () => setState(() {
-                      showAll = false;
-                    }), child: const Text("Filter Lessons")),
+
                     FutureBuilder(
                       future: getLessons(),
                       initialData: null,
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.hasData) {
-                          return ListOfLessons(lessonList: snapshot.data, showAll: showAll, showTeacher: false,);
+                          return ListOfLessons(lessonList: snapshot.data, showAll: false, showTeacher: false,);
                         } else if (snapshot.hasError) {
                           return const Text("error");
                         } else {
