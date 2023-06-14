@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
+import 'package:music_lessons_attendance/marking_the_roll_page.dart';
 import 'globals.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'settings_page.dart';
@@ -257,7 +258,7 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const Placeholder())); 
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MarkingRollPage(lessonID: widget.lessonDetails['id']))); 
         },
         child: Card(
           color: colour,
