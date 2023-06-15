@@ -82,7 +82,20 @@ class ConfirmPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("Confrim"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: Column(children: [
-        Text("Confirm Submission")
+        Center(child: Text("Present Students:", style: TextStyle(fontSize: 40),),),
+        for (int x=0; x<presentStudents.length; x++) ... [
+          Card(child: Row(
+            children: [
+              Spacer(),
+              Text(presentStudents[x]['name'], style: TextStyle(fontSize: 30),),
+              Spacer()
+            ],
+          ),)
+        ],
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Placeholder())), child: Text("Confrim")),
+        )
       ]),
     );
   }
