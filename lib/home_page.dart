@@ -11,6 +11,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'settings_page.dart';
 import 'login_page.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'package:http/http.dart' as http;
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -43,8 +44,13 @@ Future logIn() async {
     
     final x = jsonDecode(authData.toString());
     loggedInTeacher = x["record"]["id"];
-    
-    return x;
+
+      final y = await http.get(Uri.parse("https://austin-540.github.io/Database-Stuff/"));
+      if (y.body == "OK\n"){
+      return x;
+      } else {
+        showDialog(context: context, builder: (context) => AlertDialog(title: Text(y.body),));
+      }
 
 
     } on SocketException {
@@ -258,7 +264,7 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MarkingRollPage(lessonID: widget.lessonDetails['id']))); 
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MarkingRollPage(lessonDetails: widget.lessonDetails))); 
         },
         child: Card(
           color: colour,

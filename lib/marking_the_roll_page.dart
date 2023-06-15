@@ -2,8 +2,8 @@ import 'globals.dart';
 import 'package:flutter/material.dart';
 
 class MarkingRollPage extends StatefulWidget {
-  final String lessonID;
-  const MarkingRollPage({super.key, required this.lessonID});
+  final Map lessonDetails;
+  const MarkingRollPage({super.key, required this.lessonDetails});
 
   @override
   State<MarkingRollPage> createState() => _MarkingRollPageState();
@@ -18,8 +18,42 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
         title: Text("Marking Roll"),
         ),
       body: Column(children: [
-        Placeholder()
+        Text(widget.lessonDetails.toString()),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text("${widget.lessonDetails['time']}", style: TextStyle(fontSize: 50),),
+              Spacer(),
+              Text("${widget.lessonDetails['instrument']}",style: TextStyle(fontSize: 30)),
+            ],
+          ),
+        ),
+        StudentInLesson()
       ]),
+    );
+  }
+}
+
+class StudentInLesson extends StatefulWidget {
+  const StudentInLesson({super.key});
+
+  @override
+  State<StudentInLesson> createState() => _StudentInLessonState();
+}
+
+class _StudentInLessonState extends State<StudentInLesson> {
+  bool isChecked = false;
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Row(children: [
+        Text("Name goes here"),
+        Spacer(),
+        Checkbox(value: isChecked, onChanged: (value) => setState(() {
+          isChecked = value!;
+        }) )
+      ],),
     );
   }
 }
