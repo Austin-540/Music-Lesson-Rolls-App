@@ -49,7 +49,11 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
           Spacer(),
           Checkbox(value: isCheckedList[x], onChanged: (value) => setState(() {
             isCheckedList[x] = value!;
-            presentStudents.add(widget.lessonDetails['expand']['students'][x].toString());
+            if (value == true) {
+            presentStudents.add(widget.lessonDetails['expand']['students'][x]);
+            } else {
+              presentStudents.remove(widget.lessonDetails['expand']['students'][x]);
+            }
             print(presentStudents);
           }) )
         ],),
