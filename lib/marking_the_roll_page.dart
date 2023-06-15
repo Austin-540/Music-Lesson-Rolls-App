@@ -59,7 +59,11 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
         ],),
       ),
     )
-        ]
+        ],
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: ElevatedButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Placeholder()));}, child: Text("Submit")),
+        )
       ]),
     );
   }
