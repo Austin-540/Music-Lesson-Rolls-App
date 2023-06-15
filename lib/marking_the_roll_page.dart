@@ -30,7 +30,7 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
           ),
         ),
         for (int x = 0; x< widget.lessonDetails['expand']['students'].length; x++) ... [
-        StudentInLesson(),
+        StudentInLesson(studentDetails: widget.lessonDetails['expand']['students'][x],),
         ]
       ]),
     );
@@ -38,7 +38,8 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
 }
 
 class StudentInLesson extends StatefulWidget {
-  const StudentInLesson({super.key});
+  final Map studentDetails;
+  const StudentInLesson({super.key, required this.studentDetails});
 
   @override
   State<StudentInLesson> createState() => _StudentInLessonState();
@@ -52,7 +53,7 @@ class _StudentInLessonState extends State<StudentInLesson> {
       padding: const EdgeInsets.all(8.0),
       child: Card(
         child: Row(children: [
-          Text("Name goes here"),
+          Text(widget.studentDetails['name']),
           Spacer(),
           Checkbox(value: isChecked, onChanged: (value) => setState(() {
             isChecked = value!;
