@@ -10,6 +10,9 @@ class MarkingRollPage extends StatefulWidget {
 }
 
 class _MarkingRollPageState extends State<MarkingRollPage> {
+  bool isChecked = false;
+  List presentStudents = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +21,6 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
         title: Text("Marking Roll"),
         ),
       body: Column(children: [
-        Text(widget.lessonDetails.toString()),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -30,36 +32,26 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
           ),
         ),
         for (int x = 0; x< widget.lessonDetails['expand']['students'].length; x++) ... [
-        StudentInLesson(studentDetails: widget.lessonDetails['expand']['students'][x],),
-        ]
-      ]),
-    );
-  }
-}
-
-class StudentInLesson extends StatefulWidget {
-  final Map studentDetails;
-  const StudentInLesson({super.key, required this.studentDetails});
-
-  @override
-  State<StudentInLesson> createState() => _StudentInLessonState();
-}
-
-class _StudentInLessonState extends State<StudentInLesson> {
-  bool isChecked = false;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+        Padding(
+      padding: const EdgeInsets.all(4.0),
       child: Card(
         child: Row(children: [
-          Text(widget.studentDetails['name']),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(widget.lessonDetails['expand']['students'][x]['name']),
+          ),
           Spacer(),
           Checkbox(value: isChecked, onChanged: (value) => setState(() {
+
             isChecked = value!;
+            presentStudents.add(widget.lessonDetails['expand']['students'][x].toString());
+            print(presentStudents);
           }) )
         ],),
       ),
+    )
+        ]
+      ]),
     );
   }
 }
