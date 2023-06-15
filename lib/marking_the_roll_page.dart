@@ -29,7 +29,9 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
             ],
           ),
         ),
-        StudentInLesson()
+        for (int x = 0; x< widget.lessonDetails['expand']['students'].length; x++) ... [
+        StudentInLesson(),
+        ]
       ]),
     );
   }
@@ -46,14 +48,17 @@ class _StudentInLessonState extends State<StudentInLesson> {
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Row(children: [
-        Text("Name goes here"),
-        Spacer(),
-        Checkbox(value: isChecked, onChanged: (value) => setState(() {
-          isChecked = value!;
-        }) )
-      ],),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        child: Row(children: [
+          Text("Name goes here"),
+          Spacer(),
+          Checkbox(value: isChecked, onChanged: (value) => setState(() {
+            isChecked = value!;
+          }) )
+        ],),
+      ),
     );
   }
 }
