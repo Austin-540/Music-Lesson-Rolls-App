@@ -10,8 +10,14 @@ class MarkingRollPage extends StatefulWidget {
 }
 
 class _MarkingRollPageState extends State<MarkingRollPage> {
-  bool isChecked = false;
   List presentStudents = [];
+  List<bool> isCheckedList =[];
+
+  @override
+  void initState() {
+    super.initState();
+    isCheckedList = List.filled(widget.lessonDetails['expand']['students'].length, false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +47,8 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
             child: Text(widget.lessonDetails['expand']['students'][x]['name']),
           ),
           Spacer(),
-          Checkbox(value: isChecked, onChanged: (value) => setState(() {
-
-            isChecked = value!;
+          Checkbox(value: isCheckedList[x], onChanged: (value) => setState(() {
+            isCheckedList[x] = value!;
             presentStudents.add(widget.lessonDetails['expand']['students'][x].toString());
             print(presentStudents);
           }) )
