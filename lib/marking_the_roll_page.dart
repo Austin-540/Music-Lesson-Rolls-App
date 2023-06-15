@@ -62,8 +62,27 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
         ],
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: ElevatedButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Placeholder()));}, child: Text("Submit")),
+          child: ElevatedButton(
+            onPressed: () {Navigator.push(context, MaterialPageRoute(
+              builder: (context) => ConfirmPage(presentStudents: presentStudents)
+              ));}, 
+            child: Text("Submit")),
         )
+      ]),
+    );
+  }
+}
+
+class ConfirmPage extends StatelessWidget {
+  final List presentStudents;
+  const ConfirmPage({super.key, required this.presentStudents});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Confrim"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
+      body: Column(children: [
+        Text("Confirm Submission")
       ]),
     );
   }
