@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'dart:io';
+
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
@@ -11,7 +12,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'settings_page.dart';
 import 'login_page.dart';
 import 'package:pocketbase/pocketbase.dart';
+
+import 'more_detailed_page.dart';
 import 'package:http/http.dart' as http;
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -22,7 +26,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool showAll = false;
 
 Future logIn() async {
     Future.delayed(const Duration(milliseconds: 500));
@@ -85,14 +88,13 @@ Future getLessons() async {
       var y = [];
       
         for (int i = 0; i<= x.length-1; i++) {
-          if (showAll == false) {
+
           if (loggedInTeacher == x[i]['teacher']) {
             y.add(x[i]);
           }
+          
         
-      } else {
-        y.add(x[i]);
-      }}
+      }
       return y;
 }
 
@@ -106,7 +108,9 @@ Future getLessons() async {
         title: Text(widget.title),
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder:(context) => const SettingsPage())), icon: const Icon(Icons.settings))
+          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreDetailedLessonsPage())), icon: const Icon(Icons.more_horiz)),
+          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder:(context) => const SettingsPage())), icon: const Icon(Icons.settings)),
+
         ],
       ),
       body: Center(
@@ -119,23 +123,13 @@ Future getLessons() async {
                 children: [Column(
                   children: [
                     Text("Welcome ${snapshot.data['record']['first_name']}", style: const TextStyle(fontSize: 30),),
-                    showAll == false?
-                    Column(
-                      children: [
-                        const Text("Only Showing Today's Lessons Overdue/Upcoming You Teach", style: TextStyle(fontSize: 12),),
-                        ElevatedButton(onPressed: () => setState(() {
-                          showAll = true;
-                        }), child: const Text("Show All"))
-                      ]
-                    ): ElevatedButton(onPressed: () => setState(() {
-                      showAll = false;
-                    }), child: const Text("Filter Lessons")),
+
                     FutureBuilder(
                       future: getLessons(),
                       initialData: null,
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.hasData) {
-                          return ListOfLessons(lessonList: snapshot.data, showAll: showAll,);
+                          return ListOfLessons(lessonList: snapshot.data, showAll: false, showTeacher: false,);
                         } else if (snapshot.hasError) {
                           return const Text("error");
                         } else {
@@ -157,13 +151,16 @@ Future getLessons() async {
 
 
 class ListOfLessons extends StatelessWidget {
+  final bool showTeacher;
   final List lessonList;
   final bool showAll;
-  const ListOfLessons({super.key, required this.lessonList, required this.showAll});
+  const ListOfLessons({super.key, required this.lessonList, required this.showAll, required this.showTeacher});
 
   String getLessonStatus(x) {
     DateTime now = DateTime.now();
     String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
+
+    
 
   if (lessonList[x]['date_last_marked'] == "${now.day}_${now.month}") {
       return "Completed";
@@ -188,6 +185,7 @@ class ListOfLessons extends StatelessWidget {
           lessonDetails: lessonList[x],
           numberOfStudents: lessonList[x]["students"].length.toString(),
           status: getLessonStatus(x),
+          showTeacher: false,
           ): const SizedBox()
       ]
     ]);
@@ -201,6 +199,7 @@ class ListOfLessons extends StatelessWidget {
           lessonDetails: lessonList[x],
           numberOfStudents: lessonList[x]["students"].length.toString(),
           status: getLessonStatus(x),
+          showTeacher: showTeacher,
           )
 
       ]
@@ -219,12 +218,14 @@ class ListOfLessons extends StatelessWidget {
 
 
 class LessonDetailsInList extends StatefulWidget {
-  const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.lessonDetails, required this.numberOfStudents, required this.status}) : super(key: key);
+  const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.lessonDetails, required this.numberOfStudents, required this.status, required this.showTeacher}) : super(key: key);
   final String instrument;
   final String time;
   final Map lessonDetails;
   final String numberOfStudents;
   final String status;
+  final bool showTeacher;
+
 
 
   @override
@@ -250,6 +251,12 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
 
   @override
   Widget build(BuildContext context) {
+      String? i12hrTime;
+  if (int.parse(widget.time.substring(0,2)) > 12) {
+      i12hrTime = "${int.parse(widget.time.substring(0,2))-12}:${widget.time.substring(2,4)} PM";
+    } else {
+      i12hrTime = "${widget.time.substring(0,2)}:${widget.time.substring(2,4)} AM";
+    }
     Color? colour;
     
     if (widget.status == "Upcoming"){
@@ -274,7 +281,7 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
             children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Text("${widget.time.substring(0,2)}:${widget.time.substring(2,4)}" , style: const TextStyle(fontSize: 35),),
+              child: Text(i12hrTime , style: const TextStyle(fontSize: 35),),
             ),
             const Spacer(),
             Padding(
@@ -288,7 +295,10 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
                   Text(widget.status),
                   widget.numberOfStudents == "1"?
                     Text("${widget.numberOfStudents} Student"):
-                    Text("${widget.numberOfStudents} Students")
+                    Text("${widget.numberOfStudents} Students"),
+
+                  widget.showTeacher == false?
+                    SizedBox(): Text(widget.lessonDetails['expand']['teacher']['username']),
                   
                 ],),
               ),
@@ -300,3 +310,5 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
     );
   }
 }
+
+
