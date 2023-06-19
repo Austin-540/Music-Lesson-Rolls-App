@@ -63,3 +63,4 @@ backend/golangci.yml
 backend/pocketbase_test.go
 backend/pocketbase.go
 backend/mails
+backend/examples/base/base
