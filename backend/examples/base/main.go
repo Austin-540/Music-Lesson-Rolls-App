@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"time"
@@ -91,6 +93,18 @@ func main() {
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		// serves static files from the provided public dir (if exists)
 		e.Router.GET("/*", apis.StaticDirectoryHandler(os.DirFS(publicDir), indexFallback))
+		return nil
+	})
+
+	app.OnModelAfterCreate().Add(func(e *core.ModelEvent) error {
+		cmd := exec.Command("python3", "backend/examples/base/send_email.py")
+		cmd.Stdout = os.Stdout
+
+		// Run still runs the command and waits for completion
+		// but the output is instantly piped to Stdout
+		if err := cmd.Run(); err != nil {
+			fmt.Println("could not run command: ", err)
+		}
 		return nil
 	})
 
