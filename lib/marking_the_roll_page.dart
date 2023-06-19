@@ -94,10 +94,16 @@ class ConfirmPage extends StatelessWidget {
             ],
           ),)
         ],
-        Padding(
+        
+        Text("Absent Students:", style: TextStyle(fontSize: 40),),
+        SizedBox(
+          height: 200,
+          width: 200,
+          child: Placeholder()),
+          Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Placeholder())), child: Text("Confrim")),
-        )
+        ),
       ]),
     );
   }
