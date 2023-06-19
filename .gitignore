@@ -64,3 +64,5 @@ backend/pocketbase_test.go
 backend/pocketbase.go
 backend/mails
 backend/examples/base/base
+backend/examples/base/pb_data
+backend/examples/base/pb_migrations
