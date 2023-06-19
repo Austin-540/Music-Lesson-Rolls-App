@@ -109,7 +109,7 @@ class ConfirmPage extends StatelessWidget {
           child: Placeholder()),
           Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Placeholder())), child: Text("Confrim")),
+          child: ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Placeholder()), (context) => false), child: Text("Confrim")),
         ),
       ]),
     );
