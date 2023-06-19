@@ -1,3 +1,5 @@
+import 'package:music_lessons_attendance/home_page.dart';
+
 import 'globals.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,7 @@ class SubmittedPage extends StatefulWidget {
 
 class _SubmittedPageState extends State<SubmittedPage> {
   Future submitRoll() async {
+    await Future.delayed(Duration(milliseconds: 500));
       for (int x=0; x< widget.presentStudents.length; x++) {
     bool? finalVar;
   if (x != widget.presentStudents.length-1) {
@@ -40,7 +43,14 @@ class _SubmittedPageState extends State<SubmittedPage> {
       body: FutureBuilder(
         future: submitRoll(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return Text("hello world");
+          if (snapshot.hasData) {
+            return Column(children: [
+              Center(child: Icon(Icons.check, size: 250,)),
+              ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Page")), (route) => false), child: Text("Home Page"))
+            ],);
+          } else {
+          return Center(child: CircularProgressIndicator(),);
+          }
         },
       ),);
     
