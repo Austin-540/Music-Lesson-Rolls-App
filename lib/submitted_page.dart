@@ -15,9 +15,9 @@ class _SubmittedPageState extends State<SubmittedPage> {
       for (int x=0; x< widget.presentStudents.length; x++) {
     bool? finalVar;
   if (x != widget.presentStudents.length-1) {
-  final finalVar = false;
+  finalVar = false;
   } else {
-  final finalVar = true;
+  finalVar = true;
   }
   
   final body = <String, dynamic>{
