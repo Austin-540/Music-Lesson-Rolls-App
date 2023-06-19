@@ -14,7 +14,7 @@ void main() {
 
     expect(find.byType(Text), findsNWidgets(4));
     expect(find.text('Trumpet'), findsOneWidget);
-    expect(find.text('23:59'), findsOneWidget);
+    expect(find.text('11:59 PM'), findsOneWidget);
     expect(find.text('2 Students'), findsOneWidget);
 
 
@@ -33,7 +33,7 @@ void main() {
 
     expect(find.byType(Text), findsNWidgets(4));
     expect(find.text('Trumpet'), findsOneWidget);
-    expect(find.text('23:59'), findsOneWidget);
+    expect(find.text('11:59 PM'), findsOneWidget);
     expect(find.text('1 Student'), findsOneWidget);
 
 
