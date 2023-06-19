@@ -79,7 +79,7 @@ Future logIn() async {
 Future getLessons() async {
   final lessonList = await pb.collection('lessons').getFullList(
       sort: '+time',
-      expand: "students",
+      expand: "students,teacher",
       filter: "weekday = '${DateFormat('EEEE').format(DateTime.now())}'"
       );
       // print(lessonList);
