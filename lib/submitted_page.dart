@@ -12,14 +12,23 @@ class SubmittedPage extends StatefulWidget {
 
 class _SubmittedPageState extends State<SubmittedPage> {
   Future submitRoll() async {
-    final body = <String, dynamic>{
-  "students": widget.presentStudents[0]['id'],
+      for (int x=0; x< widget.presentStudents.length; x++) {
+    bool? finalVar;
+  if (x != widget.presentStudents.length-1) {
+  final finalVar = false;
+  } else {
+  final finalVar = true;
+  }
+  
+  final body = <String, dynamic>{
+  "students": widget.presentStudents[x]['id'],
   "lesson": widget.lessonDetails['id'],
   "present": true,
-  "final": false
+  "final": finalVar
 };
+  await pb.collection('rolls').create(body: body);
+  }
 
-    await pb.collection('rolls').create(body: body);
 
     return "Success";
   }
@@ -31,7 +40,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
       body: FutureBuilder(
         future: submitRoll(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return Text("m");
+          return Text("hello world");
         },
       ),);
     
