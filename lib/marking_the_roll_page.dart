@@ -21,6 +21,13 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
 
   @override
   Widget build(BuildContext context) {
+        String? i12hrTime;
+    if (int.parse(widget.lessonDetails['time'].substring(0,2)) > 12) {
+        i12hrTime = "${int.parse(widget.lessonDetails['time'].substring(0,2))-12}:${widget.lessonDetails['time'].substring(2,4)} PM";
+      } else {
+        i12hrTime = "${widget.lessonDetails['time'].substring(0,2)}:${widget.lessonDetails['time'].substring(2,4)} AM";
+      }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -31,7 +38,7 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Text("${widget.lessonDetails['time']}", style: TextStyle(fontSize: 50),),
+              Text(i12hrTime, style: TextStyle(fontSize: 50),),
               Spacer(),
               Text("${widget.lessonDetails['instrument']}",style: TextStyle(fontSize: 30)),
             ],
