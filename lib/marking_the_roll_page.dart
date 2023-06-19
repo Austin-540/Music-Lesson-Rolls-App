@@ -72,7 +72,7 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
           padding: const EdgeInsets.all(10.0),
           child: ElevatedButton(
             onPressed: () {Navigator.push(context, MaterialPageRoute(
-              builder: (context) => ConfirmPage(presentStudents: presentStudents)
+              builder: (context) => ConfirmPage(presentStudents: presentStudents, lessonDetails: widget.lessonDetails,)
               ));}, 
             child: Text("Submit")),
         )
@@ -83,7 +83,8 @@ class _MarkingRollPageState extends State<MarkingRollPage> {
 
 class ConfirmPage extends StatelessWidget {
   final List presentStudents;
-  const ConfirmPage({super.key, required this.presentStudents});
+  final lessonDetails;
+  const ConfirmPage({super.key, required this.presentStudents, required this.lessonDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,7 @@ class ConfirmPage extends StatelessWidget {
           child: Placeholder()),
           Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage()), (context) => false), child: Text("Confrim")),
+          child: ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage(lessonDetails: lessonDetails, presentStudents: presentStudents,)), (context) => false), child: Text("Confrim")),
         ),
       ]),
     );
