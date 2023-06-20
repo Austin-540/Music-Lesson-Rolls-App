@@ -3,6 +3,7 @@
 import sqlite3
 from secrets import getSecrets
 import smtplib, ssl
+from tabulate import tabulate
 
 
 secrets = getSecrets()
@@ -37,5 +38,9 @@ allRolls = cur.execute("SELECT * FROM rolls").fetchall()
 for student in allRolls:
     x = getStudentDetails(student)
     allDetails.append(x)
-print(allDetails)
 
+
+table = tabulate(allDetails, headers=['Name', 'Homeroom', 'Status'], tablefmt='simple_grid')
+
+
+sendEmail(table)
