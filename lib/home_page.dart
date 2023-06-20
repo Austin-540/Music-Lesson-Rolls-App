@@ -88,8 +88,7 @@ Future getLessons() async {
       var y = [];
       
         for (int i = 0; i<= x.length-1; i++) {
-
-          if (loggedInTeacher == x[i]['teacher']) {
+          if (loggedInTeacher == x[i]['teacher'] && x[i]['date_last_marked'] != "${DateTime.now().day}_${DateTime.now().month}") {
             y.add(x[i]);
           }
           
