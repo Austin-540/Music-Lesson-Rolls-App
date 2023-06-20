@@ -14,6 +14,7 @@ cur = con.cursor()
 cur.execute("SELECT * FROM rolls WHERE final = true")
 x = cur.fetchall()
 if len(x) == 0:
+    con.close()
     quit()
 
 def sendEmail(contents):
@@ -23,6 +24,8 @@ def sendEmail(contents):
         server.sendmail(secrets['my_email'], secrets['reciever_email'], contents)
 
     cur.execute("DELETE FROM rolls")
+    con.commit()
+    con.close()
 
 def getStudentDetails(student):
     if student[3] == 1:
