@@ -1,0 +1,17 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start PB",
+            "type": "shell",
+            "command": "/Users/austin/Programming/music_lessons_attendance/backend/examples/base/base serve"
+        },
+        {
+            "label": "Build PB",
+            "type": "shell",
+            "command": "cd /Users/austin/Programming/music_lessons_attendance/backend/examples/base; go build"
+        }
+    ]
+}

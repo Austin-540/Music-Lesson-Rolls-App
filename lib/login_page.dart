@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text("Login")),
+          title: Text("Login - v0.1")),
       body: Form(
           key: _formKey,
           child: Padding(
