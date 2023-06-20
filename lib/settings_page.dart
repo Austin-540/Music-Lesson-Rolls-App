@@ -36,7 +36,7 @@ class SettingsPage extends StatelessWidget {
         )),
 
         Center(child: ElevatedButton.icon(icon: Icon(Icons.info), label: Text("App Info"), 
-        onPressed: () => showAboutDialog(context: context, applicationIcon: Icon(Icons.class_outlined), applicationVersion: "v0.1", 
+        onPressed: () => showAboutDialog(context: context, applicationIcon: Icon(Icons.class_outlined), applicationVersion: version, 
         applicationLegalese: """Created by Austin-540. Check out the source code on GitHub if you want.  
         
 Copyright (c) 2023 Austin-540
