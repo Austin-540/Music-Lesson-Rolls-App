@@ -97,7 +97,7 @@ func main() {
 	})
 
 	app.OnModelAfterCreate().Add(func(e *core.ModelEvent) error {
-		cmd := exec.Command("python3", "backend/examples/base/send_email.py")
+		cmd := exec.Command("python3", "/Users/austin/Programming/music_lessons_attendance/backend/examples/base/send_email.py")
 		cmd.Stdout = os.Stdout
 
 		// Run still runs the command and waits for completion
