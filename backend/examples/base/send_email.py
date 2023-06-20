@@ -22,6 +22,8 @@ def sendEmail(contents):
         server.login(secrets['my_email'], secrets['my_password'])
         server.sendmail(secrets['my_email'], secrets['reciever_email'], contents)
 
+    cur.execute("DELETE FROM rolls")
+
 def getStudentDetails(student):
     if student[3] == 1:
         status = "Present"
@@ -40,7 +42,7 @@ for student in allRolls:
     allDetails.append(x)
 
 
-table = tabulate(allDetails, headers=['Name', 'Homeroom', 'Status'], tablefmt='simple_grid')
+table = tabulate(allDetails, headers=['Name', 'Homeroom', 'Status'], tablefmt='grid')
 
 
 sendEmail(table)
