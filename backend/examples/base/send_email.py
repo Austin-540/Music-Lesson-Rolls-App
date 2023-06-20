@@ -20,3 +20,22 @@ def sendEmail(contents):
     with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
         server.login(secrets['my_email'], secrets['my_password'])
         server.sendmail(secrets['my_email'], secrets['reciever_email'], contents)
+
+def getStudentDetails(student):
+    if student[3] == 1:
+        status = "Present"
+    else:
+        status = "Absent"
+
+    studentDBDetails = cur.execute(f"SELECT name, homeroom FROM students WHERE id = '{student[4]}'").fetchone()
+    return [studentDBDetails[0], studentDBDetails[1], status]
+
+    
+
+allDetails = []
+allRolls = cur.execute("SELECT * FROM rolls").fetchall()
+for student in allRolls:
+    x = getStudentDetails(student)
+    allDetails.append(x)
+print(allDetails)
+
