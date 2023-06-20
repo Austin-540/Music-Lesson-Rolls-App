@@ -4,6 +4,7 @@ import sqlite3
 from secrets import getSecrets
 import smtplib, ssl
 from tabulate import tabulate
+from datetime import datetime
 
 
 secrets = getSecrets()
@@ -47,5 +48,7 @@ for student in allRolls:
 
 table = tabulate(allDetails, headers=['Name', 'Homeroom', 'Status'], tablefmt='grid')
 
+now = datetime.now().strftime("%d-%m-%Y, %H:%M")
 
-sendEmail(table)
+sendEmail(f"""Subject: {now}
+{table}""")
