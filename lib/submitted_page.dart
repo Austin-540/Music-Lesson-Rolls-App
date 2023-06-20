@@ -30,6 +30,8 @@ class _SubmittedPageState extends State<SubmittedPage> {
   "final": finalVar
 };
   await pb.collection('rolls').create(body: body);
+  await pb.collection('lessons').update(widget.lessonDetails['id'], body: {"date_last_marked": "${DateTime.now().day}_${DateTime.now().month}"});
+
   }
 
 
