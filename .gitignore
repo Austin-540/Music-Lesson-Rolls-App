@@ -67,3 +67,4 @@ backend/examples/base/base
 backend/examples/base/pb_data
 backend/examples/base/pb_migrations
 backend/examples/base/pb_public
+backend/examples/base/base.exe
