@@ -80,9 +80,6 @@ class ConfirmLoginPage extends StatelessWidget {
 
   Future logIn(email, password) async {
     try {
-      await Future.delayed(
-          Duration(milliseconds: 500)); //To make testing easier
-      //* Remember to remove before completing project
 
       final authData = await pb.collection('users').authWithPassword(
             email,

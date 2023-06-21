@@ -1,4 +1,4 @@
 import 'package:pocketbase/pocketbase.dart';
-final pb = PocketBase('http://127.0.0.1:8090');
+final pb = PocketBase('http://127.0.0.1:8090/');
 
-final version = "v0.1.1";
+final version = "v0.1.2";

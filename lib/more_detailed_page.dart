@@ -17,7 +17,6 @@ class MoreDetailedLessonsPage extends StatefulWidget {
 
 class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
   Future getLessons() async {
-    await Future.delayed(Duration(milliseconds: 200));
     final lessons = await pb.collection('lessons').getFullList(
       sort: '+time',
       expand: "students, teacher"

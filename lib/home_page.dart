@@ -28,7 +28,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
 Future logIn() async {
-    Future.delayed(const Duration(milliseconds: 500));
 
     try {
     const storage = FlutterSecureStorage();

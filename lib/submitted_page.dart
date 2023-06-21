@@ -14,7 +14,6 @@ class SubmittedPage extends StatefulWidget {
 
 class _SubmittedPageState extends State<SubmittedPage> {
   Future submitRoll() async {
-    await Future.delayed(Duration(milliseconds: 500));
       for (int x=0; x< widget.presentStudents.length; x++) {
     bool? finalVar;
   if (x != widget.presentStudents.length-1) {
