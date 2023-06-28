@@ -49,7 +49,11 @@ Permission is granted to anyone to use this software for any purpose, including 
 
 2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
 
-3. This notice may not be removed or altered from any distribution."""),),)
+3. This notice may not be removed or altered from any distribution."""), onLongPress: () => 
+showDialog(context: context, builder: (context) => Dialog(child: Padding(
+  padding: const EdgeInsets.all(20.0),
+  child:   Text("In memory of Thomas Park(he didn't die but asked to be remembered)", style: TextStyle(fontSize: 20),),
+),))),)
       ]),
     );
   }
