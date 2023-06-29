@@ -88,6 +88,14 @@ class ConfirmPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List absentStudents =[];
+    for (int x=0; x< lessonDetails['students'].length; x++) {
+      if (!presentStudents.contains(lessonDetails['expand']['students'][x])) {
+        absentStudents.add(lessonDetails['expand']['students'][x]);
+      }
+    }
+
+
     return Scaffold(
       appBar: AppBar(title: Text("Confrim"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: Column(children: [
@@ -105,10 +113,9 @@ class ConfirmPage extends StatelessWidget {
         ],
         
         Text("Absent Students:", style: TextStyle(fontSize: 40),),
-        SizedBox(
-          height: 200,
-          width: 200,
-          child: Placeholder()),
+        for (int x=0; x<absentStudents.length; x++) ... [
+          Card(child: Text("Hello"),),
+        ],
           Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage(lessonDetails: lessonDetails, presentStudents: presentStudents,)), (context) => false), child: Text("Confrim")),
