@@ -114,7 +114,14 @@ class ConfirmPage extends StatelessWidget {
         
         Text("Absent Students:", style: TextStyle(fontSize: 40),),
         for (int x=0; x<absentStudents.length; x++) ... [
-          Card(child: Text("Hello"),),
+          Card(
+            child: Row(
+              children: [
+                Spacer(),
+                Text(absentStudents[x]['name']),
+                Spacer()
+              ],
+            ),),
         ],
           Padding(
           padding: const EdgeInsets.all(8.0),
