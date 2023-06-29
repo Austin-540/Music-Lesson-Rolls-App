@@ -131,7 +131,12 @@ class ConfirmPage extends StatelessWidget {
                 Spacer()
               ],
             ),),
-        ],
+        ], 
+        absentStudents.length == 0?
+        Card(child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Everyone's here."),
+        ),): SizedBox(),
           Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage(lessonDetails: lessonDetails, presentStudents: presentStudents,)), (context) => false), child: Text("Confrim")),
