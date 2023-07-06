@@ -8,12 +8,24 @@ class OneOffLessonPage extends StatefulWidget {
 }
 
 class _OneOffLessonPageState extends State<OneOffLessonPage> {
+  var time = "hello";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("One-off Lesson"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: Column(children: [
-        Text("Hello world")
+        Text(time.toString()),
+
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton.icon(label: Text("Select Time"), icon: Icon(Icons.access_time), 
+          onPressed: () async {
+           final timeOfDay = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+            setState(() {
+              time = timeOfDay.toString();
+            });
+            })
+        )
       ]),
     );
   }
