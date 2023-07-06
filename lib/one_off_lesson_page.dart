@@ -74,7 +74,7 @@ class OneOffLessonSubmitPage extends StatefulWidget {
 
 class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
   Future submitRoll() async {
-      for (int x=0; x<= widget.listOfStudents.length; x++) {
+      for (int x=0; x<= widget.listOfStudents.length-1; x++) {
     bool? finalVar;
   if (x != widget.listOfStudents.length-1) {
   finalVar = false;
@@ -83,10 +83,10 @@ class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
   }
   
   final body = <String, dynamic>{
-  "present": true,
-  "final": finalVar
+  "final": finalVar,
+  "student_name": widget.listOfStudents[x]
 };
-  await pb.collection('rolls').create(body: body);
+  await pb.collection('one_off_rolls').create(body: body);
 
   }
     return "Success";
