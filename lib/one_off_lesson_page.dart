@@ -14,7 +14,7 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
     return Scaffold(
       appBar: AppBar(title: Text("One-off Lesson"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: Column(children: [
-        Text(time.toString()),
+        Center(child: Text(time, style: TextStyle(fontSize: 40),)),
 
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -22,10 +22,12 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
           onPressed: () async {
            final timeOfDay = await showTimePicker(context: context, initialTime: TimeOfDay.now());
             setState(() {
-              time = timeOfDay.toString();
+              time = "${timeOfDay!.hour}:${timeOfDay.minute}";
             });
             })
-        )
+        ),
+
+        
       ]),
     );
   }
