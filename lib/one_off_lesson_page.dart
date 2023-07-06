@@ -11,7 +11,7 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("One-off Lesson")),
+      appBar: AppBar(title: Text("One-off Lesson"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: Column(children: [
         Text("Hello world")
       ]),
