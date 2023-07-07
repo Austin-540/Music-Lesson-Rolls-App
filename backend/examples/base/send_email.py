@@ -17,8 +17,9 @@ def sendEmail(contents):
     con.close()
 
 def getStudentDetails(student):
-    studentDBDetails = cur.execute(f"SELECT name, homeroom FROM students WHERE id = '{student[4]}'").fetchone()
-    return [studentDBDetails[0], studentDBDetails[1], student[3]]
+    studentDBDetails = cur.execute(f"SELECT name, homeroom FROM students WHERE id = '{student[3]}'").fetchone()
+    print(studentDBDetails)
+    return [studentDBDetails[0], studentDBDetails[1], student[6]]
 
 
 secrets = getSecrets()
@@ -31,21 +32,21 @@ x = cur.fetchall()
 if len(x) == 0:
     con.close()
     quit()
-try:
+# try:
 
-    allDetails = []
-    allRolls = cur.execute("SELECT * FROM rolls").fetchall()
-    for student in allRolls:
-        x = getStudentDetails(student)
-        allDetails.append(x)
+allDetails = []
+allRolls = cur.execute("SELECT * FROM rolls").fetchall()
+for student in allRolls:
+    x = getStudentDetails(student)
+    allDetails.append(x)
 
 
-    table = tabulate(allDetails, headers=['Name', 'Homeroom', 'Status'], tablefmt='grid')
+table = tabulate(allDetails, headers=['Name', 'Homeroom', 'Status'], tablefmt='grid')
 
-    now = datetime.now().strftime("%d-%m-%Y, %H:%M")
+now = datetime.now().strftime("%d-%m-%Y, %H:%M")
 
-    sendEmail(f"""Subject: {now}\n
-    {table}""")
-except Exception as e: 
-    sendEmail(f"""Subject: Error while trying to send email \n
-    {e}""")
+sendEmail(f"""Subject: {now}\n
+{table}""")
+# except Exception as e: 
+#     sendEmail(f"""Subject: Error while trying to send email \n
+#     {e}""")
