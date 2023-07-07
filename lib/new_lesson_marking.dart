@@ -1,3 +1,5 @@
+import 'package:music_lessons_attendance/submitted_page.dart';
+
 import 'globals.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +13,14 @@ class NewLessonInList extends StatefulWidget {
 }
 
 class _NewLessonInListState extends State<NewLessonInList> {
+ List _rollOptions = [];
+
+ @override
+ void initState() {
+   super.initState();
+   _rollOptions = List.filled(widget.details['expand']['students'].length, "none");
+ }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -37,8 +47,32 @@ class _NewLessonInListState extends State<NewLessonInList> {
               ),
               SizedBox(height: 10,),
               for (int x=0; x<= widget.details['students'].length-1; x++) ... [
-                Text(widget.details['expand']['students'][x]['name'])
-              ]
+                Row(
+                  children: [
+                    Text(widget.details['expand']['students'][x]['name']),
+                    Spacer(),
+                    Radio(value: "Present", groupValue: _rollOptions[x], 
+                    activeColor: Colors.green,
+                    onChanged: (value) => setState(() {
+                      _rollOptions[x] = value!;
+                    })),
+                    Radio(value: "Explained", groupValue: _rollOptions[x], 
+                    activeColor: Colors.orange,
+                    onChanged: (value) => setState(() {
+                      _rollOptions[x] = value!;
+                    })),
+                    Radio(value: "Unexplained", groupValue: _rollOptions[x], 
+                    activeColor: Colors.red,
+                    onChanged: (value) => setState(() {
+                      _rollOptions[x] = value!;
+                    }))
+                  ],
+                )
+              ],
+              TextButton(onPressed: () => 
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions,))), 
+                child: Text("Submit"))
             ],
           ),
         )
