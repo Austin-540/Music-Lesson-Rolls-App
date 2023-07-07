@@ -20,15 +20,16 @@ class _NewLessonInListState extends State<NewLessonInList> {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
+              Text("${widget.details['time'].toString().substring(0,2)}:${widget.details['time'].toString().substring(2,4)}"),
               Spacer(),
               Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                          Text(widget.details['instrument']),
-                          Text(widget.status),
-                          widget.details['students'].length == "1"?
-                            Text("${widget.details['students'].length} Student"):
-                            Text("${widget.details['students'].length} Students"),],),
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                Text(widget.details['instrument']),
+                Text(widget.status),
+                widget.details['students'].length == "1"?
+                  Text("${widget.details['students'].length} Student"):
+                  Text("${widget.details['students'].length} Students"),],),
             ],
           ),
         )
