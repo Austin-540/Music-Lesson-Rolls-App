@@ -20,7 +20,8 @@ class _NewLessonInListState extends State<NewLessonInList> {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Text("${widget.details['time'].toString().substring(0,2)}:${widget.details['time'].toString().substring(2,4)}"),
+              Text("${widget.details['time'].toString().substring(0,2)}:${widget.details['time'].toString().substring(2,4)}"
+              ,style: TextStyle(fontSize: 35),),
               Spacer(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
