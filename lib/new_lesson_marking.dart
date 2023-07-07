@@ -18,19 +18,27 @@ class _NewLessonInListState extends State<NewLessonInList> {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
+          child: Column(
             children: [
-              Text("${widget.details['time'].toString().substring(0,2)}:${widget.details['time'].toString().substring(2,4)}"
-              ,style: TextStyle(fontSize: 35),),
-              Spacer(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+              Row(
                 children: [
-                Text(widget.details['instrument']),
-                Text(widget.status),
-                widget.details['students'].length == "1"?
-                  Text("${widget.details['students'].length} Student"):
-                  Text("${widget.details['students'].length} Students"),],),
+                  Text("${widget.details['time'].toString().substring(0,2)}:${widget.details['time'].toString().substring(2,4)}"
+                  ,style: TextStyle(fontSize: 35),),
+                  Spacer(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                    Text(widget.details['instrument']),
+                    Text(widget.status),
+                    widget.details['students'].length == "1"?
+                      Text("${widget.details['students'].length} Student"):
+                      Text("${widget.details['students'].length} Students"),],),
+                ],
+              ),
+              SizedBox(height: 10,),
+              for (int x=0; x<= widget.details['students'].length-1; x++) ... [
+                Text(widget.details['expand']['students'][x]['name'])
+              ]
             ],
           ),
         )
