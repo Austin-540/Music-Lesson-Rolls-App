@@ -14,6 +14,8 @@ class NewLessonInList extends StatefulWidget {
 
 class _NewLessonInListState extends State<NewLessonInList> {
  List _rollOptions = [];
+  
+
 
  @override
  void initState() {
@@ -21,11 +23,23 @@ class _NewLessonInListState extends State<NewLessonInList> {
    _rollOptions = List.filled(50, "none");
  }
 
+
   @override
   Widget build(BuildContext context) {
+    var statusColour;
+    if (widget.status == "Completed") {
+      statusColour = Color.fromARGB(255, 214, 252, 205);;
+    } else if (widget.status == "Overdue") {
+      statusColour = Color.fromARGB(255, 255, 182, 182);
+    } else {
+      statusColour = null;
+    }
+  
+    
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
+        color: statusColour,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -76,8 +90,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
                 )
               ],
               TextButton(onPressed: () => 
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions,))), 
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions)), (route) => false), 
                 child: Text("Submit"))
             ],
           ),
