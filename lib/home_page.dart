@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'new_lesson_marking.dart';
 import 'dart:io';
 
 import 'package:intl/intl.dart';
@@ -177,13 +177,9 @@ class ListOfLessons extends StatelessWidget {
     return Column(children: [
       for (int x=0; x<= lessonList.length-1; x++) ... [
         getLessonStatus(x) == "Upcoming" || getLessonStatus(x) == "Overdue"?
-        LessonDetailsInList(
-          instrument: lessonList[x]["instrument"], 
-          time: lessonList[x]["time"], 
-          lessonDetails: lessonList[x],
-          numberOfStudents: lessonList[x]["students"].length.toString(),
-          status: getLessonStatus(x),
-          showTeacher: false,
+        NewLessonInList(
+          details: lessonList[x], 
+          status: getLessonStatus(x)
           ): const SizedBox()
       ]
     ]);
@@ -191,13 +187,9 @@ class ListOfLessons extends StatelessWidget {
     } else {
       return Column(children: [
         for (int x=0; x<= lessonList.length-1; x++) ... [
-        LessonDetailsInList(
-          instrument: lessonList[x]["instrument"], 
-          time: lessonList[x]["time"], 
-          lessonDetails: lessonList[x],
-          numberOfStudents: lessonList[x]["students"].length.toString(),
-          status: getLessonStatus(x),
-          showTeacher: showTeacher,
+        NewLessonInList(
+          details: lessonList[x], 
+          status: getLessonStatus(x)
           )
 
       ]
