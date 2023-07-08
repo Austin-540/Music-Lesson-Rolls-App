@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:music_lessons_attendance/submitted_page.dart';
 
 import 'globals.dart';
@@ -27,12 +28,14 @@ class _NewLessonInListState extends State<NewLessonInList> {
   @override
   Widget build(BuildContext context) {
     var statusColour;
+    if (widget.details['weekday'] == DateFormat('EEEE').format(DateTime.now())){
     if (widget.status == "Completed") {
       statusColour = Color.fromARGB(255, 214, 252, 205);;
     } else if (widget.status == "Overdue") {
       statusColour = Color.fromARGB(255, 255, 182, 182);
     } else {
       statusColour = null;
+    }
     }
   
     
