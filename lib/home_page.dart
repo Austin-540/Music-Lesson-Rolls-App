@@ -164,7 +164,7 @@ class ListOfLessons extends StatelessWidget {
   } else if (lessonList[x]['date_last_marked'] == "${now.day}_${now.month}") {
       return "Completed";
     } else {
-      if (int.parse(formattedNow) <= int.parse(lessonList[x]["time"])){
+      if (int.parse(formattedNow) -10 <= int.parse(lessonList[x]["time"])){
       return "Upcoming";
     } else {
       return "Overdue";
