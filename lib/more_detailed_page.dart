@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'one_off_lesson_page.dart';
 import 'package:flutter/material.dart';
 import 'package:music_lessons_attendance/home_page.dart';
 import 'globals.dart';
@@ -36,7 +36,7 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton.icon(
           
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Placeholder())), 
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => OneOffLessonPage())), 
                 icon: Icon(Icons.add), 
                 label: Text("Mark a one-off lesson")
                 ),
