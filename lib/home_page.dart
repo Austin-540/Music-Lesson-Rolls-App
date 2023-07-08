@@ -156,7 +156,7 @@ class ListOfLessons extends StatelessWidget {
 
   String getLessonStatus(x) {
     DateTime now = DateTime.now();
-    String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
+    String formattedNow = "${now.hour}".padLeft(2) + "${now.minute + 10}" .padLeft(2, "0");
 
     
   if (lessonList[x]['weekday'] != DateFormat('EEEE').format(DateTime.now())) {
