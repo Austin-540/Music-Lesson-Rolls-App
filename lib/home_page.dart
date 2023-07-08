@@ -156,7 +156,7 @@ class ListOfLessons extends StatelessWidget {
 
   String getLessonStatus(x) {
     DateTime now = DateTime.now();
-    String formattedNow = "${now.hour}".padLeft(2) + "${now.minute + 10}" .padLeft(2, "0");
+    String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
 
     
   if (lessonList[x]['weekday'] != DateFormat('EEEE').format(DateTime.now())) {
@@ -164,7 +164,7 @@ class ListOfLessons extends StatelessWidget {
   } else if (lessonList[x]['date_last_marked'] == "${now.day}_${now.month}") {
       return "Completed";
     } else {
-      if (int.parse(formattedNow) <= int.parse(lessonList[x]["time"])){
+      if (int.parse(formattedNow) -10 <= int.parse(lessonList[x]["time"])){
       return "Upcoming";
     } else {
       return "Overdue";
