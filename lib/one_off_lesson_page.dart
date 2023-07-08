@@ -27,7 +27,7 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
           onPressed: () async {
            final timeOfDay = await showTimePicker(context: context, initialTime: TimeOfDay.now());
             setState(() {
-              time = "${timeOfDay!.hour}:${timeOfDay.minute}";
+              time = "${timeOfDay!.hour}:${timeOfDay.minute.toString().padLeft(2, '0')}";
             });
             })
         ),
@@ -55,7 +55,7 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
         ),
 
         ElevatedButton(onPressed:() => Navigator.pushAndRemoveUntil(
-          context, MaterialPageRoute(builder: (context) => OneOffLessonSubmitPage(listOfStudents: listOfStudents,)), 
+          context, MaterialPageRoute(builder: (context) => OneOffLessonSubmitPage(listOfStudents: listOfStudents, time: time)), 
         (route) => false), child: Text("Submit Lesson"))
 
         
@@ -66,7 +66,8 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
 
 class OneOffLessonSubmitPage extends StatefulWidget {
   final listOfStudents;
-  const OneOffLessonSubmitPage({super.key, required this.listOfStudents});
+  final time;
+  const OneOffLessonSubmitPage({super.key, required this.listOfStudents, required this.time});
 
   @override
   State<OneOffLessonSubmitPage> createState() => _OneOffLessonSubmitPageState();
@@ -84,7 +85,8 @@ class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
   
   final body = <String, dynamic>{
   "final": finalVar,
-  "student_name": widget.listOfStudents[x]
+  "student_name": widget.listOfStudents[x],
+  "time": widget.time,
 };
   await pb.collection('one_off_rolls').create(body: body);
 
