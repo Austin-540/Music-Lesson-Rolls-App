@@ -12,7 +12,7 @@ def sendEmail(contents):
         server.login(secrets['my_email'], secrets['my_password'])
         server.sendmail(secrets['my_email'], secrets['reciever_email'], contents)
 
-    #cur.execute("DELETE FROM rolls")
+    cur.execute("DELETE FROM rolls")
     con.commit()
     con.close()
 
@@ -32,21 +32,21 @@ x = cur.fetchall()
 if len(x) == 0:
     con.close()
     quit()
-# try:
+try:
 
-allDetails = []
-allRolls = cur.execute("SELECT * FROM rolls").fetchall()
-for student in allRolls:
-    x = getStudentDetails(student)
-    allDetails.append(x)
+    allDetails = []
+    allRolls = cur.execute("SELECT * FROM rolls").fetchall()
+    for student in allRolls:
+        x = getStudentDetails(student)
+        allDetails.append(x)
 
 
-table = tabulate(allDetails, headers=['Name', 'Homeroom', 'Status'], tablefmt='grid')
+    table = tabulate(allDetails, headers=['Name', 'Homeroom', 'Status'], tablefmt='grid')
 
-now = datetime.now().strftime("%d-%m-%Y, %H:%M")
+    now = datetime.now().strftime("%d-%m-%Y, %H:%M")
 
-sendEmail(f"""Subject: {now}\n
-{table}""")
-# except Exception as e: 
-#     sendEmail(f"""Subject: Error while trying to send email \n
-#     {e}""")
+    sendEmail(f"""Subject: {now}\n
+    {table}""")
+except Exception as e: 
+    sendEmail(f"""Subject: Error while trying to send email \n
+    {e}""")
