@@ -26,6 +26,13 @@ class _NewLessonInListState extends State<NewLessonInList> {
 
   @override
   Widget build(BuildContext context) {
+    String? i12hrTime;
+  if (int.parse(widget.details['time'].substring(0,2)) > 12) {
+      i12hrTime = "${int.parse(widget.details['time'].substring(0,2))-12}:${widget.details['time'].substring(2,4)} PM";
+    } else {
+      i12hrTime = "${widget.details['time'].substring(0,2)}:${widget.details['time'].substring(2,4)} AM";
+    }
+
     var statusColour;
     if (widget.status == "Completed") {
       statusColour = Color.fromARGB(255, 214, 252, 205);;
@@ -46,7 +53,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
             children: [
               Row(
                 children: [
-                  Text("${widget.details['time'].toString().substring(0,2)}:${widget.details['time'].toString().substring(2,4)}"
+                  Text(i12hrTime
                   ,style: TextStyle(fontSize: 35),),
                   Spacer(),
                   Column(
