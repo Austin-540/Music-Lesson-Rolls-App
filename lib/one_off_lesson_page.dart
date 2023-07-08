@@ -25,11 +25,14 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton.icon(label: Text("Select Time"), icon: Icon(Icons.access_time), 
           onPressed: () async {
-           final timeOfDay = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+           final timeOfDay = await showTimePicker(context: context, initialTime: TimeOfDay.now(), );
+           if (timeOfDay != null) {
             setState(() {
-              time = "${timeOfDay!.hour}:${timeOfDay.minute}";
+              time = "${timeOfDay!.hour}:${timeOfDay.minute.toString().padLeft(2, '0')}";
             });
-            })
+            }
+           } 
+            )
         ),
 
         for (int x=0; x<listOfStudents.length; x++) ... [
@@ -54,9 +57,14 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
             }),),
         ),
 
-        ElevatedButton(onPressed:() => Navigator.pushAndRemoveUntil(
-          context, MaterialPageRoute(builder: (context) => OneOffLessonSubmitPage(listOfStudents: listOfStudents,)), 
-        (route) => false), child: Text("Submit Lesson"))
+        ElevatedButton(onPressed:() { 
+          if (time != "Pick lesson time" && listOfStudents.isNotEmpty) {
+          Navigator.pushAndRemoveUntil(
+          context, MaterialPageRoute(builder: (context) => OneOffLessonSubmitPage(listOfStudents: listOfStudents, time: time)), 
+        (route) => false);
+          }
+        
+        }, child: Text("Submit Lesson"))
 
         
       ]),
@@ -66,7 +74,8 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
 
 class OneOffLessonSubmitPage extends StatefulWidget {
   final listOfStudents;
-  const OneOffLessonSubmitPage({super.key, required this.listOfStudents});
+  final time;
+  const OneOffLessonSubmitPage({super.key, required this.listOfStudents, required this.time});
 
   @override
   State<OneOffLessonSubmitPage> createState() => _OneOffLessonSubmitPageState();
@@ -84,7 +93,8 @@ class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
   
   final body = <String, dynamic>{
   "final": finalVar,
-  "student_name": widget.listOfStudents[x]
+  "student_name": widget.listOfStudents[x],
+  "time": widget.time,
 };
   await pb.collection('one_off_rolls').create(body: body);
 
