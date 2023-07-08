@@ -61,7 +61,7 @@ for student in allRolls:
 
 secrets = getSecrets()
 
-con = sqlite3.connect("/Users/austin/Programming/music_lessons_attendance/backend/examples/base/pb_data/data.db")
+con = sqlite3.connect("/home/austin/helloworld/pb_data/data.db")
 cur = con.cursor()
 
 cur.execute("SELECT * FROM rolls WHERE final = true")
@@ -82,19 +82,17 @@ try:
     else:
         already_marked = ""
 
-        table = tabulate(allDetails, headers=['Name', 'Homeroom', 'Status'], tablefmt='grid')
+    table = tabulate(allDetails, headers=['Name', 'Homeroom', 'Status'], tablefmt='grid')
 
-        now = datetime.now().strftime("%d-%m-%Y, %H:%M")
+    now = datetime.now().strftime("%d-%m-%Y, %H:%M")
 
 
-        sendEmail(f"""Subject: {now}\n
+    sendEmail(f"""Subject: {now}\n
         {table}
 
         Lesson start time: {time[0]}
     {already_marked}""")
 
-        sendEmail(f"""Subject: {now}
-        {table}""")
 except Exception as e: 
     sendEmail(f"""Subject: Error while trying to send email \n
     {e}""")
