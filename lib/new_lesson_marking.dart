@@ -46,6 +46,12 @@ class _NewLessonInListState extends State<NewLessonInList> {
                 ],
               ),
               SizedBox(height: 10,),
+              Row(
+                children: [
+                  Spacer(),
+                  Text("Present   Explained   Absent", style: TextStyle(fontSize: 10),),
+                ],
+              ),
               for (int x=0; x<= widget.details['students'].length-1; x++) ... [
                 Row(
                   children: [
