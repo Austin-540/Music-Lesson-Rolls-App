@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     labelText: 'Email',
                   ),
                   onSaved: (value) {
-                    _email = value!;
+                    _email = value!.toLowerCase();
                   },
                 ),
                 SizedBox(height: 20),
