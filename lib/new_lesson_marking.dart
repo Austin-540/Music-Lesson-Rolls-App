@@ -15,14 +15,10 @@ class NewLessonInList extends StatefulWidget {
 class _NewLessonInListState extends State<NewLessonInList> {
  List _rollOptions = [];
 
- @override
- void initState() {
-   super.initState();
-   _rollOptions = List.filled(widget.details['expand']['students'].length, "none");
- }
 
   @override
   Widget build(BuildContext context) {
+    _rollOptions = List.filled(widget.details['expand']['students'].length, "none"); //accepting a slight inefficency in the name of making it way easier to code
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -70,8 +66,8 @@ class _NewLessonInListState extends State<NewLessonInList> {
                 )
               ],
               TextButton(onPressed: () => 
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions,))), 
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions,)), (route) => false), 
                 child: Text("Submit"))
             ],
           ),
