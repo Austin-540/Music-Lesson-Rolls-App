@@ -4,9 +4,9 @@ import 'globals.dart';
 import 'package:flutter/material.dart';
 
 class SubmittedPage extends StatefulWidget {
-  const SubmittedPage({super.key, required this.lessonDetails, required this.presentStudents});
+  const SubmittedPage({super.key, required this.lessonDetails, required this.statuses});
   final lessonDetails;
-  final presentStudents;
+  final statuses;
 
   @override
   State<SubmittedPage> createState() => _SubmittedPageState();
@@ -14,18 +14,18 @@ class SubmittedPage extends StatefulWidget {
 
 class _SubmittedPageState extends State<SubmittedPage> {
   Future submitRoll() async {
-      for (int x=0; x< widget.presentStudents.length; x++) {
+      for (int x=0; x< widget.lessonDetails['students'].length; x++) {
     bool? finalVar;
-  if (x != widget.presentStudents.length-1) {
+  if (x != widget.lessonDetails['students'].length-1) {
   finalVar = false;
   } else {
   finalVar = true;
   }
   
   final body = <String, dynamic>{
-  "students": widget.presentStudents[x]['id'],
+  "students": widget.lessonDetails['students'][x],
   "lesson": widget.lessonDetails['id'],
-  "present": true,
+  "present": widget.statuses[x],
   "final": finalVar
 };
   await pb.collection('rolls').create(body: body);

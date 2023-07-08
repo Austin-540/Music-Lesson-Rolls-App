@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'new_lesson_marking.dart';
 import 'dart:io';
 
 import 'package:intl/intl.dart';
@@ -159,11 +159,12 @@ class ListOfLessons extends StatelessWidget {
     String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
 
     
-
-  if (lessonList[x]['date_last_marked'] == "${now.day}_${now.month}") {
+  if (lessonList[x]['weekday'] != DateFormat('EEEE').format(DateTime.now())) {
+    return "...";
+  } else if (lessonList[x]['date_last_marked'] == "${now.day}_${now.month}") {
       return "Completed";
     } else {
-      if (int.parse(formattedNow) <= int.parse(lessonList[x]["time"])){
+      if (int.parse(formattedNow) -10 <= int.parse(lessonList[x]["time"])){
       return "Upcoming";
     } else {
       return "Overdue";
@@ -177,13 +178,9 @@ class ListOfLessons extends StatelessWidget {
     return Column(children: [
       for (int x=0; x<= lessonList.length-1; x++) ... [
         getLessonStatus(x) == "Upcoming" || getLessonStatus(x) == "Overdue"?
-        LessonDetailsInList(
-          instrument: lessonList[x]["instrument"], 
-          time: lessonList[x]["time"], 
-          lessonDetails: lessonList[x],
-          numberOfStudents: lessonList[x]["students"].length.toString(),
-          status: getLessonStatus(x),
-          showTeacher: false,
+        NewLessonInList(
+          details: lessonList[x], 
+          status: getLessonStatus(x)
           ): const SizedBox()
       ]
     ]);
@@ -191,13 +188,9 @@ class ListOfLessons extends StatelessWidget {
     } else {
       return Column(children: [
         for (int x=0; x<= lessonList.length-1; x++) ... [
-        LessonDetailsInList(
-          instrument: lessonList[x]["instrument"], 
-          time: lessonList[x]["time"], 
-          lessonDetails: lessonList[x],
-          numberOfStudents: lessonList[x]["students"].length.toString(),
-          status: getLessonStatus(x),
-          showTeacher: showTeacher,
+        NewLessonInList(
+          details: lessonList[x], 
+          status: getLessonStatus(x)
           )
 
       ]
