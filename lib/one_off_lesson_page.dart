@@ -25,11 +25,14 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton.icon(label: Text("Select Time"), icon: Icon(Icons.access_time), 
           onPressed: () async {
-           final timeOfDay = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+           final timeOfDay = await showTimePicker(context: context, initialTime: TimeOfDay.now(), );
+           if (timeOfDay != null) {
             setState(() {
               time = "${timeOfDay!.hour}:${timeOfDay.minute.toString().padLeft(2, '0')}";
             });
-            })
+            }
+           } 
+            )
         ),
 
         for (int x=0; x<listOfStudents.length; x++) ... [
@@ -54,9 +57,14 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
             }),),
         ),
 
-        ElevatedButton(onPressed:() => Navigator.pushAndRemoveUntil(
+        ElevatedButton(onPressed:() { 
+          if (time != "Pick lesson time" && listOfStudents.isNotEmpty) {
+          Navigator.pushAndRemoveUntil(
           context, MaterialPageRoute(builder: (context) => OneOffLessonSubmitPage(listOfStudents: listOfStudents, time: time)), 
-        (route) => false), child: Text("Submit Lesson"))
+        (route) => false);
+          }
+        
+        }, child: Text("Submit Lesson"))
 
         
       ]),
