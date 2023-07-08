@@ -89,7 +89,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
                   ],
                 )
               ],
-              TextButton(onPressed: () => 
+              OutlinedButton(onPressed: () => 
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions)), (route) => false), 
                 child: Text("Submit"))
             ],
