@@ -64,7 +64,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
                     children: [
                     Text(widget.details['instrument']),
                     Text(widget.status),
-                    widget.details['students'].length == "1"?
+                    widget.details['students'].length == 1?
                       Text("${widget.details['students'].length} Student"):
                       Text("${widget.details['students'].length} Students"),],),
                 ],
