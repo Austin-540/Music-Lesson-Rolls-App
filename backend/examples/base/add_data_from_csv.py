@@ -32,8 +32,8 @@ def uploadLesson(listOfDetails):
     for student in students_in_lesson:
         for x in range(len(all_students)):
             if all_students[x].name == student:
-                print(all_students[x].collection_id['name'])
-                student_db_IDs.append(all_students[x].collection_id['id'])
+                print(all_students[x].name)
+                student_db_IDs.append(all_students[x].id)
     
     client.collection('lessons').create(
         {
@@ -68,3 +68,7 @@ teacher = data[1][0]
 date = data[2][0]
 for i in range(4, len(data)):
     uploadLesson(data[i])
+
+cur.execute("DELETE FROM csv_files")
+con.commit()
+con.close()
