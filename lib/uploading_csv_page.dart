@@ -9,11 +9,19 @@ class UploadingCSVPage extends StatefulWidget {
 }
 
 class _UploadingCSVPageState extends State<UploadingCSVPage> {
+  XFile? file;
   Future pickFile() async {
-    
-final XFile? file =
-    await openFile();
-    print(file);
+    file = await openFile();
+    print(file!.name);
+    if (file!.name.endsWith("csv")) {
+      setState(() {});
+    } else {
+      file = null;
+      showDialog(context: context, builder: (context) => Dialog(child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text("Wrong file type. CSV file required."),
+      ),));
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -26,12 +34,12 @@ final XFile? file =
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-              child: ElevatedButton.icon(
+              child: file == null? ElevatedButton.icon(
                   onPressed: () {
                     pickFile();
                   },
                   icon: Icon(Icons.upload_file),
-                  label: Text("Select file"))),
+                  label: Text("Select file")): Text(file!.name, style: TextStyle(fontSize: 20),)),
         )
       ]),
     );
