@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:file_selector/file_selector.dart';
+import 'globals.dart';
+import 'package:http/http.dart' as http;
 
 class UploadingCSVPage extends StatefulWidget {
   const UploadingCSVPage({super.key});
@@ -63,8 +65,31 @@ class UploadingLoadingPage extends StatefulWidget {
 }
 
 class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
+
+Future uploadFile() async {
+  final bytesFile = await widget.file.readAsBytes();
+final record = await pb.collection('csv_files').create(
+  files: [http.MultipartFile.fromBytes(
+    "field", bytesFile, filename: "csv_file.csv"
+    )]);
+}
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(title: Text("Uploading"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
+      body: FutureBuilder(
+        future: uploadFile(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return Center(child: Icon(Icons.check),);
+          } else if (snapshot.hasError) {
+            return Center(child: Icon(Icons.sms_failed),);
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+    );
   }
 }
