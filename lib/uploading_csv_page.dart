@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:file_selector/file_selector.dart';
 
 class UploadingCSVPage extends StatefulWidget {
   const UploadingCSVPage({super.key});
@@ -8,6 +9,12 @@ class UploadingCSVPage extends StatefulWidget {
 }
 
 class _UploadingCSVPageState extends State<UploadingCSVPage> {
+  Future pickFile() async {
+    
+final XFile? file =
+    await openFile();
+    print(file);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +27,9 @@ class _UploadingCSVPageState extends State<UploadingCSVPage> {
           padding: const EdgeInsets.all(8.0),
           child: Center(
               child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    pickFile();
+                  },
                   icon: Icon(Icons.upload_file),
                   label: Text("Select file"))),
         )
