@@ -28,6 +28,13 @@ def getLessonTime(student):
     cur.execute(f"SELECT time FROM lessons WHERE id = '{student[2]}'")
     time = cur.fetchone()
 
+    weekday = cur.execute(f"SELECT weekday FROM lessons WHERE id = '{student[2]}'").fetchone()
+    if weekday[0] != datetime.now().strftime("%A"):
+        cur.execute("DELETE FROM rolls")
+        con.commit()
+        con.close()
+        quit()
+
     date_last_marked = cur.execute(f"SELECT date_last_marked FROM lessons WHERE id = '{student[2]}'").fetchone()
     print(date_last_marked)
     print(date.today().strftime("%d_%m"))
