@@ -53,7 +53,7 @@ for i in range(len(students_already_in_DB_list)):
     list_of_names_in_DB.append(students_already_in_DB_list[i].name)
 print(list_of_names_in_DB)
 
-con = sqlite3.connect('/Users/austin/Programming/music_lessons_attendance/backend/examples/base/pb_data/data.db')
+con = sqlite3.connect('/home/austin/helloworld/pb_data/data.db')
 cur = con.cursor()
 
 csv_file = cur.execute("SELECT csv FROM csv_files").fetchone()[0]
