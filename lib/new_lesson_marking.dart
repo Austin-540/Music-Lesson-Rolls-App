@@ -21,7 +21,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
  @override
  void initState() {
    super.initState();
-   _rollOptions = List.filled(50, "none");
+   _rollOptions = List.filled(20, "none");
  }
 
 
