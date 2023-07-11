@@ -39,6 +39,7 @@ dependencies:
   flutter_secure_storage: ^8.0.0
   restart_app: ^1.2.1
   intl: ^0.18.1
+  file_selector: ^1.0.0
 
 dev_dependencies:
   flutter_test:
