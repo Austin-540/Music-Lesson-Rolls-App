@@ -39,9 +39,32 @@ class _UploadingCSVPageState extends State<UploadingCSVPage> {
                     pickFile();
                   },
                   icon: Icon(Icons.upload_file),
-                  label: Text("Select file")): Text(file!.name, style: TextStyle(fontSize: 20),)),
+                  label: Text("Select file")): Column(
+                    children: [
+                      Text(file!.name, style: TextStyle(fontSize: 20),),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ElevatedButton.icon(onPressed: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UploadingLoadingPage(file: file)), (route) => false);}, icon: Icon(Icons.upload), label: Text("Upload")),
+                      )
+                    ],
+                  )),
         )
       ]),
     );
+  }
+}
+
+class UploadingLoadingPage extends StatefulWidget {
+  final file;
+  const UploadingLoadingPage({super.key, required this.file});
+
+  @override
+  State<UploadingLoadingPage> createState() => _UploadingLoadingPageState();
+}
+
+class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
