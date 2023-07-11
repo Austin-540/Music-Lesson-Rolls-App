@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:file_selector/file_selector.dart';
+import 'package:music_lessons_attendance/home_page.dart';
 import 'globals.dart';
 import 'package:http/http.dart' as http;
 
@@ -82,7 +83,19 @@ final record = await pb.collection('csv_files').create(
         future: uploadFile(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            return Center(child: Icon(Icons.check),);
+            return Center(child: Column(
+              children: [
+                Icon(Icons.check),
+              Text("The file has been recieved by the server. If the formatting is incorrect it will not add the lessons correctly. Please double check it worked at app.shcmusiclessonrolls.com/_/", textAlign: TextAlign.center,),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Page")));}, child: Text("Home Page")),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => UploadingCSVPage()));}, child: Text("Add Another")),
+              )],
+            ),);
           } else if (snapshot.hasError) {
             return Center(child: Icon(Icons.sms_failed),);
           } else {
