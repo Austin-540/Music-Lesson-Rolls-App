@@ -67,11 +67,11 @@ class UploadingLoadingPage extends StatefulWidget {
 class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
 
 Future uploadFile() async {
-  final bytesFile = await widget.file.readAsBytes();
+  final stringFile = await widget.file.readAsString();
 final record = await pb.collection('csv_files').create(
-  files: [http.MultipartFile.fromBytes(
-    "field", bytesFile, filename: "csv_file.csv"
-    )]);
+  body: {"csv": stringFile},);
+
+  return "";
 }
 
   @override
