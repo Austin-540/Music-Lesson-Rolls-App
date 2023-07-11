@@ -115,6 +115,13 @@ func main() {
 			if err := cmd.Run(); err != nil {
 				fmt.Println("could not run command: ", err)
 			}
+		} else if e.Model.TableName() == "csv_files" {
+			cmd := exec.Command("python", "/home/austin/helloworld/add_data_from_csv.py")
+			cmd.Stdout = os.Stdout
+
+			if err := cmd.Run(); err != nil {
+				fmt.Println("could not run command: ", err)
+			}
 		}
 
 		return nil
