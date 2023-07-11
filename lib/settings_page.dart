@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'globals.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'uploading_csv_page.dart';
 
 class SettingsPage extends StatelessWidget {
   Future deleteSavedData() async {
@@ -53,7 +54,17 @@ Permission is granted to anyone to use this software for any purpose, including 
 showDialog(context: context, builder: (context) => Dialog(child: Padding(
   padding: const EdgeInsets.all(20.0),
   child:   Text("In memory of Thomas Park(he didn't die but asked to be remembered)", style: TextStyle(fontSize: 20),),
-),))),)
+),))),),
+
+Padding(
+  padding: const EdgeInsets.all(16.0),
+  child:   Column(
+    children: [
+      ElevatedButton.icon(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => UploadingCSVPage()));}, icon: Icon(Icons.add), label: Text("Add Lessons"),),
+      Center(child: Text("Upload a CSV file to add lessons. (Desktop recommended, CSV must be formatted correctly)", textAlign: TextAlign.center,))
+    ],
+  ),
+)
       ]),
     );
   }
