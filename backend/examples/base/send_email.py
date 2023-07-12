@@ -52,7 +52,7 @@ cur = con.cursor()
 
 cur.execute("SELECT * FROM rolls WHERE final = true")
 x = cur.fetchall()
-if len(x) == 0:
+if len(x) == 0: #look for a student where 'final' field is true, otherwise wait until there is one
     con.close()
     print("quitting - no final found")
     quit()
@@ -66,7 +66,7 @@ for student in allRolls:
 	allDetails.append(x)
 	time = getLessonTime(student)
 
-secrets = getSecrets()
+secrets = getSecrets() #secrets from secrets.py file
 
 con = sqlite3.connect("/home/austin/helloworld/pb_data/data.db")
 cur = con.cursor()

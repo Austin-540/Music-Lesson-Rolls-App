@@ -14,9 +14,9 @@ class UploadingCSVPage extends StatefulWidget {
 class _UploadingCSVPageState extends State<UploadingCSVPage> {
   XFile? file;
   Future pickFile() async {
-    file = await openFile();
+    file = await openFile(); //opens the native file picker
     print(file!.name);
-    if (file!.name.endsWith("csv")) {
+    if (file!.name.endsWith("csv")) { //if file is CSV update UI, otherwise show an alert
       setState(() {});
     } else {
       file = null;
@@ -37,12 +37,15 @@ class _UploadingCSVPageState extends State<UploadingCSVPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-              child: file == null? ElevatedButton.icon(
+              child: file == null? //if file hasn't been picked yet
+              ElevatedButton.icon(
                   onPressed: () {
                     pickFile();
                   },
                   icon: Icon(Icons.upload_file),
-                  label: Text("Select file")): Column(
+                  label: Text("Select file")): 
+                  //once file has been picked
+                  Column(
                     children: [
                       Text(file!.name, style: TextStyle(fontSize: 20),),
                       Padding(
@@ -68,8 +71,8 @@ class UploadingLoadingPage extends StatefulWidget {
 class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
 
 Future uploadFile() async {
-  final stringFile = await widget.file.readAsString();
-final record = await pb.collection('csv_files').create(
+  final stringFile = await widget.file.readAsString(); //read the file as plaintext
+final record = await pb.collection('csv_files').create( //then submit the file as a string
   body: {"csv": stringFile},);
 
   return "";
@@ -79,7 +82,7 @@ final record = await pb.collection('csv_files').create(
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Uploading"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
-      body: FutureBuilder(
+      body: FutureBuilder(//wait until the file has been added to DB
         future: uploadFile(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
@@ -87,6 +90,7 @@ final record = await pb.collection('csv_files').create(
               children: [
                 Icon(Icons.check),
               Text("The file has been recieved by the server. If the formatting is incorrect it will not add the lessons correctly. Please double check it worked at app.shcmusiclessonrolls.com/_/", textAlign: TextAlign.center,),
+              //my knowledge of Go is not good enough to check in the main.go file if the formatting is correct
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Page")));}, child: Text("Home Page")),

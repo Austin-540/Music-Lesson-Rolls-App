@@ -6,7 +6,7 @@ import 'uploading_csv_page.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class SettingsPage extends StatelessWidget {
-  Future deleteSavedData() async {
+  Future deleteSavedData() async { //self explanatory
     final storage = new FlutterSecureStorage();
     await storage.deleteAll();
   }
@@ -18,7 +18,7 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary, //defined in main.dart
       ),
       body: Column(
         children: [
@@ -26,7 +26,8 @@ class SettingsPage extends StatelessWidget {
         Center(
           child: ElevatedButton.icon(
             onPressed: () { 
-              deleteSavedData(); Restart.restartApp();
+              deleteSavedData(); 
+              Restart.restartApp(); //sends you back to the login screen and resets all variables
               }, 
               icon: Icon(Icons.warning_amber), 
               label: Text("Delete All Saved Data")
@@ -34,11 +35,12 @@ class SettingsPage extends StatelessWidget {
         ),
         Center(child: Padding(
           padding: const EdgeInsets.all(25.0),
-          child: Text("This button deletes your saved email and password. Use it if you need to log out. The app will restart when it is pressed.", textAlign: TextAlign.center,),
+          child: Text("This button deletes your saved email and password. Use it if you need to log out. The app will restart when it is pressed.", textAlign: TextAlign.center,), //explanation of what button does
         )),
 
         Center(child: ElevatedButton.icon(icon: Icon(Icons.info), label: Text("App Info"), 
-        onPressed: () => showAboutDialog(context: context, applicationIcon: Icon(Icons.class_outlined), applicationVersion: version, 
+        onPressed: () => showAboutDialog(//shows the licences page also - to comply with MIT licenses etc
+          context: context, applicationIcon: Icon(Icons.class_outlined), applicationVersion: version, 
         applicationLegalese: """Created by Austin-540. Check out the source code on GitHub if you want.  
         
 Copyright (c) 2023 Austin-540
@@ -54,10 +56,10 @@ Permission is granted to anyone to use this software for any purpose, including 
 3. This notice may not be removed or altered from any distribution."""), onLongPress: () => 
 showDialog(context: context, builder: (context) => Dialog(child: Padding(
   padding: const EdgeInsets.all(20.0),
-  child:   Text("In memory of Thomas Park(he didn't die but asked to be remembered)", style: TextStyle(fontSize: 20),),
+  child:   Text("In memory of Thomas Park(he didn't die but asked to be remembered)", style: TextStyle(fontSize: 20),), //easter egg
 ),))),),
 
-kIsWeb?
+kIsWeb? //hides this button unless accessing app from the website
 Padding(
   padding: const EdgeInsets.all(16.0),
   child:   Column(

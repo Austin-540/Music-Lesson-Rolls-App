@@ -11,10 +11,10 @@ import 'settings_page.dart';
 
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MyApp()); 
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget {//the root widget of the app
   const MyApp({super.key});
 
   @override
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 134, 193,
                 234)), //"Oxford Blue" according to the communications part of adminitstration
-        useMaterial3: true,
+        useMaterial3: true, //Makes the app look more modern
       ),
       home: const MyHomePage(title: 'Home Page'),
     );

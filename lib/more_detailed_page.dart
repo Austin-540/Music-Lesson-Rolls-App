@@ -22,6 +22,7 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
       expand: "students, teacher"
 );
     print(lessons.toString());
+    //tradeoff of not specifying weekday here: will take longer if you're only looking at todays lessons, but you will only need to see one loading screen if you're looking at a different days lessons
     return jsonDecode(lessons.toString());
   }
 
@@ -29,7 +30,7 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("More Options",), backgroundColor: Theme.of(context).colorScheme.inversePrimary),
-      body: ListView(
+      body: ListView( //allow scrolling
         children: [
           Center(
             child: Padding(
@@ -44,7 +45,7 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
           ),
 
           FutureBuilder(
-            future: getLessons(),
+            future: getLessons(), 
             initialData: null,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
@@ -57,7 +58,7 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
               } else {
                 return Center(child: Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(), //loading icon
                 ));
               }
             },
@@ -78,13 +79,13 @@ class ListOfLessonsWithMoreDetails extends StatefulWidget {
 }
 
 class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDetails> {
-  String weekday =  DateFormat('EEEE').format(DateTime.now());
+  String weekday =  DateFormat('EEEE').format(DateTime.now()); // eg "Monday", by default show current day
   @override
   Widget build(BuildContext context) {
     var newListOfLessons = [];
     for (int x = 0; x<= widget.lessonsDetails.length-1; x++) {
       if (widget.lessonsDetails[x]['weekday'] == weekday) {
-        newListOfLessons.add(widget.lessonsDetails[x]);
+        newListOfLessons.add(widget.lessonsDetails[x]); //only show lessons of the day currently selected
       }
     }
 
@@ -99,7 +100,7 @@ class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDeta
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: PopupMenuButton(
-              onSelected: (item) => setState(() {
+              onSelected: (item) => setState(() { //refresh UI
                 print(item);
                 weekday = item;
                 print("weekday = $weekday");
@@ -117,7 +118,7 @@ class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDeta
           ),
         ],
       ), 
-      ListOfLessons(lessonList: newListOfLessons, showAll: true, showTeacher: true,)
+      ListOfLessons(lessonList: newListOfLessons, showAll: true, showTeacher: true,) //reuse other widget
     ]),);
   }
 }

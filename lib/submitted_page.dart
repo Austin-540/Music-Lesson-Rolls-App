@@ -3,7 +3,7 @@ import 'package:music_lessons_attendance/home_page.dart';
 import 'globals.dart';
 import 'package:flutter/material.dart';
 
-class SubmittedPage extends StatefulWidget {
+class SubmittedPage extends StatefulWidget { //used when submitting a regular lesson (not one off)
   const SubmittedPage({super.key, required this.lessonDetails, required this.statuses});
   final lessonDetails;
   final statuses;
@@ -16,7 +16,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
   Future submitRoll() async {
       for (int x=0; x< widget.lessonDetails['students'].length; x++) {
     bool? finalVar;
-  if (x != widget.lessonDetails['students'].length-1) {
+  if (x != widget.lessonDetails['students'].length-1) { //is this the final student?
   finalVar = false;
   } else {
   finalVar = true;
@@ -29,7 +29,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
   "final": finalVar
 };
   await pb.collection('rolls').create(body: body);
-  await pb.collection('lessons').update(widget.lessonDetails['id'], body: {"date_last_marked": "${DateTime.now().day}_${DateTime.now().month}"});
+  await pb.collection('lessons').update(widget.lessonDetails['id'], body: {"date_last_marked": "${DateTime.now().day}_${DateTime.now().month}"}); //submit that student to PB
 
   }
 
@@ -41,7 +41,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Submitting"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
-      body: FutureBuilder(
+      body: FutureBuilder( //wait until roll is finished submitting before showing tick
         future: submitRoll(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {

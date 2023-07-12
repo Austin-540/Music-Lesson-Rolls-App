@@ -39,7 +39,7 @@ Future logIn() async {
     }
 
     final authData = await pb.collection('users').authWithPassword(
-  email, password!,
+  email, password!, // the ! will cause the try block to fail if there is no saved password, pushing to login screen
     );
 
 
@@ -47,22 +47,23 @@ Future logIn() async {
     final x = jsonDecode(authData.toString());
     loggedInTeacher = x["record"]["id"];
 
-      final y = await http.get(Uri.parse("https://austin-540.github.io/Database-Stuff/"));
+      final y = await http.get(Uri.parse("https://austin-540.github.io/Database-Stuff/")); 
+      //Allows me to set a custom error message if something breaks
       if (y.body == "OK\n"){
-      return x;
+      return x; //finish the FutureBuilder
       } else {
-        showDialog(context: context, builder: (context) => AlertDialog(title: Text(y.body),));
+        showDialog(context: context, builder: (context) => AlertDialog(title: Text(y.body),)); //show error message
       }
 
 
-    } on SocketException {
+    } on SocketException { //sometimes occours when PB cant be reached, but usually its ClientException
       showDialog(context: context, builder: (BuildContext context) {
         return const AlertDialog(title: Text("Internet error"),
         );
       });
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
 
-    } on ClientException {
+    } on ClientException { //Occours when PB can't be reached, or PB sends an error response
       showDialog(context: context, builder: (BuildContext context) {
         return const AlertDialog(title: Text("Internet Connection Error"),
         );
@@ -89,6 +90,9 @@ Future getLessons() async {
         for (int i = 0; i<= x.length-1; i++) {
           if (loggedInTeacher == x[i]['teacher'] && x[i]['date_last_marked'] != "${DateTime.now().day}_${DateTime.now().month}") {
             y.add(x[i]);
+            //loggedInTeacher check is no longer required - handled in PB permissions (keeping in case change PB permissions)
+            //Date last marked is used to check wether the roll is overdue
+            //eg 12 july => date_last_marked = 12_7
           }
           
         
@@ -104,7 +108,7 @@ Future getLessons() async {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false, //don't show a back button
         actions: [
           IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreDetailedLessonsPage())), icon: const Icon(Icons.more_horiz)),
           IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder:(context) => const SettingsPage())), icon: const Icon(Icons.settings)),
@@ -112,7 +116,7 @@ Future getLessons() async {
         ],
       ),
       body: Center(
-        child: FutureBuilder(
+        child: FutureBuilder( //future builder for "Welcome $name"
           future: logIn(),
           initialData: null,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -122,15 +126,15 @@ Future getLessons() async {
                   children: [
                     Text("Welcome ${snapshot.data['record']['first_name']}", style: const TextStyle(fontSize: 30),),
 
-                    FutureBuilder(
+                    FutureBuilder( // future builder for lessons
                       future: getLessons(),
                       initialData: null,
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
+                        if (snapshot.hasData) { //once getLessons() has completed:
                           return ListOfLessons(lessonList: snapshot.data, showAll: false, showTeacher: false,);
-                        } else if (snapshot.hasError) {
+                        } else if (snapshot.hasError) { //if getLessons() didn't work:
                           return const Text("error");
-                        } else {
+                        } else { //while waiting for getLessons():
                           return const Center(child: CircularProgressIndicator());
                         }
                       },
@@ -156,15 +160,15 @@ class ListOfLessons extends StatelessWidget {
 
   String getLessonStatus(x) {
     DateTime now = DateTime.now();
-    String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0");
+    String formattedNow = "${now.hour}".padLeft(2) + "${now.minute}" .padLeft(2, "0"); //convert the time into the same format as what the DB uses
 
     
-  if (lessonList[x]['weekday'] != DateFormat('EEEE').format(DateTime.now())) {
+  if (lessonList[x]['weekday'] != DateFormat('EEEE').format(DateTime.now())) { // if looking at a lesson that isn't today
     return "...";
   } else if (lessonList[x]['date_last_marked'] == "${now.day}_${now.month}") {
       return "Completed";
     } else {
-      if (int.parse(formattedNow) -10 <= int.parse(lessonList[x]["time"])){
+      if (int.parse(formattedNow) -10 <= int.parse(lessonList[x]["time"])){ //gives a 10 minute margin before saying overdue
       return "Upcoming";
     } else {
       return "Overdue";
@@ -177,7 +181,7 @@ class ListOfLessons extends StatelessWidget {
     if (showAll == false) {
     return Column(children: [
       for (int x=0; x<= lessonList.length-1; x++) ... [
-        getLessonStatus(x) == "Upcoming" || getLessonStatus(x) == "Overdue"?
+        getLessonStatus(x) == "Upcoming" || getLessonStatus(x) == "Overdue"? //upcoming or overdue (hiding completed)
         NewLessonInList(
           details: lessonList[x], 
           status: getLessonStatus(x)
@@ -195,7 +199,7 @@ class ListOfLessons extends StatelessWidget {
 
       ]
       ]);
-    }} else {
+    }} else { //if lessonList is empty, show a message
       return const Padding(
         padding: EdgeInsets.all(20.0),
         child: Card(child: Padding(
@@ -208,7 +212,7 @@ class ListOfLessons extends StatelessWidget {
 }
 
 
-class LessonDetailsInList extends StatefulWidget {
+class LessonDetailsInList extends StatefulWidget { //no longer used, replaced by NewLessonInList
   const LessonDetailsInList({Key? key, required this.instrument, required this.time, required this.lessonDetails, required this.numberOfStudents, required this.status, required this.showTeacher}) : super(key: key);
   final String instrument;
   final String time;

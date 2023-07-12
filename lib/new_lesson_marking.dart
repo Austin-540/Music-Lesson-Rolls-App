@@ -21,19 +21,22 @@ class _NewLessonInListState extends State<NewLessonInList> {
  @override
  void initState() {
    super.initState();
-   _rollOptions = List.filled(20, "none");
+   _rollOptions = List.filled(20, "none"); //makes max number of students in a lesson 20
  }
 
 
   @override
   Widget build(BuildContext context) {
     String? i12hrTime;
+
+    //convert computer readable time into 12hr time for humans
   if (int.parse(widget.details['time'].substring(0,2)) > 12) {
       i12hrTime = "${int.parse(widget.details['time'].substring(0,2))-12}:${widget.details['time'].substring(2,4)} PM";
     } else {
-      i12hrTime = "${widget.details['time'].substring(0,2)}:${widget.details['time'].substring(2,4)} AM";
+      i12hrTime = "${widget.details['time'].substring(0,2)}:${widget.details['time'].substring(2,4)} AM"; 
     }
 
+//get colour for the Card to be
     var statusColour;
     if (widget.details['weekday'] == DateFormat('EEEE').format(DateTime.now())){
     if (widget.status == "Completed") {
@@ -41,7 +44,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
     } else if (widget.status == "Overdue") {
       statusColour = Color.fromARGB(255, 255, 182, 182);
     } else {
-      statusColour = null;
+      statusColour = null; //uses default colour
     }
     }
   
@@ -60,7 +63,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
                   ,style: TextStyle(fontSize: 35),),
                   Spacer(),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end, //aligned to the right
                     children: [
                     Text(widget.details['instrument']),
                     Text(widget.status),
@@ -76,7 +79,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
                   Text("Present   Explained   Absent", style: TextStyle(fontSize: 10),),
                 ],
               ),
-              for (int x=0; x<= widget.details['students'].length-1; x++) ... [
+              for (int x=0; x<= widget.details['students'].length-1; x++) ... [ //for each student in the lesson
                 Row(
                   children: [
                     Text(widget.details['expand']['students'][x]['name']),
@@ -100,7 +103,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
                 )
               ],
               OutlinedButton(onPressed: () => 
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions)), (route) => false), 
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions)), (route) => false),
                 child: Text("Submit"))
             ],
           ),

@@ -47,7 +47,7 @@ def uploadLesson(listOfDetails):
 
 
 students_already_in_DB_obj = client.collection('students').get_full_list()
-students_already_in_DB_list = list(students_already_in_DB_obj)
+students_already_in_DB_list = list(students_already_in_DB_obj) #convert SQL object to list
 list_of_names_in_DB = []
 for i in range(len(students_already_in_DB_list)):
     list_of_names_in_DB.append(students_already_in_DB_list[i].name)
@@ -58,10 +58,10 @@ cur = con.cursor()
 
 csv_file = cur.execute("SELECT csv FROM csv_files").fetchone()[0]
 
-data_lines = csv_file.split('\r\n')
+data_lines = csv_file.split('\r\n') #for some reason PB shows it up with \r\n instead of just \n
 data=[]
 for i in range(len(data_lines)):
-    data.append(data_lines[i].split(','))
+    data.append(data_lines[i].split(',')) #converting csv plaintext into list of lists
 
 instrument = data[0][0]
 teacher = data[1][0]
@@ -69,6 +69,6 @@ date = data[2][0]
 for i in range(4, len(data)):
     uploadLesson(data[i])
 
-cur.execute("DELETE FROM csv_files")
+cur.execute("DELETE FROM csv_files") #delete what was just uploaded
 con.commit()
 con.close()

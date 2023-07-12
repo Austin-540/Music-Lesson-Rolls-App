@@ -26,16 +26,16 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
           child: ElevatedButton.icon(label: Text("Select Time"), icon: Icon(Icons.access_time), 
           onPressed: () async {
            final timeOfDay = await showTimePicker(context: context, initialTime: TimeOfDay.now(), );
-           if (timeOfDay != null) {
+           if (timeOfDay != null) { //if it is null keep it as "Pick lesson time"
             setState(() {
-              time = "${timeOfDay!.hour}:${timeOfDay.minute.toString().padLeft(2, '0')}";
+              time = "${timeOfDay!.hour}:${timeOfDay.minute.toString().padLeft(2, '0')}";//convert to string
             });
             }
            } 
             )
         ),
 
-        for (int x=0; x<listOfStudents.length; x++) ... [
+        for (int x=0; x<listOfStudents.length; x++) ... [ //For each student have a card with their name and a button to remove them
           Card(child: Row(
             children: [
               Spacer(),
@@ -52,13 +52,13 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
           padding: const EdgeInsets.all(15.0),
           child: TextField(
             controller: TextEditingController(),
-            onSubmitted: (value) => setState(() {
+            onSubmitted: (value) => setState(() { //when enter is pressed, add the student to the list
               listOfStudents.add(value);
             }),),
         ),
 
         ElevatedButton(onPressed:() { 
-          if (time != "Pick lesson time" && listOfStudents.isNotEmpty) {
+          if (time != "Pick lesson time" && listOfStudents.isNotEmpty) { //if both bits of info have been entered
           Navigator.pushAndRemoveUntil(
           context, MaterialPageRoute(builder: (context) => OneOffLessonSubmitPage(listOfStudents: listOfStudents, time: time)), 
         (route) => false);
@@ -95,11 +95,11 @@ class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
   "final": finalVar,
   "student_name": widget.listOfStudents[x],
   "time": widget.time,
-};
-  await pb.collection('one_off_rolls').create(body: body);
+}; 
+  await pb.collection('one_off_rolls').create(body: body); //create a record with each students' info
 
   }
-    return "Success";
+    return "Success"; //finish FutureBuilder
   }
   
 
@@ -114,7 +114,7 @@ class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return Column(children: [
-              Center(child: Icon(Icons.check, size: 250,)),
+              Center(child: Icon(Icons.check, size: 250,)), //show a very big tick icon
               ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Page")), (route) => false), child: Text("Home Page"))
             ],);
           } else if (snapshot.hasError) {
