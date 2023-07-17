@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:music_lessons_attendance/submitted_page.dart';
 
-import 'globals.dart';
 import 'package:flutter/material.dart';
 
 class NewLessonInList extends StatefulWidget {
@@ -40,9 +39,9 @@ class _NewLessonInListState extends State<NewLessonInList> {
     var statusColour;
     if (widget.details['weekday'] == DateFormat('EEEE').format(DateTime.now())){
     if (widget.status == "Completed") {
-      statusColour = Color.fromARGB(255, 214, 252, 205);;
+      statusColour = const Color.fromARGB(255, 214, 252, 205);
     } else if (widget.status == "Overdue") {
-      statusColour = Color.fromARGB(255, 255, 182, 182);
+      statusColour = const Color.fromARGB(255, 255, 182, 182);
     } else {
       statusColour = null; //uses default colour
     }
@@ -60,8 +59,8 @@ class _NewLessonInListState extends State<NewLessonInList> {
               Row(
                 children: [
                   Text(i12hrTime
-                  ,style: TextStyle(fontSize: 35),),
-                  Spacer(),
+                  ,style: const TextStyle(fontSize: 35),),
+                  const Spacer(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end, //aligned to the right
                     children: [
@@ -72,8 +71,8 @@ class _NewLessonInListState extends State<NewLessonInList> {
                       Text("${widget.details['students'].length} Students"),],),
                 ],
               ),
-              SizedBox(height: 10,),
-              Row(
+              const SizedBox(height: 10,),
+              const Row(
                 children: [
                   Spacer(),
                   Text("Present   Explained   Absent", style: TextStyle(fontSize: 10),),
@@ -83,7 +82,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
                 Row(
                   children: [
                     Text(widget.details['expand']['students'][x]['name']),
-                    Spacer(),
+                    const Spacer(),
                     Radio(value: "Present", groupValue: _rollOptions[x], 
                     activeColor: Colors.green,
                     onChanged: (value) => setState(() {
@@ -104,7 +103,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
               ],
               OutlinedButton(onPressed: () => 
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions)), (route) => false),
-                child: Text("Submit"))
+                child: const Text("Submit"))
             ],
           ),
         )

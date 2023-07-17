@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class SettingsPage extends StatelessWidget {
   Future deleteSavedData() async { //self explanatory
-    final storage = new FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     await storage.deleteAll();
   }
 
@@ -17,30 +17,30 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: const Text("Settings"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary, //defined in main.dart
       ),
       body: Column(
         children: [
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
         Center(
           child: ElevatedButton.icon(
             onPressed: () { 
               deleteSavedData(); 
               Restart.restartApp(); //sends you back to the login screen and resets all variables
               }, 
-              icon: Icon(Icons.warning_amber), 
-              label: Text("Delete All Saved Data")
+              icon: const Icon(Icons.warning_amber), 
+              label: const Text("Delete All Saved Data")
             ),
         ),
-        Center(child: Padding(
-          padding: const EdgeInsets.all(25.0),
+        const Center(child: Padding(
+          padding: EdgeInsets.all(25.0),
           child: Text("This button deletes your saved email and password. Use it if you need to log out. The app will restart when it is pressed.", textAlign: TextAlign.center,), //explanation of what button does
         )),
 
-        Center(child: ElevatedButton.icon(icon: Icon(Icons.info), label: Text("App Info"), 
+        Center(child: ElevatedButton.icon(icon: const Icon(Icons.info), label: const Text("App Info"), 
         onPressed: () => showAboutDialog(//shows the licences page also - to comply with MIT licenses etc
-          context: context, applicationIcon: Icon(Icons.class_outlined), applicationVersion: version, 
+          context: context, applicationIcon: const Icon(Icons.class_outlined), applicationVersion: version, 
         applicationLegalese: """Created by Austin-540. Check out the source code on GitHub if you want.  
         
 Copyright (c) 2023 Austin-540
@@ -54,8 +54,8 @@ Permission is granted to anyone to use this software for any purpose, including 
 2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
 
 3. This notice may not be removed or altered from any distribution."""), onLongPress: () => 
-showDialog(context: context, builder: (context) => Dialog(child: Padding(
-  padding: const EdgeInsets.all(20.0),
+showDialog(context: context, builder: (context) => const Dialog(child: Padding(
+  padding: EdgeInsets.all(20.0),
   child:   Text("In memory of Thomas Park(he didn't die but asked to be remembered)", style: TextStyle(fontSize: 20),), //easter egg
 ),))),),
 
@@ -64,11 +64,11 @@ Padding(
   padding: const EdgeInsets.all(16.0),
   child:   Column(
     children: [
-      ElevatedButton.icon(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => UploadingCSVPage()));}, icon: Icon(Icons.add), label: Text("Add Lessons"),),
-      Center(child: Text("Upload a CSV file to add lessons. (Desktop only, CSV must be formatted correctly)", textAlign: TextAlign.center,))
+      ElevatedButton.icon(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const UploadingCSVPage()));}, icon: const Icon(Icons.add), label: const Text("Add Lessons"),),
+      const Center(child: Text("Upload a CSV file to add lessons. (Desktop only, CSV must be formatted correctly)", textAlign: TextAlign.center,))
     ],
   ),
-): SizedBox()
+): const SizedBox()
       ]),
     );
   }

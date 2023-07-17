@@ -1,7 +1,6 @@
-import 'globals.dart';
-import 'package:flutter/material.dart';
-import 'submitted_page.dart';
+// ignore_for_file: prefer_const_constructors, avoid_print, prefer_typing_uninitialized_variables, prefer_is_empty
 
+import 'package:flutter/material.dart';
 
 //! no longer used - replaced by NewLessonInList
 

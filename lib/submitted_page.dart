@@ -40,17 +40,17 @@ class _SubmittedPageState extends State<SubmittedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Submitting"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
+      appBar: AppBar(title: const Text("Submitting"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: FutureBuilder( //wait until roll is finished submitting before showing tick
         future: submitRoll(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return Column(children: [
-              Center(child: Icon(Icons.check, size: 250,)),
-              ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Page")), (route) => false), child: Text("Home Page"))
+              const Center(child: Icon(Icons.check, size: 250,)),
+              ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: "Home Page")), (route) => false), child: const Text("Home Page"))
             ],);
           } else {
-          return Center(child: CircularProgressIndicator(),);
+          return const Center(child: CircularProgressIndicator(),);
           }
         },
       ),);

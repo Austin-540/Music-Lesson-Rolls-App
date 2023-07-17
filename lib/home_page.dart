@@ -288,7 +288,7 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
                   children: [
                   Text(widget.instrument),
                   Text(widget.status),
-                  widget.numberOfStudents == "1"?
+                  widget.numberOfStudents == "1"? //check if the number of students is 1, and depending on that show "student(s)"
                     Text("${widget.numberOfStudents} Student"):
                     Text("${widget.numberOfStudents} Students"),
 

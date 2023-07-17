@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:music_lessons_attendance/home_page.dart';
 import 'globals.dart';
-import 'package:http/http.dart' as http;
 
 class UploadingCSVPage extends StatefulWidget {
   const UploadingCSVPage({super.key});
@@ -20,8 +19,8 @@ class _UploadingCSVPageState extends State<UploadingCSVPage> {
       setState(() {});
     } else {
       file = null;
-      showDialog(context: context, builder: (context) => Dialog(child: Padding(
-        padding: const EdgeInsets.all(8.0),
+      showDialog(context: context, builder: (context) => const Dialog(child: Padding(
+        padding: EdgeInsets.all(8.0),
         child: Text("Wrong file type. CSV file required."),
       ),));
     }
@@ -30,7 +29,7 @@ class _UploadingCSVPageState extends State<UploadingCSVPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Lessons"),
+        title: const Text("Add Lessons"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Column(children: [
@@ -42,15 +41,15 @@ class _UploadingCSVPageState extends State<UploadingCSVPage> {
                   onPressed: () {
                     pickFile();
                   },
-                  icon: Icon(Icons.upload_file),
-                  label: Text("Select file")): 
+                  icon: const Icon(Icons.upload_file),
+                  label: const Text("Select file")): 
                   //once file has been picked
                   Column(
                     children: [
-                      Text(file!.name, style: TextStyle(fontSize: 20),),
+                      Text(file!.name, style: const TextStyle(fontSize: 20),),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: ElevatedButton.icon(onPressed: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UploadingLoadingPage(file: file)), (route) => false);}, icon: Icon(Icons.upload), label: Text("Upload")),
+                        child: ElevatedButton.icon(onPressed: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UploadingLoadingPage(file: file)), (route) => false);}, icon: const Icon(Icons.upload), label: const Text("Upload")),
                       )
                     ],
                   )),
@@ -81,29 +80,29 @@ final record = await pb.collection('csv_files').create( //then submit the file a
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Uploading"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
+      appBar: AppBar(title: const Text("Uploading"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: FutureBuilder(//wait until the file has been added to DB
         future: uploadFile(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return Center(child: Column(
               children: [
-                Icon(Icons.check),
-              Text("The file has been recieved by the server. If the formatting is incorrect it will not add the lessons correctly. Please double check it worked at app.shcmusiclessonrolls.com/_/", textAlign: TextAlign.center,),
+                const Icon(Icons.check),
+              const Text("The file has been recieved by the server. If the formatting is incorrect it will not add the lessons correctly. Please double check it worked at app.shcmusiclessonrolls.com/_/", textAlign: TextAlign.center,),
               //my knowledge of Go is not good enough to check in the main.go file if the formatting is correct
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Page")));}, child: Text("Home Page")),
+                child: ElevatedButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: "Home Page")));}, child: const Text("Home Page")),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => UploadingCSVPage()));}, child: Text("Add Another")),
+                child: ElevatedButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const UploadingCSVPage()));}, child: const Text("Add Another")),
               )],
             ),);
           } else if (snapshot.hasError) {
-            return Center(child: Icon(Icons.sms_failed),);
+            return const Center(child: Icon(Icons.sms_failed),);
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:music_lessons_attendance/submitted_page.dart';
 import 'globals.dart';
 import 'home_page.dart';
 
@@ -17,18 +16,18 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("One-off Lesson"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
+      appBar: AppBar(title: const Text("One-off Lesson"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: Column(children: [
-        Center(child: Text(time, style: TextStyle(fontSize: 40),)),
+        Center(child: Text(time, style: const TextStyle(fontSize: 40),)),
 
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton.icon(label: Text("Select Time"), icon: Icon(Icons.access_time), 
+          child: ElevatedButton.icon(label: const Text("Select Time"), icon: const Icon(Icons.access_time), 
           onPressed: () async {
            final timeOfDay = await showTimePicker(context: context, initialTime: TimeOfDay.now(), );
            if (timeOfDay != null) { //if it is null keep it as "Pick lesson time"
             setState(() {
-              time = "${timeOfDay!.hour}:${timeOfDay.minute.toString().padLeft(2, '0')}";//convert to string
+              time = "${timeOfDay.hour}:${timeOfDay.minute.toString().padLeft(2, '0')}";//convert to string
             });
             }
            } 
@@ -38,12 +37,12 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
         for (int x=0; x<listOfStudents.length; x++) ... [ //For each student have a card with their name and a button to remove them
           Card(child: Row(
             children: [
-              Spacer(),
-              Text(listOfStudents[x], style: TextStyle(fontSize: 25),),
-              Spacer(),
+              const Spacer(),
+              Text(listOfStudents[x], style: const TextStyle(fontSize: 25),),
+              const Spacer(),
               IconButton(onPressed: () => setState(() {
                 listOfStudents.removeAt(x);
-              }), icon: Icon(Icons.delete))
+              }), icon: const Icon(Icons.delete))
             ],
           ),)
         ],
@@ -64,7 +63,7 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
         (route) => false);
           }
         
-        }, child: Text("Submit Lesson"))
+        }, child: const Text("Submit Lesson"))
 
         
       ]),
@@ -106,7 +105,7 @@ class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Submitting..."), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
+      appBar: AppBar(title: const Text("Submitting..."), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
 
       body: FutureBuilder(
         future: submitRoll(),
@@ -114,13 +113,13 @@ class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return Column(children: [
-              Center(child: Icon(Icons.check, size: 250,)), //show a very big tick icon
-              ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home Page")), (route) => false), child: Text("Home Page"))
+              const Center(child: Icon(Icons.check, size: 250,)), //show a very big tick icon
+              ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: "Home Page")), (route) => false), child: const Text("Home Page"))
             ],);
           } else if (snapshot.hasError) {
-            return Text("error");
+            return const Text("error");
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),

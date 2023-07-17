@@ -29,7 +29,7 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("More Options",), backgroundColor: Theme.of(context).colorScheme.inversePrimary),
+      appBar: AppBar(title: const Text("More Options",), backgroundColor: Theme.of(context).colorScheme.inversePrimary),
       body: ListView( //allow scrolling
         children: [
           Center(
@@ -37,9 +37,9 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton.icon(
           
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => OneOffLessonPage())), 
-                icon: Icon(Icons.add), 
-                label: Text("Mark a one-off lesson")
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const OneOffLessonPage())), 
+                icon: const Icon(Icons.add), 
+                label: const Text("Mark a one-off lesson")
                 ),
             ),
           ),
@@ -53,11 +53,11 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
                   ListOfLessonsWithMoreDetails(lessonsDetails: snapshot.data)
                 ],);
               } else if (snapshot.hasError) {
-                return Text("Error");
+                return const Text("Error");
 
               } else {
-                return Center(child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                return const Center(child: Padding(
+                  padding: EdgeInsets.all(15.0),
                   child: CircularProgressIndicator(), //loading icon
                 ));
               }
@@ -94,9 +94,9 @@ class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDeta
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text("${weekday}'s Lessons", style: TextStyle(fontSize: 30,),),
+            child: Text("$weekday's Lessons", style: const TextStyle(fontSize: 30,),),
           ),
-          Spacer(),
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: PopupMenuButton(
@@ -108,11 +108,11 @@ class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDeta
               }),
               itemBuilder: (context) =>
               [
-                PopupMenuItem(child: Text("Monday"), value: "Monday",),
-                PopupMenuItem(child: Text("Tuesday"), value: "Tuesday",),
-                PopupMenuItem(child: Text("Wednesday"), value: "Wednesday",),
-                PopupMenuItem(child: Text("Thursday"), value: "Thursday",),
-                PopupMenuItem(child: Text("Friday"), value: "Friday",),
+                const PopupMenuItem(child: Text("Monday"), value: "Monday",),
+                const PopupMenuItem(child: Text("Tuesday"), value: "Tuesday",),
+                const PopupMenuItem(child: Text("Wednesday"), value: "Wednesday",),
+                const PopupMenuItem(child: Text("Thursday"), value: "Thursday",),
+                const PopupMenuItem(child: Text("Friday"), value: "Friday",),
                 ]
             ),
           ),

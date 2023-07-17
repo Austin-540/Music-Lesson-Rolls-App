@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:pocketbase/pocketbase.dart';
 import 'globals.dart';
-import 'main.dart';
-import 'package:restart_app/restart_app.dart';
 import 'home_page.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -29,24 +26,24 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Email',
                   ),
                   onSaved: (value) {
                     _email = value!.toLowerCase(); //pb doesn't automatically allow caps emails
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextFormField(
                   obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Password',
                   ),
                   onSaved: (value) {
                     _password = value!;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 Semantics(
                   label: "Login Button",
@@ -62,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     email: _email, password: _password)));
                       }
                     },
-                    child: Text('Login'),
+                    child: const Text('Login'),
                   ),
                 ),
               ],
@@ -86,7 +83,7 @@ class ConfirmLoginPage extends StatelessWidget { //checks email and password are
             password,
           ); //if wrong password, try block will fail, and snapshot.data will be "Fail"
 
-      final storage = new FlutterSecureStorage();
+      const storage = FlutterSecureStorage();
       await storage.write(key: "email", value: email); //only writes to FSS if correct password
       await storage.write(key: "password", value: password);
       return authData;
@@ -103,14 +100,14 @@ class ConfirmLoginPage extends StatelessWidget { //checks email and password are
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data != "Fail") {
-          return MyHomePage(title: "Home");
+          return const MyHomePage(title: "Home");
           } else {
-            return FailedLoginPage();
+            return const FailedLoginPage();
           }
         } else {
           return Scaffold(
-            appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: Text("Loading"), automaticallyImplyLeading: false,),
-            body: Center(child: CircularProgressIndicator()));
+            appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: const Text("Loading"), automaticallyImplyLeading: false,),
+            body: const Center(child: CircularProgressIndicator()));
         }
       },
     );
@@ -129,11 +126,11 @@ class FailedLoginPage extends StatelessWidget { //if your email/password is wron
     ),
     body: Center(
       child: Column(children: [
-        SizedBox(height: 10,),
-        Text("Something went wrong"),
-        Text("Make sure your email and password are correct."),
-        SizedBox(height: 20,),
-        ElevatedButton(onPressed: () {Navigator.pop(context);}, child: Text("Try Again"))
+        const SizedBox(height: 10,),
+        const Text("Something went wrong"),
+        const Text("Make sure your email and password are correct."),
+        const SizedBox(height: 20,),
+        ElevatedButton(onPressed: () {Navigator.pop(context);}, child: const Text("Try Again"))
       ]),
     ),
     

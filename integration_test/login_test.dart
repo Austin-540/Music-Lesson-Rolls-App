@@ -14,7 +14,7 @@ void main() {
   group('Login Test - Looking for failed login', () {
     testWidgets('Try to login with no/bad/good details',
         (tester) async {
-        final storage = new FlutterSecureStorage();
+        const storage = FlutterSecureStorage();
         await storage.deleteAll();
       app.main();
       await tester.pumpAndSettle();

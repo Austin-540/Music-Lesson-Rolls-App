@@ -1,14 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:pocketbase/pocketbase.dart';
-import 'package:restart_app/restart_app.dart';
-import 'login_page.dart';
-import 'globals.dart';
 import 'home_page.dart';
-import 'settings_page.dart';
-
 
 void main() {
   runApp(const MyApp()); 
