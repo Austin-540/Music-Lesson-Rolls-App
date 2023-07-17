@@ -14,11 +14,11 @@ class _UploadingCSVPageState extends State<UploadingCSVPage> {
   XFile? file;
   Future pickFile() async {
     file = await openFile(); //opens the native file picker
-    print(file!.name);
     if (file!.name.endsWith("csv")) { //if file is CSV update UI, otherwise show an alert
       setState(() {});
     } else {
       file = null;
+      // ignore: use_build_context_synchronously
       showDialog(context: context, builder: (context) => const Dialog(child: Padding(
         padding: EdgeInsets.all(8.0),
         child: Text("Wrong file type. CSV file required."),
@@ -49,7 +49,7 @@ class _UploadingCSVPageState extends State<UploadingCSVPage> {
                       Text(file!.name, style: const TextStyle(fontSize: 20),),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: ElevatedButton.icon(onPressed: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UploadingLoadingPage(file: file)), (route) => false);}, icon: const Icon(Icons.upload), label: const Text("Upload")),
+                        child: ElevatedButton.icon(onPressed: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UploadingLoadingPage(file: file!)), (route) => false);}, icon: const Icon(Icons.upload), label: const Text("Upload")),
                       )
                     ],
                   )),
@@ -60,7 +60,7 @@ class _UploadingCSVPageState extends State<UploadingCSVPage> {
 }
 
 class UploadingLoadingPage extends StatefulWidget {
-  final file;
+  final XFile file;
   const UploadingLoadingPage({super.key, required this.file});
 
   @override
@@ -71,7 +71,7 @@ class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
 
 Future uploadFile() async {
   final stringFile = await widget.file.readAsString(); //read the file as plaintext
-final record = await pb.collection('csv_files').create( //then submit the file as a string
+  await pb.collection('csv_files').create( //then submit the file as a string
   body: {"csv": stringFile},);
 
   return "";

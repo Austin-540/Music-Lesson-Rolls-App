@@ -21,7 +21,6 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
       sort: '+time',
       expand: "students, teacher"
 );
-    print(lessons.toString());
     //tradeoff of not specifying weekday here: will take longer if you're only looking at todays lessons, but you will only need to see one loading screen if you're looking at a different days lessons
     return jsonDecode(lessons.toString());
   }
@@ -72,7 +71,7 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
 
 class ListOfLessonsWithMoreDetails extends StatefulWidget {
   const ListOfLessonsWithMoreDetails({super.key, required this.lessonsDetails});
-  final lessonsDetails;
+  final List lessonsDetails;
 
   @override
   State<ListOfLessonsWithMoreDetails> createState() => _ListOfLessonsWithMoreDetailsState();
@@ -89,7 +88,7 @@ class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDeta
       }
     }
 
-    return Container(child: Column(children: [
+    return Column(children: [
       Row(
         children: [
           Padding(
@@ -101,24 +100,21 @@ class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDeta
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: PopupMenuButton(
               onSelected: (item) => setState(() { //refresh UI
-                print(item);
                 weekday = item;
-                print("weekday = $weekday");
-          
               }),
               itemBuilder: (context) =>
               [
-                const PopupMenuItem(child: Text("Monday"), value: "Monday",),
-                const PopupMenuItem(child: Text("Tuesday"), value: "Tuesday",),
-                const PopupMenuItem(child: Text("Wednesday"), value: "Wednesday",),
-                const PopupMenuItem(child: Text("Thursday"), value: "Thursday",),
-                const PopupMenuItem(child: Text("Friday"), value: "Friday",),
+                const PopupMenuItem(value: "Monday",child: Text("Monday"),),
+                const PopupMenuItem(value: "Tuesday",child: Text("Tuesday"),),
+                const PopupMenuItem(value: "Wednesday",child: Text("Wednesday"),),
+                const PopupMenuItem(value: "Thursday",child: Text("Thursday"),),
+                const PopupMenuItem(value: "Friday",child: Text("Friday"),),
                 ]
             ),
           ),
         ],
       ), 
       ListOfLessons(lessonList: newListOfLessons, showAll: true, showTeacher: true,) //reuse other widget
-    ]),);
+    ]);
   }
 }

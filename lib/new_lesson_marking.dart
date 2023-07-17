@@ -4,8 +4,8 @@ import 'package:music_lessons_attendance/submitted_page.dart';
 import 'package:flutter/material.dart';
 
 class NewLessonInList extends StatefulWidget {
-  final details;
-  final status;
+  final Map details;
+  final String status;
   const NewLessonInList({super.key, required this.details, required this.status});
 
   @override
@@ -36,7 +36,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
     }
 
 //get colour for the Card to be
-    var statusColour;
+    Color? statusColour;
     if (widget.details['weekday'] == DateFormat('EEEE').format(DateTime.now())){
     if (widget.status == "Completed") {
       statusColour = const Color.fromARGB(255, 214, 252, 205);

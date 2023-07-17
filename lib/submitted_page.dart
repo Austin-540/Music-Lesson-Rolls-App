@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class SubmittedPage extends StatefulWidget { //used when submitting a regular lesson (not one off)
   const SubmittedPage({super.key, required this.lessonDetails, required this.statuses});
-  final lessonDetails;
-  final statuses;
+  final Map lessonDetails;
+  final List statuses;
 
   @override
   State<SubmittedPage> createState() => _SubmittedPageState();

@@ -72,8 +72,8 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
 }
 
 class OneOffLessonSubmitPage extends StatefulWidget {
-  final listOfStudents;
-  final time;
+  final List listOfStudents;
+  final String time;
   const OneOffLessonSubmitPage({super.key, required this.listOfStudents, required this.time});
 
   @override

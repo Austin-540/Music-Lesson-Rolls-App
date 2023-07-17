@@ -52,6 +52,7 @@ Future logIn() async {
       if (y.body == "OK\n"){
       return x; //finish the FutureBuilder
       } else {
+        // ignore: use_build_context_synchronously
         showDialog(context: context, builder: (context) => AlertDialog(title: Text(y.body),)); //show error message
       }
 
@@ -61,7 +62,7 @@ Future logIn() async {
         return const AlertDialog(title: Text("Internet error"),
         );
       });
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
 
     } on ClientException { //Occours when PB can't be reached, or PB sends an error response
       showDialog(context: context, builder: (BuildContext context) {
@@ -70,7 +71,7 @@ Future logIn() async {
       });
 
     } catch (e) {
-       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
+       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
     }
     //first try to see if password is already saved, then if its not push to login screen
 
@@ -293,7 +294,7 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
                     Text("${widget.numberOfStudents} Students"),
 
                   widget.showTeacher == false?
-                    SizedBox(): Text(widget.lessonDetails['expand']['teacher']['username']),
+                    const SizedBox(): Text(widget.lessonDetails['expand']['teacher']['username']),
                   
                 ],),
               ),
