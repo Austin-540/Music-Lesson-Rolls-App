@@ -52,7 +52,9 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
           child: TextField(
             controller: TextEditingController(),
             onSubmitted: (value) => setState(() { //when enter is pressed, add the student to the list
+              if (value != "") { //only if they wrote something
               listOfStudents.add(value);
+              }
             }),),
         ),
 
