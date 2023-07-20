@@ -19,23 +19,23 @@ def sendEmail(contents):
     con.close()
 
 def getStudentDetails(student):
-    studentDBDetails = cur.execute(f"SELECT name, homeroom FROM students WHERE id = '{student[3]}'").fetchone()
+    studentDBDetails = cur.execute("SELECT name, homeroom FROM students WHERE id = ?", student[3]).fetchone()
     print(studentDBDetails)
     return [studentDBDetails[0], studentDBDetails[1], student[6]]
 
 
 def getLessonTime(student):
-    cur.execute(f"SELECT time FROM lessons WHERE id = '{student[2]}'")
+    cur.execute("SELECT time FROM lessons WHERE id = ?", student[2])
     time = cur.fetchone()
 
-    weekday = cur.execute(f"SELECT weekday FROM lessons WHERE id = '{student[2]}'").fetchone()
+    weekday = cur.execute("SELECT weekday FROM lessons WHERE id = ?", student[2]).fetchone()
     if weekday[0] != datetime.now().strftime("%A"):
         cur.execute("DELETE FROM rolls")
         con.commit()
         con.close()
         quit()
 
-    date_last_marked = cur.execute(f"SELECT date_last_marked FROM lessons WHERE id = '{student[2]}'").fetchone()
+    date_last_marked = cur.execute("SELECT date_last_marked FROM lessons WHERE id = ?", student[2]).fetchone()
     print(date_last_marked)
     print(date.today().strftime("%d_%m"))
     if f"{int(date.today().strftime('%d'))}_{int(date.today().strftime('%m'))}" == date_last_marked[0]:
