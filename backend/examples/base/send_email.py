@@ -14,7 +14,7 @@ def sendEmail(contents):
         server.login(secrets['my_email'], secrets['my_password'])
         server.sendmail(secrets['my_email'], secrets['reciever_email'], contents)
 
-    cur.execute("DELETE FROM rolls")
+    cur.execute("DELETE FROM rolls") #Delete the rolls that were uploaded, not that the email is sent
     con.commit()
     con.close()
 
@@ -29,8 +29,8 @@ def getLessonTime(student):
     time = cur.fetchone()
 
     weekday = cur.execute("SELECT weekday FROM lessons WHERE id = ?", [student[2]]).fetchone()
-    if weekday[0] != datetime.now().strftime("%A"):
-        cur.execute("DELETE FROM rolls")
+    if weekday[0] != datetime.now().strftime("%A"): #If the lesson is for a different day
+        cur.execute("DELETE FROM rolls") #Dont send the email
         con.commit()
         con.close()
         quit()
@@ -38,14 +38,14 @@ def getLessonTime(student):
     date_last_marked = cur.execute("SELECT date_last_marked FROM lessons WHERE id = ?", [student[2]]).fetchone()
     print(date_last_marked)
     print(date.today().strftime("%d_%m"))
-    if f"{int(date.today().strftime('%d'))}_{int(date.today().strftime('%m'))}" == date_last_marked[0]:
+    if f"{int(date.today().strftime('%d'))}_{int(date.today().strftime('%m'))}" == date_last_marked[0]: #if date_last_marked is today add the already_marked message
         marked_today = True
     else:
         marked_today = False
     return [datetime.strptime(time[0], "%H%M").strftime("%I:%M"), marked_today]
 
 
-secrets = getSecrets()
+secrets = getSecrets() #from secrets.py
 
 con = sqlite3.connect("/home/austin/helloworld/pb_data/data.db")
 cur = con.cursor()
@@ -73,7 +73,7 @@ cur = con.cursor()
 
 cur.execute("SELECT * FROM rolls WHERE final = true")
 x = cur.fetchall()
-if len(x) == 0:
+if len(x) == 0: #if there is no final:
     con.close()
     quit()
 try:
@@ -84,7 +84,7 @@ try:
         x = getStudentDetails(student)
         allDetails.append(x)
 
-    if time[1] == True:
+    if time[1] == True: #if already_marked == true
         already_marked = "!!  This lesson has already been marked -- This is the updated information."
     else:
         already_marked = ""
