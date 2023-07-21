@@ -1,4 +1,4 @@
-#This file will be run at the beginning of the year after the music lesson timetable has been finalised. It will take in a CSV file and add the data to the PocketBase server.
+#This file is not used. It has been replaced with /examples/base/add_data_from_csv.py
 import csv
 from pocketbase import PocketBase 
 
