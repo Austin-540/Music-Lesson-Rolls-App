@@ -23,7 +23,7 @@ def uploadLesson(listOfDetails):
     all_teachers = client.collection("users").get_full_list() 
     #It is supposedly possible to use the get_one method with a filter to accomplish this, but it was giving me rediculously unhelpful error messages
     print(all_teachers)
-    for x in range(len(all_teachers)):
+    for x in range(len(all_teachers)): #Loop through all teachers to find the one in the CSV file's ID
         if all_teachers[x].username == teacher:
             teacher_id = all_teachers[x].id
 
@@ -37,7 +37,7 @@ def uploadLesson(listOfDetails):
     
     client.collection('lessons').create(
         {
-            'teacher': teacher_id,
+            'teacher': teacher_id, #will raise an error if no teacher is found
             'instrument': instrument,
             'students': student_db_IDs,
             'weekday' : date,
