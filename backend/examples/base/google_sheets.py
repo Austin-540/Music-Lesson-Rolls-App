@@ -49,6 +49,6 @@ for student in all_students:
         if exception.__class__.__name__ == "AttributeError":
             wksheet.update("A4", f"O_o    Expected to find student with DB id {student[3]} in table")
         else:
-            wksheet.update("A4", f"O_o   {exception} -- Student-DB-id: {student[3]}")
+            wksheet.update("A4", f"O_o   {exception}  (Student-DB-id: {student[3]})")
 
 
