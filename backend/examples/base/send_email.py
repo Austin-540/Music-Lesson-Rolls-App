@@ -56,6 +56,8 @@ if len(x) == 0: #look for a student where 'final' field is true, otherwise wait 
     con.close()
     print("quitting - no final found")
     quit()
+else:
+    import google_sheets
 
 
 

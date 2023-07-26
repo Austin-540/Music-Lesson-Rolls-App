@@ -23,7 +23,7 @@ def mark_roll(wksheet, name, status):
 
 
 sa = gspread.service_account(filename="/Users/austin/Downloads/google_sheets/client_secret.json")
-sheet = sa.open("Copy of SHC Music Lessons 2023")
+sheet = sa.open("New - Copy of SHC Music Lessons 2023")
 
 
 
@@ -40,8 +40,15 @@ teacher_name = cur.execute("SELECT first_name FROM users WHERE id = ?", [teacher
 wksheet = sheet.worksheet(teacher_name)
 
 for student in all_students:
-    name = cur.execute("SELECT name FROM students WHERE id = ?", [student[3]]).fetchone()[0]
-    status = student[6]
-    mark_roll(wksheet, name, status)
+    try:
+        name = cur.execute("SELECT name FROM students WHERE id = ?", [student[3]]).fetchone()[0]
+        status = student[6]
+        mark_roll(wksheet, name, status)
+    except Exception as exception:
+        print(exception)
+        if exception.__class__.__name__ == "AttributeError":
+            wksheet.update("A4", f"O_o    Expected to find student with DB id {student[3]} in table")
+        else:
+            wksheet.update("A4", f"O_o   {exception} -- Student-DB-id: {student[3]}")
 
 
