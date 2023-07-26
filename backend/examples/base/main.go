@@ -101,27 +101,19 @@ func main() {
 		print(e.Model.TableName())
 		if e.Model.TableName() == "rolls" {
 			cmd := exec.Command("python", "/home/austin/helloworld/send_email.py")
-			cmd.Stdout = os.Stdout
+			go cmd.Run()
 
-			// Run still runs the command and waits for completion
-			// but the output is instantly piped to Stdout
-			if err := cmd.Run(); err != nil {
-				fmt.Println("could not run command: ", err)
-			}
 		} else if e.Model.TableName() == "one_off_rolls" {
 			cmd := exec.Command("python", "/home/austin/helloworld/send_one_off_email.py")
-			cmd.Stdout = os.Stdout
+			go cmd.Run()
 
 			if err := cmd.Run(); err != nil {
 				fmt.Println("could not run command: ", err)
 			}
 		} else if e.Model.TableName() == "csv_files" {
 			cmd := exec.Command("python", "/home/austin/helloworld/add_data_from_csv.py")
-			cmd.Stdout = os.Stdout
 
-			if err := cmd.Run(); err != nil {
-				fmt.Println("could not run command: ", err)
-			}
+			go cmd.Run()
 		}
 
 		return nil
