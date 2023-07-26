@@ -113,7 +113,7 @@ func main() {
 		} else if e.Model.TableName() == "csv_files" {
 			cmd := exec.Command("python", "/home/austin/helloworld/add_data_from_csv.py")
 
-			go cmd.Run()
+			cmd.Run()
 		}
 
 		return nil
