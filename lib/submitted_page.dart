@@ -21,7 +21,11 @@ class _SubmittedPageState extends State<SubmittedPage> {
   } else {
   finalVar = true;
   }
-  
+  final currentlyInDb = await pb.collection("rolls").getFullList(sort: '-created');
+  if (currentlyInDb.isNotEmpty) {
+    throw "Things currently in DB";
+  }
+
   final body = <String, dynamic>{
   "students": widget.lessonDetails['students'][x],
   "lesson": widget.lessonDetails['id'],
@@ -50,7 +54,14 @@ class _SubmittedPageState extends State<SubmittedPage> {
               const Center(child: Icon(Icons.check, size: 250,)),
               ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: "Home Page")), (route) => false), child: const Text("Home Page"))
             ],);
-          } else {
+          } else if (snapshot.hasError) {
+            return Center(child: Column(
+              children: [
+                Text("Something went wrong. \nMost likely you tried to mark a roll at the same time as someone else, or tried to mark 2 rolls in too short an amount of time. Please try again in 20ish seconds."),
+                ElevatedButton(onPressed: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home")), (route) => false,);}, child: Text("Go Back"))
+              ],
+            ),);
+          } else{
           return const Center(child: CircularProgressIndicator(),);
           }
         },
