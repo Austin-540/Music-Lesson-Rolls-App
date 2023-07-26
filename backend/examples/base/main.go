@@ -87,7 +87,7 @@ func main() {
 
 	app.OnAfterBootstrap().Add(func(e *core.BootstrapEvent) error {
 		app.Dao().ModelQueryTimeout = time.Duration(queryTimeout) * time.Second
-		println("Hello World")
+		println("Hello World - vASYNC0")
 		return nil
 	})
 
@@ -99,15 +99,12 @@ func main() {
 
 	app.OnModelAfterCreate().Add(func(e *core.ModelEvent) error {
 		print(e.Model.TableName())
-		if e.Model.TableName() == "rolls" {
+		if e.Model.TableName() == "send_email_ready" {
 			cmd := exec.Command("python", "/home/austin/helloworld/send_email.py")
 			cmd.Stdout = os.Stdout
 
-			// Run still runs the command and waits for completion
-			// but the output is instantly piped to Stdout
-			if err := cmd.Run(); err != nil {
-				fmt.Println("could not run command: ", err)
-			}
+			go cmd.Run()
+
 		} else if e.Model.TableName() == "one_off_rolls" {
 			cmd := exec.Command("python", "/home/austin/helloworld/send_one_off_email.py")
 			cmd.Stdout = os.Stdout

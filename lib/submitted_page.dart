@@ -32,6 +32,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
   await pb.collection('lessons').update(widget.lessonDetails['id'], body: {"date_last_marked": "${DateTime.now().day}_${DateTime.now().month}"}); //submit that student to PB
 
   }
+  await pb.collection('send_email_ready').create(body: {"empty": "_"});
 
 
     return "Success";
