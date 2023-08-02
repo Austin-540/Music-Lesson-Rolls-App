@@ -15,6 +15,7 @@ def sendEmail(contents):
         server.sendmail(secrets['my_email'], secrets['reciever_email'], contents)
 
     cur.execute("DELETE FROM rolls") #Delete the rolls that were uploaded, not that the email is sent
+    cur.execute("DELETE FROM send_email_ready") #delete the signal that the email is ready to be sent
     con.commit()
     con.close()
 
@@ -56,6 +57,8 @@ if len(x) == 0: #look for a student where 'final' field is true, otherwise wait 
     con.close()
     print("quitting - no final found")
     quit()
+else:
+    import google_sheets
 
 
 
