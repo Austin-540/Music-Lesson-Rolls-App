@@ -44,16 +44,21 @@ Future logIn() async {
 
 
     
-    final x = jsonDecode(authData.toString());
-    loggedInTeacher = x["record"]["id"];
+    final authDataMap = jsonDecode(authData.toString());
+    loggedInTeacher = authDataMap["record"]["id"];
 
       final y = await http.get(Uri.parse("https://austin-540.github.io/Database-Stuff/")); 
+      final checkForCustomError = await http.get(Uri.parse("https://austin-540.github.io/Database-Stuff/")); 
       //Allows me to set a custom error message if something breaks
-      if (y.body == "OK\n"){
-      return x; //finish the FutureBuilder
+      if (checkForCustomError.body == "OK\n"){
+      return authDataMap; //finish the FutureBuilder
       } else {
         // ignore: use_build_context_synchronously
         showDialog(context: context, builder: (context) => AlertDialog(title: Text(y.body),)); //show error message
+        showDialog(context: context, builder: (context) => AlertDialog(title: Text(checkForCustomError.body),)); //show error message
+      }
+
+
       }
 
 
