@@ -14,6 +14,12 @@ class SubmittedPage extends StatefulWidget { //used when submitting a regular le
 
 class _SubmittedPageState extends State<SubmittedPage> {
   Future submitRoll() async {
+    final currentlyInDb = await pb.collection("rolls").getFullList(sort: '-created');
+  if (currentlyInDb.isNotEmpty) {
+    throw "Things currently in DB";
+  }
+
+
       for (int x=0; x< widget.lessonDetails['students'].length; x++) {
     bool? finalVar;
   if (x != widget.lessonDetails['students'].length-1) { //is this the final student?
@@ -21,10 +27,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
   } else {
   finalVar = true;
   }
-  final currentlyInDb = await pb.collection("rolls").getFullList(sort: '-created');
-  if (currentlyInDb.isNotEmpty) {
-    throw "Things currently in DB";
-  }
+  
 
   final body = <String, dynamic>{
   "students": widget.lessonDetails['students'][x],

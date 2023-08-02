@@ -1,4 +1,4 @@
 import 'package:pocketbase/pocketbase.dart';
 final pb = PocketBase('https://app.shcmusiclessonrolls.com/');
 
-const version = "v2.1.4";
+const version = "v3.0.0";
