@@ -165,7 +165,9 @@ class ListOfLessons extends StatelessWidget {
   final bool showTeacher;
   final List lessonList;
   final bool showAll;
+  
   const ListOfLessons({super.key, required this.lessonList, required this.showAll, required this.showTeacher});
+  
 
   String getLessonStatus(x) {
     DateTime now = DateTime.now();
@@ -186,17 +188,28 @@ class ListOfLessons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double paddingWidth = 8;
+    if (MediaQuery.of(context).size.width > 550) {
+        paddingWidth = (MediaQuery.of(context).size.width - 550)/2;
+      }
+    
+
+
+
     if (lessonList.isNotEmpty) {
     if (showAll == false) {
-    return Column(children: [
-      for (int x=0; x<= lessonList.length-1; x++) ... [
-        getLessonStatus(x) == "Upcoming" || getLessonStatus(x) == "Overdue"? //upcoming or overdue (hiding completed)
-        NewLessonInList(
-          details: lessonList[x], 
-          status: getLessonStatus(x)
-          ): const SizedBox()
-      ]
-    ]);
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: paddingWidth),
+      child: Column(children: [
+        for (int x=0; x<= lessonList.length-1; x++) ... [
+          getLessonStatus(x) == "Upcoming" || getLessonStatus(x) == "Overdue"? //upcoming or overdue (hiding completed)
+          NewLessonInList(
+            details: lessonList[x], 
+            status: getLessonStatus(x)
+            ): const SizedBox()
+        ]
+      ]),
+    );
 
     } else {
       return Column(children: [
