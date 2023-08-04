@@ -15,6 +15,11 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
 
   @override
   Widget build(BuildContext context) {
+    double paddingWidth = 15;
+      if (MediaQuery.of(context).size.width > 550) {
+        paddingWidth = (MediaQuery.of(context).size.width - 550)/2;
+      }
+
     return Scaffold(
       appBar: AppBar(title: const Text("One-off Lesson"), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: Column(children: [
@@ -48,7 +53,7 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
         ],
 
         Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: EdgeInsets.symmetric(horizontal: paddingWidth, vertical: 15),
           child: TextField(
             controller: TextEditingController(),
             onSubmitted: (value) => setState(() { //when enter is pressed, add the student to the list
