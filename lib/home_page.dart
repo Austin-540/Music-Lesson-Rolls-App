@@ -258,7 +258,10 @@ class _LessonDetailsInListState extends State<LessonDetailsInList> {
       String? i12hrTime;
   if (int.parse(widget.time.substring(0,2)) > 12) {
       i12hrTime = "${int.parse(widget.time.substring(0,2))-12}:${widget.time.substring(2,4)} PM";
-    } else {
+    } else if (int.parse(widget.time.substring(0,2)) == 12) {
+      i12hrTime = "${int.parse(widget.time.substring(0,2))}:${widget.time.substring(2,4)} PM";
+    }
+    else {
       i12hrTime = "${widget.time.substring(0,2)}:${widget.time.substring(2,4)} AM";
     }
     Color? colour;

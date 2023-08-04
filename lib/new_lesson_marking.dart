@@ -29,10 +29,13 @@ class _NewLessonInListState extends State<NewLessonInList> {
     String? i12hrTime;
 
     //convert computer readable time into 12hr time for humans
-  if (int.parse(widget.details['time'].substring(0,2)) > 12) {
+ if (int.parse(widget.details['time'].substring(0,2)) > 12) {
       i12hrTime = "${int.parse(widget.details['time'].substring(0,2))-12}:${widget.details['time'].substring(2,4)} PM";
-    } else {
-      i12hrTime = "${widget.details['time'].substring(0,2)}:${widget.details['time'].substring(2,4)} AM"; 
+    } else if (int.parse(widget.details['time'].substring(0,2)) == 12) {
+      i12hrTime = "${int.parse(widget.details['time'].substring(0,2))}:${widget.details['time'].substring(2,4)} PM";
+    }
+    else {
+      i12hrTime = "${widget.details['time'].substring(0,2)}:${widget.details['time'].substring(2,4)} AM";
     }
 
 //get colour for the Card to be
