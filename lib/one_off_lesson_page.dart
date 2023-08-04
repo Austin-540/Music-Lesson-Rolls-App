@@ -55,6 +55,7 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: paddingWidth, vertical: 15),
           child: TextField(
+            decoration: InputDecoration(hintText: "Student's Name"),
             controller: TextEditingController(),
             onSubmitted: (value) => setState(() { //when enter is pressed, add the student to the list
               if (value != "") { //only if they wrote something
