@@ -78,9 +78,21 @@ class ListOfLessonsWithMoreDetails extends StatefulWidget {
 }
 
 class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDetails> {
+    
+
+
+
+
   String weekday =  DateFormat('EEEE').format(DateTime.now()); // eg "Monday", by default show current day
   @override
   Widget build(BuildContext context) {
+
+    double paddingWidth = 8;
+      if (MediaQuery.of(context).size.width > 550) {
+        paddingWidth = (MediaQuery.of(context).size.width - 550)/2;
+      }
+
+
     var newListOfLessons = [];
     for (int x = 0; x<= widget.lessonsDetails.length-1; x++) {
       if (widget.lessonsDetails[x]['weekday'] == weekday) {
@@ -88,33 +100,36 @@ class _ListOfLessonsWithMoreDetailsState extends State<ListOfLessonsWithMoreDeta
       }
     }
 
-    return Column(children: [
-      Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text("$weekday's Lessons", style: const TextStyle(fontSize: 30,),),
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: PopupMenuButton(
-              onSelected: (item) => setState(() { //refresh UI
-                weekday = item;
-              }),
-              itemBuilder: (context) =>
-              [
-                const PopupMenuItem(value: "Monday",child: Text("Monday"),),
-                const PopupMenuItem(value: "Tuesday",child: Text("Tuesday"),),
-                const PopupMenuItem(value: "Wednesday",child: Text("Wednesday"),),
-                const PopupMenuItem(value: "Thursday",child: Text("Thursday"),),
-                const PopupMenuItem(value: "Friday",child: Text("Friday"),),
-                ]
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: paddingWidth),
+      child: Column(children: [
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text("$weekday's Lessons", style: const TextStyle(fontSize: 30,),),
             ),
-          ),
-        ],
-      ), 
-      ListOfLessons(lessonList: newListOfLessons, showAll: true, showTeacher: true,) //reuse other widget
-    ]);
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: PopupMenuButton(
+                onSelected: (item) => setState(() { //refresh UI
+                  weekday = item;
+                }),
+                itemBuilder: (context) =>
+                [
+                  const PopupMenuItem(value: "Monday",child: Text("Monday"),),
+                  const PopupMenuItem(value: "Tuesday",child: Text("Tuesday"),),
+                  const PopupMenuItem(value: "Wednesday",child: Text("Wednesday"),),
+                  const PopupMenuItem(value: "Thursday",child: Text("Thursday"),),
+                  const PopupMenuItem(value: "Friday",child: Text("Friday"),),
+                  ]
+              ),
+            ),
+          ],
+        ), 
+        ListOfLessons(lessonList: newListOfLessons, showAll: true, showTeacher: true,) //reuse other widget
+      ]),
+    );
   }
 }
