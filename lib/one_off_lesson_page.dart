@@ -12,6 +12,8 @@ class OneOffLessonPage extends StatefulWidget {
 class _OneOffLessonPageState extends State<OneOffLessonPage> {
   var time = "Pick lesson time";
   var listOfStudents = [];
+  bool showTimeError = false;
+  bool showEmptyListError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,7 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: paddingWidth, vertical: 15),
           child: TextField(
-            decoration: InputDecoration(hintText: "Student's Name"),
+            decoration: const InputDecoration(hintText: "Student's Name"),
             controller: TextEditingController(),
             onSubmitted: (value) => setState(() { //when enter is pressed, add the student to the list
               if (value != "") { //only if they wrote something
@@ -69,9 +71,18 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
           Navigator.pushAndRemoveUntil(
           context, MaterialPageRoute(builder: (context) => OneOffLessonSubmitPage(listOfStudents: listOfStudents, time: time)), 
         (route) => false);
+          } else if (time == "Pick lesson time") {
+            setState((){showTimeError = true;});
+          } else if (listOfStudents.isEmpty){
+            setState((){showEmptyListError = true;});
           }
         
-        }, child: const Text("Submit Lesson"))
+        }, child: const Text("Submit Lesson")),
+
+        showTimeError?
+        const Text("You need to select a time before submitting.", style: TextStyle(color: Colors.red)): const SizedBox(),
+        showEmptyListError?
+        const Text("Press enter after entering each name.", style: TextStyle(color: Colors.red),):const SizedBox(),
 
         
       ]),
