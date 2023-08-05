@@ -100,20 +100,20 @@ func main() {
 	app.OnModelAfterCreate().Add(func(e *core.ModelEvent) error {
 		print(e.Model.TableName())
 		if e.Model.TableName() == "send_email_ready" {
-			cmd := exec.Command("python", "/home/austin/helloworld/send_email.py")
+			cmd := exec.Command("python", "/home/austin/send_email.py")
 			cmd.Stdout = os.Stdout
 
 			go cmd.Run()
 
 		} else if e.Model.TableName() == "one_off_rolls" {
-			cmd := exec.Command("python", "/home/austin/helloworld/send_one_off_email.py")
+			cmd := exec.Command("python", "/home/austin/send_one_off_email.py")
 			cmd.Stdout = os.Stdout
 
 			if err := cmd.Run(); err != nil {
 				fmt.Println("could not run command: ", err)
 			}
 		} else if e.Model.TableName() == "csv_files" {
-			cmd := exec.Command("python", "/home/austin/helloworld/add_data_from_csv.py")
+			cmd := exec.Command("python", "/home/austin/add_data_from_csv.py")
 			cmd.Stdout = os.Stdout
 
 			if err := cmd.Run(); err != nil {
