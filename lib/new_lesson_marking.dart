@@ -40,7 +40,9 @@ class _NewLessonInListState extends State<NewLessonInList> {
 
 //get colour for the Card to be
     Color? statusColour;
+    bool? activeStatus;
     if (widget.details['weekday'] == DateFormat('EEEE').format(DateTime.now())){
+      activeStatus = true;
     if (widget.status == "Completed") {
       statusColour = const Color.fromARGB(255, 214, 252, 205);
     } else if (widget.status == "Overdue") {
@@ -48,6 +50,8 @@ class _NewLessonInListState extends State<NewLessonInList> {
     } else {
       statusColour = null; //uses default colour
     }
+    } else {
+      activeStatus = false;
     }
   
     
@@ -75,38 +79,47 @@ class _NewLessonInListState extends State<NewLessonInList> {
                 ],
               ),
               const SizedBox(height: 10,),
+              activeStatus?
               const Row(
                 children: [
                   Spacer(),
                   Text("Present   Explained   Absent", style: TextStyle(fontSize: 10),),
                 ],
-              ),
+              ):SizedBox(),
               for (int x=0; x<= widget.details['students'].length-1; x++) ... [ //for each student in the lesson
+                
                 Row(
                   children: [
                     Text(widget.details['expand']['students'][x]['name']),
                     const Spacer(),
+                    activeStatus?
                     Radio(value: "Present", groupValue: _rollOptions[x], 
                     activeColor: Colors.green,
                     onChanged: (value) => setState(() {
                       _rollOptions[x] = value!;
-                    })),
+                    })):SizedBox(),
+                    activeStatus?
                     Radio(value: "Explained", groupValue: _rollOptions[x], 
                     activeColor: Colors.orange,
                     onChanged: (value) => setState(() {
                       _rollOptions[x] = value!;
-                    })),
+                    })):SizedBox(),
+                    activeStatus?
                     Radio(value: "Unexplained", groupValue: _rollOptions[x], 
                     activeColor: Colors.red,
                     onChanged: (value) => setState(() {
                       _rollOptions[x] = value!;
-                    }))
+                    })):SizedBox()
                   ],
                 )
               ],
-              OutlinedButton(onPressed: () => 
+              activeStatus?
+              OutlinedButton(
+                style: ButtonStyle(shadowColor: MaterialStateProperty.resolveWith((states) => null)),
+                onPressed: () => 
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions)), (route) => false),
-                child: const Text("Submit"))
+                child: const Text("Submit")):
+                SizedBox()
             ],
           ),
         )
