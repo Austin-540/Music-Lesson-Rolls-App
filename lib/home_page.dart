@@ -92,13 +92,13 @@ Future getLessons() async {
       filter: "weekday = '${DateFormat('EEEE').format(DateTime.now())}'"
       );
       // print(lessonList);
-      final x = jsonDecode(lessonList.toString());
+      final fullList = jsonDecode(lessonList.toString());
 
-      var y = [];
+      var lessons = [];
       
         for (int i = 0; i<= x.length-1; i++) {
-          if (loggedInTeacher == x[i]['teacher'] && x[i]['date_last_marked'] != "${DateTime.now().day}_${DateTime.now().month}") {
-            y.add(x[i]);
+          if (loggedInTeacher == fullList[i]['teacher'] && fullList[i]['date_last_marked'] != "${DateTime.now().day}_${DateTime.now().month}") {
+            lessons.add(fullList[i]);
             //loggedInTeacher check is no longer required - handled in PB permissions (keeping in case change PB permissions)
             //Date last marked is used to check wether the roll is overdue
             //eg 12 july => date_last_marked = 12_7
@@ -106,7 +106,7 @@ Future getLessons() async {
           
         
       }
-      return y;
+      return lessons;
 }
 
   String? loggedInTeacher;
