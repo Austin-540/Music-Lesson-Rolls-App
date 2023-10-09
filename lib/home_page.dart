@@ -96,7 +96,7 @@ Future getLessons() async {
 
       var lessons = [];
       
-        for (int i = 0; i<= x.length-1; i++) {
+        for (int i = 0; i<= fullList.length-1; i++) {
           if (loggedInTeacher == fullList[i]['teacher'] && fullList[i]['date_last_marked'] != "${DateTime.now().day}_${DateTime.now().month}") {
             lessons.add(fullList[i]);
             //loggedInTeacher check is no longer required - handled in PB permissions (keeping in case change PB permissions)
