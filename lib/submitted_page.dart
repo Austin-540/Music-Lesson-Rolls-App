@@ -61,7 +61,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
             return Center(child: Column(
               children: [
                 Text("Something went wrong. \nMost likely you tried to mark a roll at the same time as someone else, or tried to mark 2 rolls in too short an amount of time. Please try again in 20ish seconds."),
-                ElevatedButton(onPressed: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home")), (route) => false,);}, child: Text("Go Back"))
+                ElevatedButton(onPressed: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Today's Lessons")), (route) => false,);}, child: Text("Go Back"))
               ],
             ),);
           } else{

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {//the root widget of the app
                 234)), //"Oxford Blue" according to the communications part of adminitstration
         useMaterial3: true, //Makes the app look more modern
       ),
-      home: const MyHomePage(title: 'Home Page'),
+      home: const MyHomePage(title: 'Today\'s Lessons'),
     );
   }
 }
