@@ -85,7 +85,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
                   Spacer(),
                   Text("Present   Explained   Absent", style: TextStyle(fontSize: 10),),
                 ],
-              ):SizedBox(),
+              ):const SizedBox(),
               for (int x=0; x<= widget.details['students'].length-1; x++) ... [ //for each student in the lesson
                 
                 Row(
@@ -97,29 +97,42 @@ class _NewLessonInListState extends State<NewLessonInList> {
                     activeColor: Colors.green,
                     onChanged: (value) => setState(() {
                       _rollOptions[x] = value!;
-                    })):SizedBox(),
+                    })):const SizedBox(),
                     activeStatus?
                     Radio(value: "Explained", groupValue: _rollOptions[x], 
                     activeColor: Colors.orange,
                     onChanged: (value) => setState(() {
                       _rollOptions[x] = value!;
-                    })):SizedBox(),
+                    })):const SizedBox(),
                     activeStatus?
                     Radio(value: "Unexplained", groupValue: _rollOptions[x], 
                     activeColor: Colors.red,
                     onChanged: (value) => setState(() {
                       _rollOptions[x] = value!;
-                    })):SizedBox()
+                    })):const SizedBox()
                   ],
                 )
               ],
               activeStatus?
               OutlinedButton(
                 style: ButtonStyle(shadowColor: MaterialStateProperty.resolveWith((states) => null)),
-                onPressed: () => 
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions)), (route) => false),
+                onPressed: () { 
+              if (_rollOptions.sublist(0,widget.details['students'].length).contains("none")) {
+                showDialog(context: context, builder: (BuildContext context)=> AlertDialog(
+                  title: const Text("Are you sure?"),
+                  content: const Text("One or more students have no status. You can use this for cases where none of the three options completely fit."),
+                  actions: [TextButton(onPressed: () {
+                    Navigator.of(context).pop();
+                  }, child: const Text("Cancel")), TextButton(onPressed: () {
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions)), (route) => false);
+                  }, child: const Text("Confirm"))],
+                ));
+              } else {
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SubmittedPage(lessonDetails: widget.details, statuses: _rollOptions)), (route) => false);
+              }
+              },
                 child: const Text("Submit")):
-                SizedBox()
+                const SizedBox()
             ],
           ),
         )
