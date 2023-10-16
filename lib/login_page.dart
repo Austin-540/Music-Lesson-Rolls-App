@@ -32,7 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     labelText: 'Email',
                   ),
                   onSaved: (value) {
-                    _email = value!.toLowerCase(); //pb doesn't automatically allow caps emails
+                    _email = value!
+                        .toLowerCase(); //pb doesn't automatically allow caps emails
                   },
                 ),
                 const SizedBox(height: 20),
@@ -46,11 +47,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
-
                 Semantics(
                   label: "Login Button",
                   child: ElevatedButton(
-                    
                     onPressed: () {
                       _formKey.currentState!.save();
                       if (_email != "" && _password != "") {
@@ -71,7 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-class ConfirmLoginPage extends StatelessWidget { //checks email and password are correct before moving to home page
+class ConfirmLoginPage extends StatelessWidget {
+  //checks email and password are correct before moving to home page
   const ConfirmLoginPage(
       {super.key, required this.email, required this.password});
   final String email;
@@ -79,14 +79,14 @@ class ConfirmLoginPage extends StatelessWidget { //checks email and password are
 
   Future logIn(email, password) async {
     try {
-
       final authData = await pb.collection('users').authWithPassword(
             email,
             password,
           ); //if wrong password, try block will fail, and snapshot.data will be "Fail"
 
       const storage = FlutterSecureStorage();
-      await storage.write(key: "email", value: email); //only writes to FSS if correct password
+      await storage.write(
+          key: "email", value: email); //only writes to FSS if correct password
       await storage.write(key: "password", value: password);
       return authData;
     } catch (e) {
@@ -102,40 +102,53 @@ class ConfirmLoginPage extends StatelessWidget { //checks email and password are
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data != "Fail") {
-          return const MyHomePage(title: "Home");
+            return const MyHomePage(title: "Home");
           } else {
             return const FailedLoginPage();
           }
         } else {
           return Scaffold(
-            appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: const Text("Loading"), automaticallyImplyLeading: false,),
-            body: const Center(child: CircularProgressIndicator()));
+              appBar: AppBar(
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                title: const Text("Loading"),
+                automaticallyImplyLeading: false,
+              ),
+              body: const Center(child: CircularProgressIndicator()));
         }
       },
     );
   }
 }
 
-
-
-class FailedLoginPage extends StatelessWidget { //if your email/password is wrong, or PB crashed
+class FailedLoginPage extends StatelessWidget {
+  //if your email/password is wrong, or PB crashed
   const FailedLoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, automaticallyImplyLeading: false, leading: null,
-    ),
-    body: Center(
-      child: Column(children: [
-        const SizedBox(height: 10,),
-        const Text("Something went wrong"),
-        const Text("Make sure your email and password are correct."),
-        const SizedBox(height: 20,),
-        ElevatedButton(onPressed: () {Navigator.pop(context);}, child: const Text("Try Again"))
-      ]),
-    ),
-    
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        automaticallyImplyLeading: false,
+        leading: null,
+      ),
+      body: Center(
+        child: Column(children: [
+          const SizedBox(
+            height: 10,
+          ),
+          const Text("Something went wrong"),
+          const Text("Make sure your email and password are correct."),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Try Again"))
+        ]),
+      ),
     );
   }
 }
