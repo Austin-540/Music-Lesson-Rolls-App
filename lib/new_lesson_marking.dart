@@ -120,7 +120,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
               if (_rollOptions.sublist(0,widget.details['students'].length).contains("none")) {
                 showDialog(context: context, builder: (BuildContext context)=> AlertDialog(
                   title: const Text("Are you sure?"),
-                  content: const Text("One or more students have no status. You can use this for cases where none of the three options completely fit."),
+                  content: const Text("One or more students have no status. You can use this for cases where none of the three options completely fit. If you have already marked this lesson the old value will be overwritten with 'none'."),
                   actions: [TextButton(onPressed: () {
                     Navigator.of(context).pop();
                   }, child: const Text("Cancel")), TextButton(onPressed: () {
