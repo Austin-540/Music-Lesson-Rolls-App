@@ -112,7 +112,7 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
             : const SizedBox(),
         showEmptyListError
             ? const Text(
-                "Press enter after entering each name.",
+                "Press enter after typing each name.",
                 style: TextStyle(color: Colors.red),
               )
             : const SizedBox(),
