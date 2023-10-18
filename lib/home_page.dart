@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'new_lesson_marking.dart';
 import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:intl/intl.dart';
 
@@ -27,21 +28,24 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Future logIn() async {
     try {
-      const storage = FlutterSecureStorage();
-      String? email = await storage.read(key: "email");
-      String? password = await storage.read(key: "password");
 
-      if (email == null) {
-        throw "no saved data";
-      }
+      final prefs = await SharedPreferences.getInstance();
+final String? raw = prefs.getString("pb_auth");
+if (raw != null && raw.isNotEmpty) {
+  final decoded = jsonDecode(raw);
+  final token = (decoded as Map<String, dynamic>)["token"] as String? ?? "";
+  final model =
+      RecordModel.fromJson(decoded["model"] as Map<String, dynamic>? ?? {});
 
-      final authData = await pb.collection('users').authWithPassword(
-            email,
-            password!, // the ! will cause the try block to fail if there is no saved password, pushing to login screen
-          );
+  pb.authStore.save(token, model);
+} else {
+  throw "no saved data";
+}
 
-      final authDataMap = jsonDecode(authData.toString());
-      loggedInTeacher = authDataMap["record"]["id"];
+      final authData = await pb.collection('users').getFullList();
+
+      final authDataMap = jsonDecode(authData.toString())[0];
+      loggedInTeacher = authDataMap["id"];
 
       final latestVersion = await http.get(Uri.parse(
           "https://austin-540.github.io/Database-Stuff/current_version.html"));
@@ -158,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Column(
                     children: [
                       Text(
-                        "Welcome ${snapshot.data['record']['first_name']}",
+                        "Welcome ${snapshot.data['first_name']}",
                         style: const TextStyle(fontSize: 30),
                       ),
                       FutureBuilder(

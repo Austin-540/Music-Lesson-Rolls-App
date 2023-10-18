@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'globals.dart';
 import 'home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -88,6 +90,15 @@ class ConfirmLoginPage extends StatelessWidget {
       await storage.write(
           key: "email", value: email); //only writes to FSS if correct password
       await storage.write(key: "password", value: password);
+
+
+final prefs = await SharedPreferences.getInstance();
+  final encoded = jsonEncode(<String, dynamic>{
+    "token": pb.authStore.token,
+    "model": pb.authStore.model,
+  });
+  prefs.setString("pb_auth", encoded);
+
       return authData;
     } catch (e) {
       return "Fail";

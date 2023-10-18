@@ -41,6 +41,7 @@ dependencies:
   intl: ^0.18.1
   file_selector: ^1.0.0
   http:
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

@@ -3,13 +3,16 @@ import 'globals.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'uploading_csv_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class SettingsPage extends StatelessWidget {
   Future deleteSavedData() async {
     //self explanatory
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     const storage = FlutterSecureStorage();
     await storage.deleteAll();
+    await prefs.remove('pb_auth');
   }
 
   const SettingsPage({super.key});
