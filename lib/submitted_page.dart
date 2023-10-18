@@ -62,10 +62,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
             return Column(
               children: [
                 const Center(
-                    child: Icon(
-                  Icons.check,
-                  size: 250,
-                )),
+                    child: AnimatedCheckmark()),
                 ElevatedButton(
                     onPressed: () => Navigator.pushAndRemoveUntil(
                         context,
@@ -80,7 +77,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
             return Center(
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                       "Something went wrong. \nMost likely you tried to mark a roll at the same time as someone else, or tried to mark 2 rolls in too short an amount of time. Please try again in 20ish seconds."),
                   ElevatedButton(
                       onPressed: () {
@@ -88,11 +85,11 @@ class _SubmittedPageState extends State<SubmittedPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  MyHomePage(title: "Today's Lessons")),
+                                  const MyHomePage(title: "Today's Lessons")),
                           (route) => false,
                         );
                       },
-                      child: Text("Go Back"))
+                      child: const Text("Go Back"))
                 ],
               ),
             );
@@ -104,5 +101,30 @@ class _SubmittedPageState extends State<SubmittedPage> {
         },
       ),
     );
+  }
+}
+
+class AnimatedCheckmark extends StatefulWidget {
+  const AnimatedCheckmark({super.key});
+
+  @override
+  State<AnimatedCheckmark> createState() => _AnimatedCheckmarkState();
+}
+
+class _AnimatedCheckmarkState extends State<AnimatedCheckmark> with TickerProviderStateMixin{
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 1),
+    vsync: this,
+  )..forward();
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.elasticOut,
+  );
+
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaleTransition(scale: _animation,
+    child: const Icon(Icons.check, size: 250,),);
   }
 }
