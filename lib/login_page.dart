@@ -80,6 +80,7 @@ class ConfirmLoginPage extends StatelessWidget {
   final String password;
 
   Future logIn(email, password) async {
+    SharedPreferences.setMockInitialValues({});
     try {
       final authData = await pb.collection('users').authWithPassword(
             email,
