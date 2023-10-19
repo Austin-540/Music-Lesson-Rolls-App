@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'globals.dart';
 import 'home_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class LoginScreen extends StatefulWidget {
@@ -80,7 +79,6 @@ class ConfirmLoginPage extends StatelessWidget {
   final String password;
 
   Future logIn(email, password) async {
-    SharedPreferences.setMockInitialValues({});
     try {
       final authData = await pb.collection('users').authWithPassword(
             email,
@@ -93,12 +91,11 @@ class ConfirmLoginPage extends StatelessWidget {
       await storage.write(key: "password", value: password);
 
 
-final prefs = await SharedPreferences.getInstance();
   final encoded = jsonEncode(<String, dynamic>{
     "token": pb.authStore.token,
     "model": pb.authStore.model,
   });
-  prefs.setString("pb_auth", encoded);
+    storage.write(key: "pb_auth", value: encoded);
 
       return authData;
     } catch (e) {

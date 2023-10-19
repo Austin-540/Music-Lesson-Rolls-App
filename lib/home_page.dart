@@ -29,8 +29,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Future logIn() async {
     try {
 
-      final prefs = await SharedPreferences.getInstance();
-final String? raw = prefs.getString("pb_auth");
+      final storage = FlutterSecureStorage();
+final String? raw = await storage.read(key: "pb_auth");
 if (raw != null && raw.isNotEmpty) {
   final decoded = jsonDecode(raw);
   final token = (decoded as Map<String, dynamic>)["token"] as String? ?? "";
