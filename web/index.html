@@ -40,7 +40,28 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
-  <img src="img/SHC_Crest.jpg" alt="Flutter logo" style="display: block; margin-left: auto; margin-right: auto; height: 20vw;"/>
+  <style>
+    .loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 0.4s linear infinite;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10vw;
+    
+    }
+    
+    @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+    }
+    </style>
+    
+    <div class="loader"></div>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
