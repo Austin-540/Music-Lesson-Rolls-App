@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'new_lesson_marking.dart';
 import 'dart:io';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:intl/intl.dart';
 
