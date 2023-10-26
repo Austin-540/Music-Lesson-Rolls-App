@@ -83,8 +83,11 @@ Permission is granted to anyone to use this software for any purpose, including 
                               ), //easter egg
                             ),
                           ))),
-                          ElevatedButton.icon(onPressed: () => Navigator.push(context, 
-                    MaterialPageRoute(builder: (context) => ClearDBPage())), icon: Icon(Icons.delete_forever), label: Text("Clear the backend"))
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton.icon(onPressed: () => Navigator.push(context, 
+                                              MaterialPageRoute(builder: (context) => ClearDBPage())), icon: Icon(Icons.delete_forever), label: Text("Clear the backend")),
+                          )
             ],
           ),
         ),
