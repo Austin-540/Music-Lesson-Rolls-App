@@ -78,7 +78,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
               child: Column(
                 children: [
                   const Text(
-                      "Something went wrong. \nMost likely you tried to mark a roll at the same time as someone else, or tried to mark 2 rolls in too short an amount of time. Please try again in 20ish seconds."),
+                      "Something went wrong. \nMost likely you tried to mark a roll at the same time as someone else, or tried to mark 2 rolls in too short an amount of time. Please try again in 20ish seconds.\n\nYou can also try pressing the \"Clear the backend\" button on the settings page if this doesn't resolve itself."),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(

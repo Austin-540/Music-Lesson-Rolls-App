@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_lessons_attendance/clear_db_page.dart';
 import 'globals.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -47,16 +48,18 @@ class SettingsPage extends StatelessWidget {
           ), //explanation of what button does
         )),
         Center(
-          child: ElevatedButton.icon(
-              icon: const Icon(Icons.info),
-              label: const Text("App Info"),
-              onPressed: () => showAboutDialog(
-                  //shows the licences page also - to comply with MIT licenses etc
-                  context: context,
-                  applicationIcon: const Icon(Icons.class_outlined),
-                  applicationVersion: version,
-                  applicationLegalese:
-                      """Created by Austin-540. Check out the source code on GitHub if you want.  
+          child: Column(
+            children: [
+              ElevatedButton.icon(
+                  icon: const Icon(Icons.info),
+                  label: const Text("App Info"),
+                  onPressed: () => showAboutDialog(
+                      //shows the licences page also - to comply with MIT licenses etc
+                      context: context,
+                      applicationIcon: const Icon(Icons.class_outlined),
+                      applicationVersion: version,
+                      applicationLegalese:
+                          """Created by Austin-540. Check out the source code on GitHub if you want.  
         
 Copyright (c) 2023 Austin-540
 
@@ -69,17 +72,21 @@ Permission is granted to anyone to use this software for any purpose, including 
 2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
 
 3. This notice may not be removed or altered from any distribution."""),
-              onLongPress: () => showDialog(
-                  context: context,
-                  builder: (context) => const Dialog(
-                        child: Padding(
-                          padding: EdgeInsets.all(20.0),
-                          child: Text(
-                            "In memory of Thomas Park(he didn't die but asked to be remembered)",
-                            style: TextStyle(fontSize: 20),
-                          ), //easter egg
-                        ),
-                      ))),
+                  onLongPress: () => showDialog(
+                      context: context,
+                      builder: (context) => const Dialog(
+                            child: Padding(
+                              padding: EdgeInsets.all(20.0),
+                              child: Text(
+                                "In memory of Thomas Park(he didn't die but asked to be remembered)",
+                                style: TextStyle(fontSize: 20),
+                              ), //easter egg
+                            ),
+                          ))),
+                          ElevatedButton.icon(onPressed: () => Navigator.push(context, 
+                    MaterialPageRoute(builder: (context) => ClearDBPage())), icon: Icon(Icons.delete_forever), label: Text("Clear the backend"))
+            ],
+          ),
         ),
         kIsWeb
             ? //hides this button unless accessing app from the website
@@ -102,7 +109,8 @@ Permission is granted to anyone to use this software for any purpose, including 
                         child: Text(
                       "Upload a CSV file to add lessons. (Desktop only, CSV must be formatted correctly)",
                       textAlign: TextAlign.center,
-                    ))
+                    )),
+                    
                   ],
                 ),
               )
