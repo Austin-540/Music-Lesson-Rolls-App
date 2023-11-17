@@ -87,13 +87,12 @@ class _NewLessonInListState extends State<NewLessonInList> {
                   ],
                 ),
               
-                GridView.count(crossAxisCount: 5,
+                GridView.count(crossAxisCount: 4,
                     shrinkWrap: true,
                     mainAxisSpacing: 0,
                     childAspectRatio: 1.7,
                     
                     children: [
-                      const SizedBox(),
                       const SizedBox(),
                       const Align(alignment: Alignment.bottomCenter, 
                       child: Text("Present", textAlign: TextAlign.center, style: TextStyle(fontSize: 12),)),
@@ -107,8 +106,13 @@ class _NewLessonInListState extends State<NewLessonInList> {
                   //for each student in the lesson
 
               
-                      Text(widget.details['expand']['students'][x]['name'], textAlign: TextAlign.center,),
-                      const SizedBox(),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Text(widget.details['expand']['students'][x]['name'], textAlign: TextAlign.center,),
+                        ),
+                      ),
                       activeStatus
                           ? Radio(
                               value: "Present",
