@@ -86,9 +86,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+              
                 GridView.count(crossAxisCount: 5,
                     shrinkWrap: true,
                     mainAxisSpacing: 0,
