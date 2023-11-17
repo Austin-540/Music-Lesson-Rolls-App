@@ -89,26 +89,28 @@ class _NewLessonInListState extends State<NewLessonInList> {
                 const SizedBox(
                   height: 10,
                 ),
-                activeStatus
-                    ? const Row(
-                        children: [
-                          Spacer(),
-                          Text(
-                            "Present   Explained   Absent",
-                            style: TextStyle(fontSize: 10),
-                          ),
-                        ],
-                      )
-                    : const SizedBox(),
-                for (int x = 0;
+                GridView.count(crossAxisCount: 5,
+                    shrinkWrap: true,
+                    mainAxisSpacing: 0,
+                    childAspectRatio: 1.7,
+                    
+                    children: [
+                      const SizedBox(),
+                      const SizedBox(),
+                      const Align(alignment: Alignment.bottomCenter, 
+                      child: Text("Present", textAlign: TextAlign.center, style: TextStyle(fontSize: 12),)),
+                      const Align(alignment: Alignment.bottomCenter,
+                      child: Text("Explained", textAlign: TextAlign.center, style: TextStyle(fontSize: 12),),),
+                      const Align(alignment: Alignment.bottomCenter,
+                      child: Text("Absent", textAlign: TextAlign.center, style: TextStyle(fontSize: 12),),),
+                      for (int x = 0;
                     x <= widget.details['students'].length - 1;
                     x++) ...[
                   //for each student in the lesson
 
-                  Row(
-                    children: [
-                      Text(widget.details['expand']['students'][x]['name']),
-                      const Spacer(),
+              
+                      Text(widget.details['expand']['students'][x]['name'], textAlign: TextAlign.center,),
+                      const SizedBox(),
                       activeStatus
                           ? Radio(
                               value: "Present",
@@ -136,9 +138,11 @@ class _NewLessonInListState extends State<NewLessonInList> {
                                     _rollOptions[x] = value!;
                                   }))
                           : const SizedBox()
-                    ],
-                  )
+               
                 ],
+                    ],),
+
+                
                 activeStatus
                     ? OutlinedButton(
                         style: ButtonStyle(
@@ -188,8 +192,8 @@ class _NewLessonInListState extends State<NewLessonInList> {
                           }
                         },
                         child: const Text("Submit"))
-                    : const SizedBox()
-              ],
+                    : const SizedBox(),
+                                  ],
             ),
           )),
     );
