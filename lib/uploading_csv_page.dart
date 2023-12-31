@@ -100,6 +100,20 @@ class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
     return "";
   }
 
+
+  Future isThereDataInTheDB() async {
+    final records = await pb.collection('csv_files').getFullList(
+  sort: '-created',
+);
+    if (records.isEmpty) {
+      return false;
+    } else {
+      for (int x=0; x<records.length; x++) {
+        await pb.collection('csv_files').delete(records[x].id);
+      }
+      return true;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,40 +127,61 @@ class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return Center(
-              child: Column(
-                children: [
-                  const Icon(Icons.check),
-                  const Text(
-                    "The file has been recieved by the server. If the formatting is incorrect it will not add the lessons correctly. Please double check it worked at app.shcmusiclessonrolls.com/_/",
-                    textAlign: TextAlign.center,
-                  ),
-                  //my knowledge of Go is not good enough to check in the main.go file if the formatting is correct
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const MyHomePage(title: "Home Page")));
-                        },
-                        child: const Text("Home Page")),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const UploadingCSVPage()));
-                        },
-                        child: const Text("Add Another")),
-                  )
-                ],
-              ),
+              child: FutureBuilder(
+                future: isThereDataInTheDB(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+
+                  if (snapshot.data == false) {
+                  return Column(
+                  children: [
+                    const Icon(Icons.check),
+                    const Text(
+                      "The file was accepted by the server.",
+                      textAlign: TextAlign.center,
+                    ),
+                    //my knowledge of Go is not good enough to check in the main.go file if the formatting is correct
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MyHomePage(title: "Home Page")));
+                          },
+                          child: const Text("Home Page")),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const UploadingCSVPage()));
+                          },
+                          child: const Text("Add Another")),
+                    )
+                  ],
+                );} else {
+                  return Column(
+                    children: [
+                      Icon(Icons.error),
+                      Text("This CSV file isn't formatted correctly."),
+                      ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UploadingCSVPage()), (route) => false), child: Text("Try Again"))
+                    ],
+                  );
+                }
+                ;} else if (snapshot.hasError){
+                  return Text("Something went wrong :/");
+                } else {
+                  return CircularProgressIndicator();
+                }
+                ;},
+          ),
             );
           } else if (snapshot.hasError) {
             return const Center(
