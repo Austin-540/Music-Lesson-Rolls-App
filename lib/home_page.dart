@@ -192,14 +192,17 @@ if (raw != null && raw.isNotEmpty) {
                     })
                   ]
                   ),
-                  QudsPopupMenuSection(titleText: "Settings", leading: Icon(Icons.settings_outlined), subItems: [
+                  QudsPopupMenuSection(titleText: "Server Options", leading: Icon(Icons.cloud_outlined), subItems: [
                     kIsWeb?
                     QudsPopupMenuItem(title: Text("Upload CSV File"),leading: Icon(Icons.upload_file) ,onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadingCSVPage()));
                     }): //For if the CSV can be uploaded
                     QudsPopupMenuItem(title: Text("Feature Unavailable"), onPressed: () => null, subTitle: Text("Only available from a web browser."), leading: Icon(Icons.error_outline_rounded)),
                     QudsPopupMenuItem(title: Text("Clear The Backend"), onPressed: () => 
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ClearDBPage())), leading: Icon(Icons.delete_forever_outlined))
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ClearDBPage())), leading: Icon(Icons.delete_forever_outlined)),
+                    QudsPopupMenuItem(title: Text("Manually Edit Lessons"), leading: Icon(Icons.edit_outlined), subTitle: Text("Requires an admin account."),onPressed: (){
+                      launchUrl(Uri.parse("https://app.shcmusiclessonrolls.com/_/#/collections?collectionId=as04pbul6udp6bt&filter=&sort=-created"));
+                    })
                   ]),
                   QudsPopupMenuItem(title: Text("App Info"),leading: Icon(Icons.info_outline), onPressed: () {
              showAboutDialog(
