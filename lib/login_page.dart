@@ -86,16 +86,16 @@ class ConfirmLoginPage extends StatelessWidget {
           ); //if wrong password, try block will fail, and snapshot.data will be "Fail"
 
       const storage = FlutterSecureStorage();
-      await storage.write(
-          key: "email", value: email); //only writes to FSS if correct password
-      await storage.write(key: "password", value: password);
-
+      // await storage.write(
+      //     key: "email", value: email); //only writes to FSS if correct password
+      // await storage.write(key: "password", value: password);
+await storage.write(key: "username", value: authData.record!.data['username']);
 
   final encoded = jsonEncode(<String, dynamic>{
     "token": pb.authStore.token,
     "model": pb.authStore.model,
   });
-    storage.write(key: "pb_auth", value: encoded);
+    await storage.write(key: "pb_auth", value: encoded);
 
       return authData;
     } catch (e) {

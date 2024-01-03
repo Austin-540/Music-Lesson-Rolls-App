@@ -1,5 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
+import 'package:music_lessons_attendance/uploading_csv_page.dart';
+import 'package:quds_popup_menu/quds_popup_menu.dart';
+import 'package:restart_app/restart_app.dart';
 import 'new_lesson_marking.dart';
 import 'dart:io';
 
@@ -14,6 +19,7 @@ import 'login_page.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 import 'more_detailed_page.dart';
+import 'clear_db_page.dart';
 import 'package:http/http.dart' as http;
 
 class MyHomePage extends StatefulWidget {
@@ -102,6 +108,24 @@ if (raw != null && raw.isNotEmpty) {
     }
     //first try to see if password is already saved, then if its not push to login screen
   }
+  Future deleteSavedData() async {
+    const storage = FlutterSecureStorage();
+    await storage.delete(key: "pb_auth");
+    await storage.delete(key: "username");
+    pb.authStore.clear();
+    
+  }
+  Future getNameForMenu() async {
+    String username = "Undefined";
+    const storage = FlutterSecureStorage();
+    String? MaybeUsername = await storage.read(key: "username");
+    if (MaybeUsername == null) {
+     username = "Undefined";
+    } else {
+     username = MaybeUsername;
+    }
+    return username;
+  }
 
   Future getLessons() async {
     final lessonList = await pb.collection('lessons').getFullList(
@@ -142,12 +166,86 @@ if (raw != null && raw.isNotEmpty) {
                     MaterialPageRoute(
                         builder: (context) => const MoreDetailedLessonsPage())),
                 icon: const Icon(Icons.more_horiz)),
-            IconButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SettingsPage())),
-                icon: const Icon(Icons.settings)),
+           Padding(
+             padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
+             child: FutureBuilder(
+              future: getNameForMenu(),
+           
+               builder: (context, snapshot) {
+                if (snapshot.hasData) {
+           
+                
+                return QudsPopupButton(
+                child: ProfilePicture(
+                  name: snapshot.data,
+                  random: true,
+                  radius: 20,
+                  fontsize: 20,
+                  ),
+                items: [
+                  QudsPopupMenuSection(titleText: snapshot.data, leading: Icon(Icons.person),
+                  subItems: [
+                    QudsPopupMenuItem(title: Text("Log out"),leading: Icon(Icons.logout),onPressed: () {
+                      deleteSavedData();
+                    Restart
+                        .restartApp();
+                    })
+                  ]
+                  ),
+                  QudsPopupMenuSection(titleText: "Settings", leading: Icon(Icons.settings), subItems: [
+                    kIsWeb?
+                    QudsPopupMenuItem(title: Text("Upload CSV File"),leading: Icon(Icons.upload_file) ,onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadingCSVPage()));
+                    }): //For if the CSV can be uploaded
+                    QudsPopupMenuItem(title: Text("Feature Unavailable"), onPressed: () => null, subTitle: Text("Only available from a web browser."), leading: Icon(Icons.error_outline_rounded)),
+                    QudsPopupMenuItem(title: Text("Clear The Backend"), onPressed: () => 
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ClearDBPage())), leading: Icon(Icons.delete_forever_outlined))
+                  ]),
+                  QudsPopupMenuItem(title: Text("App Info"),leading: Icon(Icons.info_outline), onPressed: () {
+             showAboutDialog(
+                          //shows the licences page also - to comply with MIT licenses etc
+                          context: context,
+                          applicationIcon: const Icon(Icons.class_outlined),
+                          applicationVersion: version,
+                          applicationLegalese:
+                              """Created by Austin-540. Check out the source code on GitHub if you want.  
+                     
+             Copyright (c) 2023 Austin-540
+             
+             This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
+             
+             Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:
+             
+             1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+             
+             2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+             
+             3. This notice may not be removed or altered from any distribution.""");
+                     
+                  }, onLongPressed: () => showDialog(
+                          context: context,
+                          builder: (context) => const Dialog(
+                                child: Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: Text(
+                                    "In memory of Thomas Park(he didn't die but asked to be remembered)",
+                                    style: TextStyle(fontSize: 20),
+                                  ), //easter egg
+                                ),
+                              )) )
+                ]);} else if (snapshot.hasError){
+                  return GestureDetector(
+                    onTap: () {
+                      deleteSavedData();
+                      Restart.restartApp();
+                    },
+                    child: Icon(Icons.error_outline));
+                }else{
+                  return GestureDetector(child: CircularProgressIndicator(), onTap: () { deleteSavedData();
+                  Restart.restartApp();},);
+                };},
+             ),
+           )
           ],
         ),
         body: Center(

@@ -163,6 +163,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  flutter_profile_picture:
+    dependency: "direct main"
+    description:
+      name: flutter_profile_picture
+      sha256: "067caecef0d7162d3858eaca3c5859cbbb21b3e5704c2bc5b96b50ffe267f45d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -367,6 +375,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  quds_popup_menu:
+    dependency: "direct main"
+    description:
+      name: quds_popup_menu
+      sha256: d0f3f2f84c0bbf2934b961abbdafaa112c7ff9057585a24526a1ef61d2cd79e7
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1+1"
+  quds_ui_kit:
+    dependency: transitive
+    description:
+      name: quds_ui_kit
+      sha256: "12018041085bf3f6bdb30744ba86cdb4b3a8e7d51dc2b271f275885508dd21f4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.7+10"
   restart_app:
     dependency: "direct main"
     description:
