@@ -7,7 +7,7 @@ import 'package:quds_popup_menu/quds_popup_menu.dart';
 import 'package:restart_app/restart_app.dart';
 import 'new_lesson_marking.dart';
 import 'dart:io';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
@@ -183,7 +183,7 @@ if (raw != null && raw.isNotEmpty) {
                   fontsize: 20,
                   ),
                 items: [
-                  QudsPopupMenuSection(titleText: snapshot.data, leading: Icon(Icons.person),
+                  QudsPopupMenuSection(titleText: snapshot.data, leading: Icon(Icons.person_outline),
                   subItems: [
                     QudsPopupMenuItem(title: Text("Log out"),leading: Icon(Icons.logout),onPressed: () {
                       deleteSavedData();
@@ -192,7 +192,7 @@ if (raw != null && raw.isNotEmpty) {
                     })
                   ]
                   ),
-                  QudsPopupMenuSection(titleText: "Settings", leading: Icon(Icons.settings), subItems: [
+                  QudsPopupMenuSection(titleText: "Settings", leading: Icon(Icons.settings_outlined), subItems: [
                     kIsWeb?
                     QudsPopupMenuItem(title: Text("Upload CSV File"),leading: Icon(Icons.upload_file) ,onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadingCSVPage()));
@@ -232,7 +232,17 @@ if (raw != null && raw.isNotEmpty) {
                                     style: TextStyle(fontSize: 20),
                                   ), //easter egg
                                 ),
-                              )) )
+                              )) ),
+                              QudsPopupMenuItem(title: Text("Send Feedback"), leading: Icon(Icons.feedback_outlined), onPressed: () async {
+                                final records = await pb.collection('my_email').getFullList(sort: '-created',);
+                                final recipient_email = records[0].data['email'];
+                                try {
+                                  launchUrl(Uri.parse("mailto:${recipient_email}?subject=App%20Feedback"));
+                                } catch (e){
+                                  showDialog(context: context, builder: (context) => Dialog(child: Text("You can send an email to $recipient_email"),));
+                                }
+
+                              })
                 ]);} else if (snapshot.hasError){
                   return GestureDetector(
                     onTap: () {
@@ -258,10 +268,6 @@ if (raw != null && raw.isNotEmpty) {
                 return ListView(children: [
                   Column(
                     children: [
-                      Text(
-                        "Welcome ${snapshot.data['first_name']}",
-                        style: const TextStyle(fontSize: 30),
-                      ),
                       FutureBuilder(
                         // future builder for lessons
                         future: getLessons(),
