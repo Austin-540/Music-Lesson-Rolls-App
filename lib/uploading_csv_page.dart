@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:music_lessons_attendance/home_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'globals.dart';
 
 class UploadingCSVPage extends StatefulWidget {
@@ -22,8 +23,8 @@ class _UploadingCSVPageState extends State<UploadingCSVPage> {
       // ignore: use_build_context_synchronously
       showDialog(
           context: context,
-          builder: (context) => const Dialog(
-                child: Padding(
+          builder: (context) => const AlertDialog(
+                title: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text("Wrong file type. CSV file required."),
                 ),
@@ -44,12 +45,20 @@ class _UploadingCSVPageState extends State<UploadingCSVPage> {
           child: Center(
               child: file == null
                   ? //if file hasn't been picked yet
-                  ElevatedButton.icon(
-                      onPressed: () {
-                        pickFile();
-                      },
-                      icon: const Icon(Icons.upload_file),
-                      label: const Text("Select file"))
+                  Column(
+                    children: [
+                      ElevatedButton.icon(
+                          onPressed: () {
+                            pickFile();
+                          },
+                          icon: const Icon(Icons.upload_file),
+                          label: const Text("Select file")),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: OutlinedButton(onPressed: ()=>launchUrl(Uri.parse("https://austin-540.github.io/Database-Stuff/csv_formatting_guide.html")), child: const Text("CSV Formatting Guide")),
+                          )
+                    ],
+                  )
                   :
                   //once file has been picked
                   Column(
@@ -171,6 +180,7 @@ class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
                     children: [
                       const Icon(Icons.error),
                       const Text("This CSV file isn't formatted correctly."),
+                      const Text("Has the teacher's account been made?"),
                       ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const UploadingCSVPage()), (route) => false), child: const Text("Try Again"))
                     ],
                   );
