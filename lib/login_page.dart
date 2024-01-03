@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 TextFormField(
                   decoration: const InputDecoration(
-                    labelText: 'Email',
+                    labelText: 'Username',
                   ),
                   onSaved: (value) {
                     _email = value!
