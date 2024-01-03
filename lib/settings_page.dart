@@ -86,7 +86,7 @@ Permission is granted to anyone to use this software for any purpose, including 
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton.icon(onPressed: () => Navigator.push(context, 
-                                              MaterialPageRoute(builder: (context) => ClearDBPage())), icon: Icon(Icons.delete_forever), label: Text("Clear the backend")),
+                                              MaterialPageRoute(builder: (context) => const ClearDBPage())), icon: const Icon(Icons.delete_forever), label: const Text("Clear the backend")),
                           )
             ],
           ),

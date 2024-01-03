@@ -93,7 +93,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
                       child: const Text("Go Back")),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: OutlinedButton(onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context) => ClearDBPage())), child: Text("Clear the backend")),
+                        child: OutlinedButton(onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context) => const ClearDBPage())), child: const Text("Clear the backend")),
                       )
                 ],
               ),

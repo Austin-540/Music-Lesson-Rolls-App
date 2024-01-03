@@ -91,7 +91,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
                     shrinkWrap: true,
                     mainAxisSpacing: 0,
                     childAspectRatio: 1.7,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     
                     children: [
                       const SizedBox(),

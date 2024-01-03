@@ -169,18 +169,18 @@ class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
                 );} else {
                   return Column(
                     children: [
-                      Icon(Icons.error),
-                      Text("This CSV file isn't formatted correctly."),
-                      ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UploadingCSVPage()), (route) => false), child: Text("Try Again"))
+                      const Icon(Icons.error),
+                      const Text("This CSV file isn't formatted correctly."),
+                      ElevatedButton(onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const UploadingCSVPage()), (route) => false), child: const Text("Try Again"))
                     ],
                   );
                 }
-                ;} else if (snapshot.hasError){
-                  return Text("Something went wrong :/");
+                } else if (snapshot.hasError){
+                  return const Text("Something went wrong :/");
                 } else {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
-                ;},
+                },
           ),
             );
           } else if (snapshot.hasError) {

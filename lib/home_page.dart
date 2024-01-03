@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
@@ -14,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:music_lessons_attendance/marking_the_roll_page.dart';
 import 'globals.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'settings_page.dart';
 import 'login_page.dart';
 import 'package:pocketbase/pocketbase.dart';
 
@@ -34,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future logIn() async {
     try {
 
-      final storage = FlutterSecureStorage();
+      const storage = FlutterSecureStorage();
 final String? raw = await storage.read(key: "pb_auth");
 if (raw != null && raw.isNotEmpty) {
   final decoded = jsonDecode(raw);
@@ -55,11 +56,10 @@ if (raw != null && raw.isNotEmpty) {
       final latestVersion = await http.get(Uri.parse(
           "https://austin-540.github.io/Database-Stuff/current_version.html"));
       if (latestVersion.body != "$version\n") {
-        // ignore: use_build_context_synchronously
         showDialog(
             context: context,
             builder: (context) => AlertDialog(
-                  title: Text("Please update"),
+                  title: const Text("Please update"),
                   content: Text(
                       "You are using an outdated version of the website. You may need to restart your web browser for it to update.\n\nYour website version: $version\nLatest version: ${latestVersion.body}"),
                 ));
@@ -71,7 +71,6 @@ if (raw != null && raw.isNotEmpty) {
       if (checkForCustomError.body == "OK\n") {
         return authDataMap; //finish the FutureBuilder
       } else {
-        // ignore: use_build_context_synchronously
         showDialog(
             context: context,
             builder: (context) => AlertDialog(
@@ -118,11 +117,11 @@ if (raw != null && raw.isNotEmpty) {
   Future getNameForMenu() async {
     String username = "Undefined";
     const storage = FlutterSecureStorage();
-    String? MaybeUsername = await storage.read(key: "username");
-    if (MaybeUsername == null) {
+    String? maybeUsername = await storage.read(key: "username");
+    if (maybeUsername == null) {
      username = "Undefined";
     } else {
-     username = MaybeUsername;
+     username = maybeUsername;
     }
     return username;
   }
@@ -176,35 +175,29 @@ if (raw != null && raw.isNotEmpty) {
            
                 
                 return QudsPopupButton(
-                child: ProfilePicture(
-                  name: snapshot.data,
-                  random: true,
-                  radius: 20,
-                  fontsize: 20,
-                  ),
                 items: [
-                  QudsPopupMenuSection(titleText: snapshot.data, leading: Icon(Icons.person_outline),
+                  QudsPopupMenuSection(titleText: snapshot.data, leading: const Icon(Icons.person_outline),
                   subItems: [
-                    QudsPopupMenuItem(title: Text("Log out"),leading: Icon(Icons.logout),onPressed: () {
+                    QudsPopupMenuItem(title: const Text("Log out"),leading: const Icon(Icons.logout),onPressed: () {
                       deleteSavedData();
                     Restart
                         .restartApp();
                     })
                   ]
                   ),
-                  QudsPopupMenuSection(titleText: "Server Options", leading: Icon(Icons.cloud_outlined), subItems: [
+                  QudsPopupMenuSection(titleText: "Server Options", leading: const Icon(Icons.cloud_outlined), subItems: [
                     kIsWeb?
-                    QudsPopupMenuItem(title: Text("Upload CSV File"),leading: Icon(Icons.upload_file) ,onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadingCSVPage()));
+                    QudsPopupMenuItem(title: const Text("Upload CSV File"),leading: const Icon(Icons.upload_file) ,onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const UploadingCSVPage()));
                     }): //For if the CSV can be uploaded
-                    QudsPopupMenuItem(title: Text("Feature Unavailable"), onPressed: () => null, subTitle: Text("Only available from a web browser."), leading: Icon(Icons.error_outline_rounded)),
-                    QudsPopupMenuItem(title: Text("Clear The Backend"), onPressed: () => 
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ClearDBPage())), leading: Icon(Icons.delete_forever_outlined)),
-                    QudsPopupMenuItem(title: Text("Manually Edit Lessons"), leading: Icon(Icons.edit_outlined), subTitle: Text("Requires an admin account."),onPressed: (){
+                    QudsPopupMenuItem(title: const Text("Feature Unavailable"), onPressed: () {}, subTitle: const Text("Only available from a web browser."), leading: const Icon(Icons.error_outline_rounded)),
+                    QudsPopupMenuItem(title: const Text("Clear The Backend"), onPressed: () => 
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const ClearDBPage())), leading: const Icon(Icons.delete_forever_outlined)),
+                    QudsPopupMenuItem(title: const Text("Manually Edit Lessons"), leading: const Icon(Icons.edit_outlined), subTitle: const Text("Requires an admin account."),onPressed: (){
                       launchUrl(Uri.parse("https://app.shcmusiclessonrolls.com/_/#/collections?collectionId=as04pbul6udp6bt&filter=&sort=-created"));
                     })
                   ]),
-                  QudsPopupMenuItem(title: Text("App Info"),leading: Icon(Icons.info_outline), onPressed: () {
+                  QudsPopupMenuItem(title: const Text("App Info"),leading: const Icon(Icons.info_outline), onPressed: () {
              showAboutDialog(
                           //shows the licences page also - to comply with MIT licenses etc
                           context: context,
@@ -236,27 +229,33 @@ if (raw != null && raw.isNotEmpty) {
                                   ), //easter egg
                                 ),
                               )) ),
-                              QudsPopupMenuItem(title: Text("Send Feedback"), leading: Icon(Icons.feedback_outlined), onPressed: () async {
+                              QudsPopupMenuItem(title: const Text("Send Feedback"), leading: const Icon(Icons.feedback_outlined), onPressed: () async {
                                 final records = await pb.collection('my_email').getFullList(sort: '-created',);
-                                final recipient_email = records[0].data['email'];
+                                final recipientEmail = records[0].data['email'];
                                 try {
-                                  launchUrl(Uri.parse("mailto:${recipient_email}?subject=App%20Feedback"));
+                                  launchUrl(Uri.parse("mailto:$recipientEmail?subject=App%20Feedback"));
                                 } catch (e){
-                                  showDialog(context: context, builder: (context) => Dialog(child: Text("You can send an email to $recipient_email"),));
+                                  showDialog(context: context, builder: (context) => Dialog(child: Text("You can send an email to $recipientEmail"),));
                                 }
 
                               })
-                ]);} else if (snapshot.hasError){
+                ],
+                child: ProfilePicture(
+                  name: snapshot.data,
+                  random: true,
+                  radius: 20,
+                  fontsize: 20,
+                  ));} else if (snapshot.hasError){
                   return GestureDetector(
                     onTap: () {
                       deleteSavedData();
                       Restart.restartApp();
                     },
-                    child: Icon(Icons.error_outline));
+                    child: const Icon(Icons.error_outline));
                 }else{
-                  return GestureDetector(child: CircularProgressIndicator(), onTap: () { deleteSavedData();
+                  return GestureDetector(child: const CircularProgressIndicator(), onTap: () { deleteSavedData();
                   Restart.restartApp();},);
-                };},
+                }},
              ),
            )
           ],
