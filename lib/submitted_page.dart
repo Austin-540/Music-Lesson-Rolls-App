@@ -1,3 +1,4 @@
+import 'package:music_lessons_attendance/clear_db_page.dart';
 import 'package:music_lessons_attendance/home_page.dart';
 
 import 'globals.dart';
@@ -78,7 +79,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
               child: Column(
                 children: [
                   const Text(
-                      "Something went wrong. \nMost likely you tried to mark a roll at the same time as someone else, or tried to mark 2 rolls in too short an amount of time. Please try again in 20ish seconds.\n\nYou can also try pressing the \"Clear the backend\" button on the settings page if this doesn't resolve itself."),
+                      "Something went wrong. \nMost likely you tried to mark a roll at the same time as someone else, or tried to mark 2 rolls in too short an amount of time. Please try again in 20ish seconds.\n\nYou can also try pressing the \"Clear the backend\" button if this doesn't resolve itself."),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(
@@ -89,7 +90,11 @@ class _SubmittedPageState extends State<SubmittedPage> {
                           (route) => false,
                         );
                       },
-                      child: const Text("Go Back"))
+                      child: const Text("Go Back")),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: OutlinedButton(onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context) => ClearDBPage())), child: Text("Clear the backend")),
+                      )
                 ],
               ),
             );
