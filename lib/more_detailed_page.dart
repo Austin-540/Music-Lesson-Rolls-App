@@ -110,7 +110,7 @@ class _ListOfLessonsWithMoreDetailsState
               child: Text(
                 "$weekday's Lessons",
                 style: const TextStyle(
-                  fontSize: 30,
+                  fontSize: 25,
                 ),
               ),
             ),
