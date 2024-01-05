@@ -9,8 +9,11 @@ jobs:
   pre-release:
     name: "Pre Release"
     runs-on: "ubuntu-latest"
+    
+  
 
     steps:
+      - uses: subosito/flutter-action@v2
       - name: "Dependencies"
         run: flutter pub get
       - name: "Build"
