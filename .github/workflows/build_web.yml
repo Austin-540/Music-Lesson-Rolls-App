@@ -20,7 +20,7 @@ jobs:
       - name: "Build"
         run: flutter build web
       - name: "zip"
-        run: zip -r Latest.zip /build/web/
+        run: zip -r Latest.zip build/web/
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
