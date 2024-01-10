@@ -208,9 +208,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                             })
                                         : //For if the CSV can be uploaded
                                         QudsPopupMenuItem(
+
                                             title:
-                                                const Text("Feature Unavailable"),
-                                            onPressed: () {},
+                                                const Text("Upload CSV File"),
+                                            onPressed: () {
+                                              showDialog(context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: Text("This button only works from a web browser."),
+                                                  
+                                                );
+                                              });
+                                            },
                                             subTitle: const Text(
                                                 "Only available from a web browser."),
                                             leading: const Icon(
