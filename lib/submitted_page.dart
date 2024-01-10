@@ -67,18 +67,18 @@ class _SubmittedPageState extends State<SubmittedPage> {
                     child: AnimatedGradientBorder(
                       borderSize: 2,
             glowSize: 15,
-                      borderRadius: BorderRadius.all(Radius.circular(800)),
-                      gradientColors: [
+                      borderRadius: const BorderRadius.all(Radius.circular(800)),
+                      gradientColors: const [
                         Colors.purple,
                         Colors.blue,
                         Colors.red,
                       ],
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(800)),
+                          borderRadius: const BorderRadius.all(Radius.circular(800)),
                           color: Theme.of(context).colorScheme.background
                         ),
-                        child: AnimatedCheckmark()))),
+                        child: const AnimatedCheckmark()))),
                 ElevatedButton(
                     onPressed: () => Navigator.pushAndRemoveUntil(
                         context,
