@@ -1,3 +1,4 @@
+import 'package:glowy_borders/glowy_borders.dart';
 import 'package:music_lessons_attendance/clear_db_page.dart';
 import 'package:music_lessons_attendance/home_page.dart';
 
@@ -62,8 +63,22 @@ class _SubmittedPageState extends State<SubmittedPage> {
           if (snapshot.hasData) {
             return Column(
               children: [
-                const Center(
-                    child: AnimatedCheckmark()),
+                Center(
+                    child: AnimatedGradientBorder(
+                      borderSize: 2,
+            glowSize: 15,
+                      borderRadius: BorderRadius.all(Radius.circular(800)),
+                      gradientColors: [
+                        Colors.purple,
+                        Colors.blue,
+                        Colors.red,
+                      ],
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(800)),
+                          color: Theme.of(context).colorScheme.background
+                        ),
+                        child: AnimatedCheckmark()))),
                 ElevatedButton(
                     onPressed: () => Navigator.pushAndRemoveUntil(
                         context,

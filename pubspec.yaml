@@ -44,6 +44,7 @@ dependencies:
   quds_popup_menu: ^0.0.1+1
   flutter_profile_picture: ^2.0.0
   url_launcher: ^6.2.2
+  glowy_borders: ^1.0.2
 
 dev_dependencies:
   flutter_test:
