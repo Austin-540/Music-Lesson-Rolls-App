@@ -64,7 +64,9 @@ class _SubmittedPageState extends State<SubmittedPage> {
             return Column(
               children: [
                 Center(
-                    child: AnimatedGradientBorder(
+                    child: 
+                    Theme.of(context).brightness == Brightness.dark?
+                    AnimatedGradientBorder(
                         borderSize: 2,
                         glowSize: 15,
                         borderRadius:
@@ -80,7 +82,9 @@ class _SubmittedPageState extends State<SubmittedPage> {
                                     Radius.circular(800)),
                                 color:
                                     Theme.of(context).colorScheme.background),
-                            child: const AnimatedCheckmark()))),
+                            child: const AnimatedCheckmark())):
+                            const AnimatedCheckmark()
+                            ),
                 ElevatedButton(
                     onPressed: () => Navigator.pushAndRemoveUntil(
                         context,

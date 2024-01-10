@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  //the root widget of the app
-  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Music Lesson Attendance',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 134, 193,
-                234)), //"Oxford Blue" according to the communications part of adminitstration
-        useMaterial3: true, //Makes the app look more modern
+    return AdaptiveTheme(
+      light: ThemeData(useMaterial3: true, brightness: Brightness.light, colorSchemeSeed: const Color.fromARGB(255, 134, 193, 234)),
+      dark: ThemeData(useMaterial3: true, brightness: Brightness.dark, colorSchemeSeed: Color.fromARGB(255, 64, 134, 255)),
+      initial: AdaptiveThemeMode.light,
+      builder: (theme, darkTheme) => MaterialApp(
+        title: 'Music Lesson Rolls',
+        theme: theme,
+        darkTheme: darkTheme,
+        home: const MyHomePage(title: "Today's Lessons",),
       ),
-      home: const MyHomePage(title: 'Today\'s Lessons'),
     );
   }
 }
+

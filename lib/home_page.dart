@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
@@ -33,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future logIn() async {
+    
     try {
       const storage = FlutterSecureStorage();
       final String? raw = await storage.read(key: "pb_auth");
@@ -112,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
     const storage = FlutterSecureStorage();
     await storage.delete(key: "pb_auth");
     await storage.delete(key: "username");
+    await storage.deleteAll();
     pb.authStore.clear();
   }
 
@@ -172,127 +175,146 @@ class _MyHomePageState extends State<MyHomePage> {
                 future: getNameForMenu(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return QudsPopupButton(
-                        items: [
-                          QudsPopupMenuSection(
-                              titleText: snapshot.data,
-                              leading: const Icon(Icons.person_outline),
-                              subItems: [
-                                QudsPopupMenuItem(
-                                    title: const Text("Log out"),
-                                    leading: const Icon(Icons.logout),
-                                    onPressed: () {
-                                      deleteSavedData();
-                                      Restart.restartApp();
-                                    })
-                              ]),
-                          QudsPopupMenuSection(
-                              titleText: "Server Options",
-                              leading: const Icon(Icons.cloud_outlined),
-                              subItems: [
-                                kIsWeb
-                                    ? QudsPopupMenuItem(
-                                        title: const Text("Upload CSV File"),
-                                        leading: const Icon(Icons.upload_file),
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const UploadingCSVPage()));
-                                        })
-                                    : //For if the CSV can be uploaded
+                    return Builder(
+                      builder: (context) {
+                        return QudsPopupButton(
+                            items: [
+                              QudsPopupMenuSection(
+                                  titleText: snapshot.data,
+                                  leading: const Icon(Icons.person_outline),
+                                  subItems: [
                                     QudsPopupMenuItem(
-                                        title:
-                                            const Text("Feature Unavailable"),
-                                        onPressed: () {},
-                                        subTitle: const Text(
-                                            "Only available from a web browser."),
+                                        title: const Text("Log out"),
+                                        leading: const Icon(Icons.logout),
+                                        onPressed: () {
+                                          deleteSavedData();
+                                          Restart.restartApp();
+                                        })
+                                  ]),
+                              QudsPopupMenuSection(
+                                  titleText: "Server Options",
+                                  leading: const Icon(Icons.cloud_outlined),
+                                  subItems: [
+                                    kIsWeb
+                                        ? QudsPopupMenuItem(
+                                            title: const Text("Upload CSV File"),
+                                            leading: const Icon(Icons.upload_file),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const UploadingCSVPage()));
+                                            })
+                                        : //For if the CSV can be uploaded
+                                        QudsPopupMenuItem(
+                                            title:
+                                                const Text("Feature Unavailable"),
+                                            onPressed: () {},
+                                            subTitle: const Text(
+                                                "Only available from a web browser."),
+                                            leading: const Icon(
+                                                Icons.error_outline_rounded)),
+                                    QudsPopupMenuItem(
+                                        title: const Text("Clear The Backend"),
+                                        onPressed: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const ClearDBPage())),
                                         leading: const Icon(
-                                            Icons.error_outline_rounded)),
-                                QudsPopupMenuItem(
-                                    title: const Text("Clear The Backend"),
-                                    onPressed: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const ClearDBPage())),
-                                    leading: const Icon(
-                                        Icons.delete_forever_outlined)),
-                                QudsPopupMenuItem(
-                                    title: const Text("Manually Edit Lessons"),
-                                    leading: const Icon(Icons.edit_outlined),
-                                    subTitle: const Text(
-                                        "Requires an admin account."),
-                                    onPressed: () {
-                                      launchUrl(Uri.parse(
-                                          "https://app.shcmusiclessonrolls.com/_/#/collections?collectionId=as04pbul6udp6bt&filter=&sort=-created"));
-                                    })
-                              ]),
-                          QudsPopupMenuItem(
-                              title: const Text("App Info"),
-                              leading: const Icon(Icons.info_outline),
-                              onPressed: () {
-                                showAboutDialog(
-                                    //shows the licences page also - to comply with MIT licenses etc
-                                    context: context,
-                                    applicationIcon:
-                                        const Icon(Icons.class_outlined),
-                                    applicationVersion: version,
-                                    applicationLegalese:
-                                        """Created by Austin-540. Check out the source code on GitHub if you want.  
-                     
-             Copyright (c) 2023 Austin-540
-             
-             This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
-             
-             Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:
-             
-             1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
-             
-             2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
-             
-             3. This notice may not be removed or altered from any distribution.""");
-                              },
-                              onLongPressed: () => showDialog(
-                                  context: context,
-                                  builder: (context) => const Dialog(
-                                        child: Padding(
-                                          padding: EdgeInsets.all(20.0),
-                                          child: Text(
-                                            "In memory of Thomas Park(he didn't die but asked to be remembered)",
-                                            style: TextStyle(fontSize: 20),
-                                          ), //easter egg
-                                        ),
-                                      ))),
-                          QudsPopupMenuItem(
-                              title: const Text("Send Feedback"),
-                              leading: const Icon(Icons.feedback_outlined),
-                              onPressed: () async {
-                                final records =
-                                    await pb.collection('my_email').getFullList(
-                                          sort: '-created',
-                                        );
-                                final recipientEmail = records[0].data['email'];
-                                try {
-                                  launchUrl(Uri.parse(
-                                      "mailto:$recipientEmail?subject=App%20Feedback"));
-                                } catch (e) {
-                                  showDialog(
+                                            Icons.delete_forever_outlined)),
+                                    QudsPopupMenuItem(
+                                        title: const Text("Manually Edit Lessons"),
+                                        leading: const Icon(Icons.edit_outlined),
+                                        subTitle: const Text(
+                                            "Requires an admin account."),
+                                        onPressed: () {
+                                          launchUrl(Uri.parse(
+                                              "https://app.shcmusiclessonrolls.com/_/#/collections?collectionId=as04pbul6udp6bt&filter=&sort=-created"));
+                                        })
+                                  ]),
+                              QudsPopupMenuItem(
+                                  title: const Text("App Info"),
+                                  leading: const Icon(Icons.info_outline),
+                                  onPressed: () {
+                                    showAboutDialog(
+                                        //shows the licences page also - to comply with MIT licenses etc
+                                        context: context,
+                                        applicationIcon:
+                                            const Icon(Icons.class_outlined),
+                                        applicationVersion: version,
+                                        applicationLegalese:
+                                            """Created by Austin-540. Check out the source code on GitHub if you want.  
+                         
+                                     Copyright (c) 2023 Austin-540
+                                     
+                                     This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
+                                     
+                                     Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:
+                                     
+                                     1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+                                     
+                                     2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+                                     
+                                     3. This notice may not be removed or altered from any distribution.""");
+                                  },
+                                  onLongPressed: () => showDialog(
                                       context: context,
-                                      builder: (context) => Dialog(
-                                            child: Text(
-                                                "You can send an email to $recipientEmail"),
-                                          ));
-                                }
-                              })
-                        ],
-                        child: ProfilePicture(
-                          name: snapshot.data,
-                          random: true,
-                          radius: 20,
-                          fontsize: 20,
-                        ));
+                                      builder: (context) => const Dialog(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(20.0),
+                                              child: Text(
+                                                "In memory of Thomas Park(he didn't die but asked to be remembered)",
+                                                style: TextStyle(fontSize: 20),
+                                              ), //easter egg
+                                            ),
+                                          ))),
+                              QudsPopupMenuItem(
+                                  title: const Text("Send Feedback"),
+                                  leading: const Icon(Icons.feedback_outlined),
+                                  onPressed: () async {
+                                    final records =
+                                        await pb.collection('my_email').getFullList(
+                                              sort: '-created',
+                                            );
+                                    final recipientEmail = records[0].data['email'];
+                                    try {
+                                      launchUrl(Uri.parse(
+                                          "mailto:$recipientEmail?subject=App%20Feedback"));
+                                    } catch (e) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => Dialog(
+                                                child: Text(
+                                                    "You can send an email to $recipientEmail"),
+                                              ));
+                                    }
+                                  }),
+                                  QudsPopupMenuItem(
+                                    title: Text("Toggle Dark Mode"),
+                                    leading: Icon(Icons.dark_mode_outlined),
+                                    onPressed: () {
+                                      setState(() {
+                                        print(Theme.of(context).brightness);
+                                         if(Theme.of(context).brightness == Brightness.dark) {
+                                      AdaptiveTheme.of(context).setLight();
+                                     } else {
+                                      AdaptiveTheme.of(context).setDark();
+                                     }
+                                      });
+                                    
+                                    },
+                                  )
+                            ],
+                            child: ProfilePicture(
+                              name: snapshot.data,
+                              random: true,
+                              radius: 20,
+                              fontsize: 20,
+                            ));
+                      }
+                    );
                   } else if (snapshot.hasError) {
                     return GestureDetector(
                         onTap: () {
