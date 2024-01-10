@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 import 'package:music_lessons_attendance/submitted_page.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 
 class NewLessonInList extends StatefulWidget {
@@ -62,9 +61,9 @@ Color? statusColour;
         DateFormat('EEEE').format(DateTime.now())) {
       activeStatus = true;
       if (widget.status == "Completed") {
-        statusColour = Color.fromARGB(255, 9, 48, 0);
+        statusColour = const Color.fromARGB(255, 9, 48, 0);
       } else if (widget.status == "Overdue") {
-        statusColour = Color.fromARGB(255, 86, 0, 0);
+        statusColour = const Color.fromARGB(255, 86, 0, 0);
       } else {
         statusColour = null; //uses default colour
       }
@@ -78,9 +77,9 @@ Color? statusColour;
       future: getCardColour(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Icon(Icons.sms_failed);
+          return const Icon(Icons.sms_failed);
         } else if (!snapshot.hasData) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         } else {
           bool activeStatus = snapshot.data[0];
           Color? statusColour = snapshot.data[1];

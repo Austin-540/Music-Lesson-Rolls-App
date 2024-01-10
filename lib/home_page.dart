@@ -292,11 +292,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                     }
                                   }),
                                   QudsPopupMenuItem(
-                                    title: Text("Toggle Dark Mode"),
-                                    leading: Icon(Icons.dark_mode_outlined),
+                                    title: const Text("Toggle Dark Mode"),
+                                    leading: const Icon(Icons.dark_mode_outlined),
                                     onPressed: () {
                                       setState(() {
-                                        print(Theme.of(context).brightness);
                                          if(Theme.of(context).brightness == Brightness.dark) {
                                       AdaptiveTheme.of(context).setLight();
                                      } else {
