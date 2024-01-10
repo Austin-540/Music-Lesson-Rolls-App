@@ -34,19 +34,19 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Future logIn() async {
     try {
-
       const storage = FlutterSecureStorage();
-final String? raw = await storage.read(key: "pb_auth");
-if (raw != null && raw.isNotEmpty) {
-  final decoded = jsonDecode(raw);
-  final token = (decoded as Map<String, dynamic>)["token"] as String? ?? "";
-  final model =
-      RecordModel.fromJson(decoded["model"] as Map<String, dynamic>? ?? {});
+      final String? raw = await storage.read(key: "pb_auth");
+      if (raw != null && raw.isNotEmpty) {
+        final decoded = jsonDecode(raw);
+        final token =
+            (decoded as Map<String, dynamic>)["token"] as String? ?? "";
+        final model = RecordModel.fromJson(
+            decoded["model"] as Map<String, dynamic>? ?? {});
 
-  pb.authStore.save(token, model);
-} else {
-  throw "no saved data";
-}
+        pb.authStore.save(token, model);
+      } else {
+        throw "no saved data";
+      }
 
       final authData = await pb.collection('users').getFullList();
 
@@ -107,21 +107,22 @@ if (raw != null && raw.isNotEmpty) {
     }
     //first try to see if password is already saved, then if its not push to login screen
   }
+
   Future deleteSavedData() async {
     const storage = FlutterSecureStorage();
     await storage.delete(key: "pb_auth");
     await storage.delete(key: "username");
     pb.authStore.clear();
-    
   }
+
   Future getNameForMenu() async {
     String username = "Undefined";
     const storage = FlutterSecureStorage();
     String? maybeUsername = await storage.read(key: "username");
     if (maybeUsername == null) {
-     username = "Undefined";
+      username = "Undefined";
     } else {
-     username = maybeUsername;
+      username = maybeUsername;
     }
     return username;
   }
@@ -165,46 +166,81 @@ if (raw != null && raw.isNotEmpty) {
                     MaterialPageRoute(
                         builder: (context) => const MoreDetailedLessonsPage())),
                 icon: const Icon(Icons.more_horiz)),
-           Padding(
-             padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
-             child: FutureBuilder(
-              future: getNameForMenu(),
-           
-               builder: (context, snapshot) {
-                if (snapshot.hasData) {
-           
-                
-                return QudsPopupButton(
-                items: [
-                  QudsPopupMenuSection(titleText: snapshot.data, leading: const Icon(Icons.person_outline),
-                  subItems: [
-                    QudsPopupMenuItem(title: const Text("Log out"),leading: const Icon(Icons.logout),onPressed: () {
-                      deleteSavedData();
-                    Restart
-                        .restartApp();
-                    })
-                  ]
-                  ),
-                  QudsPopupMenuSection(titleText: "Server Options", leading: const Icon(Icons.cloud_outlined), subItems: [
-                    kIsWeb?
-                    QudsPopupMenuItem(title: const Text("Upload CSV File"),leading: const Icon(Icons.upload_file) ,onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const UploadingCSVPage()));
-                    }): //For if the CSV can be uploaded
-                    QudsPopupMenuItem(title: const Text("Feature Unavailable"), onPressed: () {}, subTitle: const Text("Only available from a web browser."), leading: const Icon(Icons.error_outline_rounded)),
-                    QudsPopupMenuItem(title: const Text("Clear The Backend"), onPressed: () => 
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const ClearDBPage())), leading: const Icon(Icons.delete_forever_outlined)),
-                    QudsPopupMenuItem(title: const Text("Manually Edit Lessons"), leading: const Icon(Icons.edit_outlined), subTitle: const Text("Requires an admin account."),onPressed: (){
-                      launchUrl(Uri.parse("https://app.shcmusiclessonrolls.com/_/#/collections?collectionId=as04pbul6udp6bt&filter=&sort=-created"));
-                    })
-                  ]),
-                  QudsPopupMenuItem(title: const Text("App Info"),leading: const Icon(Icons.info_outline), onPressed: () {
-             showAboutDialog(
-                          //shows the licences page also - to comply with MIT licenses etc
-                          context: context,
-                          applicationIcon: const Icon(Icons.class_outlined),
-                          applicationVersion: version,
-                          applicationLegalese:
-                              """Created by Austin-540. Check out the source code on GitHub if you want.  
+            Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
+              child: FutureBuilder(
+                future: getNameForMenu(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return QudsPopupButton(
+                        items: [
+                          QudsPopupMenuSection(
+                              titleText: snapshot.data,
+                              leading: const Icon(Icons.person_outline),
+                              subItems: [
+                                QudsPopupMenuItem(
+                                    title: const Text("Log out"),
+                                    leading: const Icon(Icons.logout),
+                                    onPressed: () {
+                                      deleteSavedData();
+                                      Restart.restartApp();
+                                    })
+                              ]),
+                          QudsPopupMenuSection(
+                              titleText: "Server Options",
+                              leading: const Icon(Icons.cloud_outlined),
+                              subItems: [
+                                kIsWeb
+                                    ? QudsPopupMenuItem(
+                                        title: const Text("Upload CSV File"),
+                                        leading: const Icon(Icons.upload_file),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const UploadingCSVPage()));
+                                        })
+                                    : //For if the CSV can be uploaded
+                                    QudsPopupMenuItem(
+                                        title:
+                                            const Text("Feature Unavailable"),
+                                        onPressed: () {},
+                                        subTitle: const Text(
+                                            "Only available from a web browser."),
+                                        leading: const Icon(
+                                            Icons.error_outline_rounded)),
+                                QudsPopupMenuItem(
+                                    title: const Text("Clear The Backend"),
+                                    onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ClearDBPage())),
+                                    leading: const Icon(
+                                        Icons.delete_forever_outlined)),
+                                QudsPopupMenuItem(
+                                    title: const Text("Manually Edit Lessons"),
+                                    leading: const Icon(Icons.edit_outlined),
+                                    subTitle: const Text(
+                                        "Requires an admin account."),
+                                    onPressed: () {
+                                      launchUrl(Uri.parse(
+                                          "https://app.shcmusiclessonrolls.com/_/#/collections?collectionId=as04pbul6udp6bt&filter=&sort=-created"));
+                                    })
+                              ]),
+                          QudsPopupMenuItem(
+                              title: const Text("App Info"),
+                              leading: const Icon(Icons.info_outline),
+                              onPressed: () {
+                                showAboutDialog(
+                                    //shows the licences page also - to comply with MIT licenses etc
+                                    context: context,
+                                    applicationIcon:
+                                        const Icon(Icons.class_outlined),
+                                    applicationVersion: version,
+                                    applicationLegalese:
+                                        """Created by Austin-540. Check out the source code on GitHub if you want.  
                      
              Copyright (c) 2023 Austin-540
              
@@ -217,47 +253,65 @@ if (raw != null && raw.isNotEmpty) {
              2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
              
              3. This notice may not be removed or altered from any distribution.""");
-                     
-                  }, onLongPressed: () => showDialog(
-                          context: context,
-                          builder: (context) => const Dialog(
-                                child: Padding(
-                                  padding: EdgeInsets.all(20.0),
-                                  child: Text(
-                                    "In memory of Thomas Park(he didn't die but asked to be remembered)",
-                                    style: TextStyle(fontSize: 20),
-                                  ), //easter egg
-                                ),
-                              )) ),
-                              QudsPopupMenuItem(title: const Text("Send Feedback"), leading: const Icon(Icons.feedback_outlined), onPressed: () async {
-                                final records = await pb.collection('my_email').getFullList(sort: '-created',);
+                              },
+                              onLongPressed: () => showDialog(
+                                  context: context,
+                                  builder: (context) => const Dialog(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(20.0),
+                                          child: Text(
+                                            "In memory of Thomas Park(he didn't die but asked to be remembered)",
+                                            style: TextStyle(fontSize: 20),
+                                          ), //easter egg
+                                        ),
+                                      ))),
+                          QudsPopupMenuItem(
+                              title: const Text("Send Feedback"),
+                              leading: const Icon(Icons.feedback_outlined),
+                              onPressed: () async {
+                                final records =
+                                    await pb.collection('my_email').getFullList(
+                                          sort: '-created',
+                                        );
                                 final recipientEmail = records[0].data['email'];
                                 try {
-                                  launchUrl(Uri.parse("mailto:$recipientEmail?subject=App%20Feedback"));
-                                } catch (e){
-                                  showDialog(context: context, builder: (context) => Dialog(child: Text("You can send an email to $recipientEmail"),));
+                                  launchUrl(Uri.parse(
+                                      "mailto:$recipientEmail?subject=App%20Feedback"));
+                                } catch (e) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => Dialog(
+                                            child: Text(
+                                                "You can send an email to $recipientEmail"),
+                                          ));
                                 }
-
                               })
-                ],
-                child: ProfilePicture(
-                  name: snapshot.data,
-                  random: true,
-                  radius: 20,
-                  fontsize: 20,
-                  ));} else if (snapshot.hasError){
-                  return GestureDetector(
-                    onTap: () {
-                      deleteSavedData();
-                      Restart.restartApp();
-                    },
-                    child: const Icon(Icons.error_outline));
-                }else{
-                  return GestureDetector(child: const CircularProgressIndicator(), onTap: () { deleteSavedData();
-                  Restart.restartApp();},);
-                }},
-             ),
-           )
+                        ],
+                        child: ProfilePicture(
+                          name: snapshot.data,
+                          random: true,
+                          radius: 20,
+                          fontsize: 20,
+                        ));
+                  } else if (snapshot.hasError) {
+                    return GestureDetector(
+                        onTap: () {
+                          deleteSavedData();
+                          Restart.restartApp();
+                        },
+                        child: const Icon(Icons.error_outline));
+                  } else {
+                    return GestureDetector(
+                      child: const CircularProgressIndicator(),
+                      onTap: () {
+                        deleteSavedData();
+                        Restart.restartApp();
+                      },
+                    );
+                  }
+                },
+              ),
+            )
           ],
         ),
         body: Center(

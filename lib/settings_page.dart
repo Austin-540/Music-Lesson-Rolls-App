@@ -12,7 +12,6 @@ class SettingsPage extends StatelessWidget {
     const storage = FlutterSecureStorage();
     await storage.delete(key: "pb_auth");
     pb.authStore.clear();
-
   }
 
   const SettingsPage({super.key});
@@ -83,11 +82,16 @@ Permission is granted to anyone to use this software for any purpose, including 
                               ), //easter egg
                             ),
                           ))),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ElevatedButton.icon(onPressed: () => Navigator.push(context, 
-                                              MaterialPageRoute(builder: (context) => const ClearDBPage())), icon: const Icon(Icons.delete_forever), label: const Text("Clear the backend")),
-                          )
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton.icon(
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ClearDBPage())),
+                    icon: const Icon(Icons.delete_forever),
+                    label: const Text("Clear the backend")),
+              )
             ],
           ),
         ),
@@ -113,7 +117,6 @@ Permission is granted to anyone to use this software for any purpose, including 
                       "Upload a CSV file to add lessons. (Desktop only, CSV must be formatted correctly)",
                       textAlign: TextAlign.center,
                     )),
-                    
                   ],
                 ),
               )

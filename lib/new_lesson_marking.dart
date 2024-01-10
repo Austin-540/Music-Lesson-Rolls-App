@@ -86,32 +86,50 @@ class _NewLessonInListState extends State<NewLessonInList> {
                     ),
                   ],
                 ),
-              
-                GridView.count(crossAxisCount: 4,
-                    shrinkWrap: true,
-                    mainAxisSpacing: 0,
-                    childAspectRatio: 1.7,
-                    physics: const NeverScrollableScrollPhysics(),
-                    
-                    children: [
-                      const SizedBox(),
-                      const Align(alignment: Alignment.bottomCenter, 
-                      child: Text("Present", textAlign: TextAlign.center, style: TextStyle(fontSize: 12),)),
-                      const Align(alignment: Alignment.bottomCenter,
-                      child: Text("Explained", textAlign: TextAlign.center, style: TextStyle(fontSize: 12),),),
-                      const Align(alignment: Alignment.bottomCenter,
-                      child: Text("Absent", textAlign: TextAlign.center, style: TextStyle(fontSize: 12),),),
-                      for (int x = 0;
-                    x <= widget.details['students'].length - 1;
-                    x++) ...[
-                  //for each student in the lesson
+                GridView.count(
+                  crossAxisCount: 4,
+                  shrinkWrap: true,
+                  mainAxisSpacing: 0,
+                  childAspectRatio: 1.7,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    const SizedBox(),
+                    const Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text(
+                          "Present",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12),
+                        )),
+                    const Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        "Explained",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ),
+                    const Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        "Absent",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ),
+                    for (int x = 0;
+                        x <= widget.details['students'].length - 1;
+                        x++) ...[
+                      //for each student in the lesson
 
-              
                       Align(
                         alignment: Alignment.center,
                         child: Padding(
                           padding: const EdgeInsets.all(2.0),
-                          child: Text(widget.details['expand']['students'][x]['name'], textAlign: TextAlign.center,),
+                          child: Text(
+                            widget.details['expand']['students'][x]['name'],
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                       activeStatus
@@ -141,11 +159,9 @@ class _NewLessonInListState extends State<NewLessonInList> {
                                     _rollOptions[x] = value!;
                                   }))
                           : const SizedBox()
-               
-                ],
-                    ],),
-
-                
+                    ],
+                  ],
+                ),
                 activeStatus
                     ? OutlinedButton(
                         style: ButtonStyle(
@@ -196,7 +212,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
                         },
                         child: const Text("Submit"))
                     : const SizedBox(),
-                                  ],
+              ],
             ),
           )),
     );

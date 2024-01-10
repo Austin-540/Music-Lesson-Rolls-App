@@ -65,20 +65,22 @@ class _SubmittedPageState extends State<SubmittedPage> {
               children: [
                 Center(
                     child: AnimatedGradientBorder(
-                      borderSize: 2,
-            glowSize: 15,
-                      borderRadius: const BorderRadius.all(Radius.circular(800)),
-                      gradientColors: const [
-                        Colors.purple,
-                        Colors.blue,
-                        Colors.red,
-                      ],
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(800)),
-                          color: Theme.of(context).colorScheme.background
-                        ),
-                        child: const AnimatedCheckmark()))),
+                        borderSize: 2,
+                        glowSize: 15,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(800)),
+                        gradientColors: const [
+                          Colors.purple,
+                          Colors.blue,
+                          Colors.red,
+                        ],
+                        child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(800)),
+                                color:
+                                    Theme.of(context).colorScheme.background),
+                            child: const AnimatedCheckmark()))),
                 ElevatedButton(
                     onPressed: () => Navigator.pushAndRemoveUntil(
                         context,
@@ -106,10 +108,15 @@ class _SubmittedPageState extends State<SubmittedPage> {
                         );
                       },
                       child: const Text("Go Back")),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: OutlinedButton(onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context) => const ClearDBPage())), child: const Text("Clear the backend")),
-                      )
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: OutlinedButton(
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ClearDBPage())),
+                        child: const Text("Clear the backend")),
+                  )
                 ],
               ),
             );
@@ -131,7 +138,8 @@ class AnimatedCheckmark extends StatefulWidget {
   State<AnimatedCheckmark> createState() => _AnimatedCheckmarkState();
 }
 
-class _AnimatedCheckmarkState extends State<AnimatedCheckmark> with TickerProviderStateMixin{
+class _AnimatedCheckmarkState extends State<AnimatedCheckmark>
+    with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 1),
     vsync: this,
@@ -141,10 +149,14 @@ class _AnimatedCheckmarkState extends State<AnimatedCheckmark> with TickerProvid
     curve: Curves.elasticOut,
   );
 
-
   @override
   Widget build(BuildContext context) {
-    return ScaleTransition(scale: _animation,
-    child: const Icon(Icons.check, size: 250,),);
+    return ScaleTransition(
+      scale: _animation,
+      child: const Icon(
+        Icons.check,
+        size: 250,
+      ),
+    );
   }
 }

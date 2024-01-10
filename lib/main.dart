@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 134, 193,
                 234)), //"Oxford Blue" according to the communications part of adminitstration
         useMaterial3: true, //Makes the app look more modern
-        
       ),
       home: const MyHomePage(title: 'Today\'s Lessons'),
     );
