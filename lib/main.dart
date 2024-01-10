@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 
-void main() {
+
+
+void main() async {
   runApp(const MyApp());
 }
 

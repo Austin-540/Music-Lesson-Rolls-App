@@ -12,6 +12,7 @@ import 'new_lesson_marking.dart';
 import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/material.dart';
 import 'package:music_lessons_attendance/marking_the_roll_page.dart';
@@ -121,6 +122,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Future getNameForMenu() async {
     String username = "Undefined";
     const storage = FlutterSecureStorage();
+    final themeFromFSS = await storage.read(key: "theme");
+    if (themeFromFSS == "dark") {
+      AdaptiveTheme.of(context).setDark();
+    } else {
+      AdaptiveTheme.of(context).setLight();
+    }
+
+
+
     String? maybeUsername = await storage.read(key: "username");
     if (maybeUsername == null) {
       username = "Undefined";
@@ -304,11 +314,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                     title: const Text("Toggle Dark Mode"),
                                     leading: const Icon(Icons.dark_mode_outlined),
                                     onPressed: () {
+                                      final storage = new FlutterSecureStorage();
                                       setState(() {
                                          if(Theme.of(context).brightness == Brightness.dark) {
                                       AdaptiveTheme.of(context).setLight();
+                                      storage.write(key: "theme", value: "light");
                                      } else {
                                       AdaptiveTheme.of(context).setDark();
+                                      storage.write(key: "theme", value: "dark");
                                      }
                                       });
                                     

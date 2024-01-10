@@ -18,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -79,6 +80,10 @@ class ConfirmLoginPage extends StatelessWidget {
   final String password;
 
   Future logIn(email, password) async {
+    final storage = FlutterSecureStorage();
+    storage.write(key: "theme", value: "light");
+
+    
     try {
       final authData = await pb.collection('users').authWithPassword(
             email,
