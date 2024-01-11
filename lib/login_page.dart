@@ -80,7 +80,7 @@ class ConfirmLoginPage extends StatelessWidget {
   final String password;
 
   Future logIn(email, password) async {
-    final storage = FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     storage.write(key: "theme", value: "light");
 
     

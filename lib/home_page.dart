@@ -12,7 +12,6 @@ import 'new_lesson_marking.dart';
 import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/material.dart';
 import 'package:music_lessons_attendance/marking_the_roll_page.dart';
@@ -224,7 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             onPressed: () {
                                               showDialog(context: context,
                                               builder: (context) {
-                                                return AlertDialog(
+                                                return const AlertDialog(
                                                   title: Text("This button only works from a web browser."),
                                                   
                                                 );
@@ -311,10 +310,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                     }
                                   }),
                                   QudsPopupMenuItem(
-                                    title: const Text("Toggle Dark Mode"),
-                                    leading: const Icon(Icons.dark_mode_outlined),
+                                    title: Theme.of(context).brightness == Brightness.light? const Text("Dark Mode"): const Text("Light Mode"),
+                                    leading: Theme.of(context).brightness == Brightness.light? const Icon(Icons.dark_mode_outlined): const Icon(Icons.light_mode_outlined),
                                     onPressed: () {
-                                      final storage = new FlutterSecureStorage();
+                                      const storage = FlutterSecureStorage();
                                       setState(() {
                                          if(Theme.of(context).brightness == Brightness.dark) {
                                       AdaptiveTheme.of(context).setLight();
