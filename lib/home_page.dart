@@ -363,35 +363,41 @@ class _MyHomePageState extends State<MyHomePage> {
             initialData: null,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                return ListView(children: [
-                  Column(
-                    children: [
-                      FutureBuilder(
-                        // future builder for lessons
-                        future: getLessons(),
-                        initialData: null,
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData) {
-                            //once getLessons() has completed:
-                            return ListOfLessons(
-                              lessonList: snapshot.data,
-                              showAll: false,
-                              showTeacher: false,
-                            );
-                          } else if (snapshot.hasError) {
-                            //if getLessons() didn't work:
-                            return const Text("error");
-                          } else {
-                            //while waiting for getLessons():
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ]);
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    setState(() {});
+                    return Future.delayed(const Duration(milliseconds: 300));
+                    },
+                  child: ListView(children: [
+                    Column(
+                      children: [
+                        FutureBuilder(
+                          // future builder for lessons
+                          future: getLessons(),
+                          initialData: null,
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              //once getLessons() has completed:
+                              return ListOfLessons(
+                                lessonList: snapshot.data,
+                                showAll: false,
+                                showTeacher: false,
+                              );
+                            } else if (snapshot.hasError) {
+                              //if getLessons() didn't work:
+                              return const Text("error");
+                            } else {
+                              //while waiting for getLessons():
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ]),
+                );
               } else {
                 return const CircularProgressIndicator();
               }
