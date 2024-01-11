@@ -366,7 +366,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return RefreshIndicator(
                   onRefresh: () async {
                     setState(() {});
-                    return Future.delayed(const Duration(milliseconds: 300));
+                    return Future.delayed(const Duration(milliseconds: 700));
                     },
                   child: ListView(children: [
                     Column(
