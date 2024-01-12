@@ -14,7 +14,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
-import 'package:music_lessons_attendance/marking_the_roll_page.dart';
 import 'globals.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'login_page.dart';
@@ -483,118 +482,5 @@ class ListOfLessons extends StatelessWidget {
         ),
       );
     }
-  }
-}
-
-class LessonDetailsInList extends StatefulWidget {
-  //no longer used, replaced by NewLessonInList
-  const LessonDetailsInList(
-      {Key? key,
-      required this.instrument,
-      required this.time,
-      required this.lessonDetails,
-      required this.numberOfStudents,
-      required this.status,
-      required this.showTeacher})
-      : super(key: key);
-  final String instrument;
-  final String time;
-  final Map lessonDetails;
-  final String numberOfStudents;
-  final String status;
-  final bool showTeacher;
-
-  @override
-  State<LessonDetailsInList> createState() => _LessonDetailsInListState();
-}
-
-class _LessonDetailsInListState extends State<LessonDetailsInList> {
-  Timer? timer;
-  @override
-  void initState() {
-    super.initState();
-    timer = Timer.periodic(
-        const Duration(seconds: 20), (Timer t) => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    timer!.cancel();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    String? i12hrTime;
-    if (int.parse(widget.time.substring(0, 2)) > 12) {
-      i12hrTime =
-          "${int.parse(widget.time.substring(0, 2)) - 12}:${widget.time.substring(2, 4)} PM";
-    } else if (int.parse(widget.time.substring(0, 2)) == 12) {
-      i12hrTime =
-          "${int.parse(widget.time.substring(0, 2))}:${widget.time.substring(2, 4)} PM";
-    } else {
-      i12hrTime =
-          "${widget.time.substring(0, 2)}:${widget.time.substring(2, 4)} AM";
-    }
-    Color? colour;
-
-    if (widget.status == "Upcoming") {
-      colour = const Color.fromARGB(255, 255, 255, 255);
-    } else if (widget.status == "Overdue") {
-      colour = const Color.fromARGB(255, 252, 199, 199);
-    } else if (widget.status == "Completed") {
-      colour = const Color.fromARGB(255, 213, 255, 220);
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      MarkingRollPage(lessonDetails: widget.lessonDetails)));
-        },
-        child: Card(
-            color: colour,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
-                    i12hrTime,
-                    style: const TextStyle(fontSize: 35),
-                  ),
-                ),
-                const Spacer(),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(widget.instrument),
-                        Text(widget.status),
-                        widget.numberOfStudents == "1"
-                            ? //check if the number of students is 1, and depending on that show "student(s)"
-                            Text("${widget.numberOfStudents} Student")
-                            : Text("${widget.numberOfStudents} Students"),
-                        widget.showTeacher == false
-                            ? const SizedBox()
-                            : Text(widget.lessonDetails['expand']['teacher']
-                                ['username']),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            )),
-      ),
-    );
   }
 }
