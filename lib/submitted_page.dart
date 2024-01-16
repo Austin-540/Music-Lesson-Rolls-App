@@ -17,7 +17,13 @@ class SubmittedPage extends StatefulWidget {
 }
 
 class _SubmittedPageState extends State<SubmittedPage> {
+  var alreadySubmitted = false;
   Future submitRoll() async {
+    if (alreadySubmitted == true) {
+      throw "Already Submitted";
+    } else {
+      alreadySubmitted = true;
+    }
     final currentlyInDb =
         await pb.collection("rolls").getFullList(sort: '-created');
     if (currentlyInDb.isNotEmpty) {
