@@ -86,7 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
       await storage.write(key: "pb_auth", value: encoded);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: "Today's Lessons")), (route) => false);
     } on ClientException catch (e) {
-      print(e);
       showDialog(
         barrierDismissible: false,
         context: context, builder: (context) => AlertDialog(

@@ -251,6 +251,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                               "https://app.shcmusiclessonrolls.com/_/#/collections?collectionId=as04pbul6udp6bt&filter=&sort=-created"));
                                         })
                                   ]),
+                                  QudsPopupMenuItem(
+                                    title: const Text("Open Spreadsheet"), onPressed: () {launchUrl(Uri.parse("https://docs.google.com/spreadsheets/d/1dVxlgpGOyiAyGYhhiIW931gFhbEWHQL0oqVbnh2Qtlw/"));},
+                                    leading: const Icon(Icons.table_chart_outlined)
+                                  ),
                               QudsPopupMenuItem(
                                   title: const Text("App Info"),
                                   leading: const Icon(Icons.info_outline),

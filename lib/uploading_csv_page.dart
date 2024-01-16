@@ -130,7 +130,7 @@ class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
     final records = await pb.collection('error_message').getFullList(
   sort: '-created',
 );
-    final error_message = records[0].data['error'];
+    final errorMessage = records[0].data['error'];
 
 
     await pb.collection('error_message').delete(records[0].id);
@@ -141,7 +141,7 @@ class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
 
 
 
-    return error_message;
+    return errorMessage;
   }
 
   @override
@@ -233,7 +233,7 @@ There is extra data in the spreadsheet that shouldn't be there. Try opening the 
 This will show the full error message.
 """
                                     ),
-                                    SizedBox(height: 20,)
+                                    const SizedBox(height: 20,)
                                   ],
                                 );
                               } else {
