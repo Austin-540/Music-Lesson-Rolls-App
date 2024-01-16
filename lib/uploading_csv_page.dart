@@ -126,6 +126,24 @@ class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
     }
   }
 
+  Future getErrorMessage() async {
+    final records = await pb.collection('error_message').getFullList(
+  sort: '-created',
+);
+    final error_message = records[0].data['error'];
+
+
+    await pb.collection('error_message').delete(records[0].id);
+
+    if (records.length != 1) {
+      return "There are multiple errors in the backend. Please delete them manually in the table 'error_message'.";
+    }
+
+
+
+    return error_message;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -185,7 +203,49 @@ class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
                           const Icon(Icons.error),
                           const Text(
                               "This CSV file isn't formatted correctly."),
-                          const Text("Has the teacher's account been made?"),
+                          FutureBuilder(
+                            future: getErrorMessage(),
+                            builder: (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return Column(
+                                  children: [
+                                    const SizedBox(height: 50,),
+                                    Text(snapshot.data, style: const TextStyle(color: Color.fromARGB(255, 255, 36, 20))),
+                                    const SizedBox(height: 50,),
+                                    const Text("""What these error messages mean:
+
+
+'local variable teacher_id referenced before assignment': The username in cell A2 doesn't match the username of any teacher's account. Make sure you have made their account before uploading the CSV file.
+
+
+'Invalid weekday': The weekday in cell A3 doesn't match 'Monday' or 'Tuesday' etc. Ensure the word is capitalised and there is no trailing spacebar.
+
+
+'The time provided isn't 4 characters long': The time value in the CSV file has omitted the leading zero/written the time in the wrong format. Ensure the time is 4 characters long by adding a leading zero. 
+In Google Sheets format the cell as plain text to keep leading zeros. Example time: '0930' for 9:30AM and '1300' for 1PM
+OR
+You left a blank line where there shouldn't be one.
+OR
+There is extra data in the spreadsheet that shouldn't be there. Try opening the file with a text editor to see this data if you can't find it.
+
+
+'Response error. Status code:400': Something else went wrong. Go to the logs section at app.shcmusiclessonrolls.com/_, enable 'include requests by admins' in the top right and select the first item with code 400. 
+This will show the full error message.
+"""
+                                    ),
+                                    SizedBox(height: 20,)
+                                  ],
+                                );
+                              } else {
+                                return const Column(
+                                  children: [
+                                    CircularProgressIndicator(),
+                                    Text("Loading error message...")
+                                  ],
+                                );
+                              }
+                            },
+                          ),
                           ElevatedButton(
                               onPressed: () => Navigator.pushAndRemoveUntil(
                                   context,
