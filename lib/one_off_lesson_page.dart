@@ -14,6 +14,9 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
   var listOfStudents = [];
   bool showTimeError = false;
   bool showEmptyListError = false;
+  final textEditingController = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +78,14 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
           padding: EdgeInsets.symmetric(horizontal: paddingWidth, vertical: 15),
           child: TextField(
             decoration: const InputDecoration(hintText: "Student's Name"),
-            controller: TextEditingController(),
+            controller: textEditingController,
+            onEditingComplete: () {},
             onSubmitted: (value) => setState(() {
               //when enter is pressed, add the student to the list
               if (value != "") {
                 //only if they wrote something
                 listOfStudents.add(value);
+                textEditingController.clear();
               }
             }),
           ),
