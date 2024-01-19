@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:intl/intl.dart';
 import 'package:music_lessons_attendance/submitted_page.dart';
 import 'package:flutter/material.dart';
@@ -113,82 +115,97 @@ Color? statusColour;
                       ),
                     ],
                   ),
-                  GridView.count(
-                    crossAxisCount: 4,
-                    shrinkWrap: true,
-                    mainAxisSpacing: 0,
-                    childAspectRatio: 1.7,
-                    physics: const NeverScrollableScrollPhysics(),
+                  SizedBox(height: 5,),
+                  const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const SizedBox(),
-                      const Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Text(
-                            "Present",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 12),
-                          )),
-                      const Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Text(
-                          "Explained",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                      const Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Text(
-                          "Absent",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                      for (int x = 0;
-                          x <= widget.details['students'].length - 1;
-                          x++) ...[
-                        //for each student in the lesson
-      
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Text(
-                              widget.details['expand']['students'][x]['name'],
-                              textAlign: TextAlign.center,
+                    Expanded(flex: 2,child: SizedBox()),
+Expanded(
+  flex: 1,
+  child: Text(
+                      "Present",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    ),
+),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      "Explained",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      "Absent",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                  ],),
+                  
+                  for (int x = 0;
+                      x <= widget.details['students'].length - 1;
+                      x++) ...[
+                    //for each student in the lesson
+                        
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Text(
+                                widget.details['expand']['students'][x]['name'],
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                         ),
-                        activeStatus
-                            ? Radio(
-                                value: "Present",
-                                groupValue: _rollOptions[x],
-                                activeColor: Colors.green,
-                                onChanged: (value) => setState(() {
-                                      _rollOptions[x] = value!;
-                                    }))
-                            : const SizedBox(),
-                        activeStatus
-                            ? Radio(
-                                value: "Explained",
-                                groupValue: _rollOptions[x],
-                                activeColor: Colors.orange,
-                                onChanged: (value) => setState(() {
-                                      _rollOptions[x] = value!;
-                                    }))
-                            : const SizedBox(),
-                        activeStatus
-                            ? Radio(
-                                value: "Unexplained",
-                                groupValue: _rollOptions[x],
-                                activeColor: Colors.red,
-                                onChanged: (value) => setState(() {
-                                      _rollOptions[x] = value!;
-                                    }))
-                            : const SizedBox()
-                      ],
-                    ],
-                  ),
+                     
+                    activeStatus
+                        ? Expanded(
+                          flex: 1,
+                          child: Radio(
+                              value: "Present",
+                              groupValue: _rollOptions[x],
+                              activeColor: Colors.green,
+                              onChanged: (value) => setState(() {
+                                    _rollOptions[x] = value!;
+                                  })),
+                        )
+                        : const SizedBox(),
+                    activeStatus
+                        ? Expanded(
+                          flex: 1,
+                          child: Radio(
+                              value: "Explained",
+                              groupValue: _rollOptions[x],
+                              activeColor: Colors.orange,
+                              onChanged: (value) => setState(() {
+                                    _rollOptions[x] = value!;
+                                  })),
+                        )
+                        : const SizedBox(),
+                    activeStatus
+                        ? Expanded(
+                          flex: 1,
+                          child: Radio(
+                              value: "Unexplained",
+                              groupValue: _rollOptions[x],
+                              activeColor: Colors.red,
+                              onChanged: (value) => setState(() {
+                                    _rollOptions[x] = value!;
+                                  })),
+                        )
+                        : const SizedBox() ],
+                    ),
+                  ],
                   activeStatus
                       ? OutlinedButton(
                           style: ButtonStyle(
