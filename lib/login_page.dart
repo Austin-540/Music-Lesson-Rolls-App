@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 TextFormField(
+                  autofillHints: const [AutofillHints.username],
                   decoration: const InputDecoration(
                     labelText: 'Username',
                   ),
@@ -44,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  autofillHints: const [AutofillHints.password],
                   obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'Password',
