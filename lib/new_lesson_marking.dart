@@ -206,6 +206,7 @@ Expanded(
                         : const SizedBox() ],
                     ),
                   ],
+                  SizedBox(height: 10,),
                   activeStatus
                       ? OutlinedButton(
                           style: ButtonStyle(
