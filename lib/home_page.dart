@@ -448,21 +448,23 @@ class ListOfLessons extends StatelessWidget {
 
     if (lessonList.isNotEmpty) {
       if (showAll == false) {
-        return ListView.builder(
+        return ListView(
           addAutomaticKeepAlives: true,
-          itemCount: lessonList.length,
-          itemBuilder: (context, index) => Padding(
-            padding: EdgeInsets.symmetric(horizontal: paddingWidth),
-            child: 
-                getLessonStatus(index) == "Upcoming" ||
+            children: [
+
+                for (int index=0; index<lessonList.length; index++) ... [
+
+getLessonStatus(index) == "Upcoming" ||
                         getLessonStatus(index) == "Overdue"
                     ? //upcoming or overdue (hiding completed)
                     NewLessonInList(
                         details: lessonList[index], status: getLessonStatus(index))
                     : const SizedBox()
-            
-          ),
-        );
+                ]
+                
+            ]
+          );
+        
       } else {
         return Column(children: [
           for (int x = 0; x <= lessonList.length - 1; x++) ...[
