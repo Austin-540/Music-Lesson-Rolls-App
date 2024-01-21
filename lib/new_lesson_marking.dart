@@ -21,7 +21,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
   void initState() {
     super.initState();
     _rollOptions =
-        List.filled(20, "none"); //makes max number of students in a lesson 20
+        List.filled(widget.details['students'].length, "none");
   }
 
   @override
@@ -146,15 +146,9 @@ Expanded(
                       children: [
                         Expanded(
                           flex: 2,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Text(
-                                widget.details['expand']['students'][x]['name'],
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
+                          child: Text(
+                            widget.details['expand']['students'][x]['name'],
+                            textAlign: TextAlign.center,
                           ),
                         ),
                      
