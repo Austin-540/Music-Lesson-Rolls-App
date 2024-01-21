@@ -371,9 +371,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     setState(() {});
                     return Future.delayed(const Duration(milliseconds: 700));
                     },
-                  child: ListView(children: [
-                    Column(
-                      children: [
+                  child: 
                         FutureBuilder(
                           // future builder for lessons
                           future: getLessons(),
@@ -397,9 +395,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             }
                           },
                         ),
-                      ],
-                    ),
-                  ]),
+                      
+                 
                 );
               } else {
                 return const CircularProgressIndicator();
@@ -451,18 +448,20 @@ class ListOfLessons extends StatelessWidget {
 
     if (lessonList.isNotEmpty) {
       if (showAll == false) {
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: paddingWidth),
-          child: Column(children: [
-            for (int x = 0; x <= lessonList.length - 1; x++) ...[
-              getLessonStatus(x) == "Upcoming" ||
-                      getLessonStatus(x) == "Overdue"
-                  ? //upcoming or overdue (hiding completed)
-                  NewLessonInList(
-                      details: lessonList[x], status: getLessonStatus(x))
-                  : const SizedBox()
-            ]
-          ]),
+        return ListView.builder(
+          addAutomaticKeepAlives: true,
+          itemCount: lessonList.length,
+          itemBuilder: (context, index) => Padding(
+            padding: EdgeInsets.symmetric(horizontal: paddingWidth),
+            child: 
+                getLessonStatus(index) == "Upcoming" ||
+                        getLessonStatus(index) == "Overdue"
+                    ? //upcoming or overdue (hiding completed)
+                    NewLessonInList(
+                        details: lessonList[index], status: getLessonStatus(index))
+                    : const SizedBox()
+            
+          ),
         );
       } else {
         return Column(children: [

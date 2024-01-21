@@ -42,7 +42,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
 
 //get colour for the Card to be
 
-    Future getCardColour() async {
+    
 Color? statusColour;
     bool activeStatus;
     if (Theme.of(context).brightness == Brightness.light) {
@@ -72,20 +72,10 @@ Color? statusColour;
     } else {
       activeStatus = false;
     }}
-    return [activeStatus, statusColour];
-    }
+    // return [activeStatus, statusColour];
     
-    return FutureBuilder(
-      future: getCardColour(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return const Icon(Icons.sms_failed);
-        } else if (!snapshot.hasData) {
-          return const CircularProgressIndicator();
-        } else {
-          bool activeStatus = snapshot.data[0];
-          Color? statusColour = snapshot.data[1];
-          return Padding(
+    
+    return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Card(
             color: statusColour,
@@ -261,7 +251,4 @@ Expanded(
               ),
             )),
       ); }
-      } ,
-    );
-  }
-}
+      } 
