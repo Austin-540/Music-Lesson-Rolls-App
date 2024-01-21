@@ -64,6 +64,10 @@
     <div class="loader"></div>
   <script>
     window.addEventListener('load', function(ev) {
+      setTimeout(function() {
+        var loader = document.querySelector('.loader');
+        loader.style.display = 'none';
+    }, 7000);
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
