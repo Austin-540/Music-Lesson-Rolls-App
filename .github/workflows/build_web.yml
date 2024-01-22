@@ -42,7 +42,7 @@ jobs:
       - name: "build linux"
         run: flutter build linux
       - name: "rename linux file"
-        run: zip -r LatestLinux.zip build/linux/x64/release/bundle/music_lessons_attendance
+        run: zip -r LatestLinux.zip build/linux/x64/release/bundle/
       - uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
