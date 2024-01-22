@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:music_lessons_attendance/uploading_csv_page.dart';
 import 'package:quds_popup_menu/quds_popup_menu.dart';
-import 'package:restart_app/restart_app.dart';
 import 'new_lesson_marking.dart';
 import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
@@ -113,8 +112,15 @@ class _MyHomePageState extends State<MyHomePage> {
     const storage = FlutterSecureStorage();
     await storage.delete(key: "pb_auth");
     await storage.delete(key: "username");
-    await storage.deleteAll();
     pb.authStore.clear();
+    await Future.delayed(const Duration(milliseconds: 500));
+    kIsWeb? launchUrl(Uri.parse("app.shcmusiclessonrolls.com/",), webOnlyWindowName: "_self"):
+    showDialog(
+      barrierDismissible: false,
+      context: context, builder: (context) => const AlertDialog(
+      title: Text("Automatic restart isn't supported here."),
+      content: Text("Please close the app. When you restart the app you will be taken to the login screen. Your login details have been deleted."),
+      ));
   }
 
   Future getNameForMenu() async {
@@ -196,7 +202,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                         leading: const Icon(Icons.logout),
                                         onPressed: () {
                                           deleteSavedData();
-                                          Restart.restartApp();
                                         })
                                   ]),
                               QudsPopupMenuSection(
@@ -342,7 +347,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     return GestureDetector(
                         onTap: () {
                           deleteSavedData();
-                          Restart.restartApp();
                         },
                         child: const Icon(Icons.error_outline));
                   } else {
@@ -350,7 +354,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: const CircularProgressIndicator(),
                       onTap: () {
                         deleteSavedData();
-                        Restart.restartApp();
                       },
                     );
                   }
