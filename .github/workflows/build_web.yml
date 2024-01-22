@@ -31,6 +31,7 @@ jobs:
       - name: "print url"
         run: echo ${{ steps.auto-releases.outputs.upload_url }}
   Windows:
+    needs: WebAndLinux
     name: "Windows build"
     runs-on: "windows-latest"
     steps:
@@ -52,7 +53,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: "build/windows/x64/runner/release/Austin-Scholarship-2023.exe"
+          file: "build/windows/x64/runner/release/music_lessons_attendance.exe"
           tags: false
           draft: false
           verbose: true
