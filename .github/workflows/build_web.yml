@@ -23,6 +23,7 @@ jobs:
         run: zip -r LatestWeb.zip build/web/
 
       - uses: "marvinpinto/action-automatic-releases@latest"
+        id: 'auto-releases'
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
@@ -31,4 +32,4 @@ jobs:
           files: LatestWeb.zip
 
       - name: "print url"
-        run: echo ${{ steps.pre-release.outputs.upload_url }}
+        run: echo ${{ steps.auto-releases.outputs.upload_url }}
