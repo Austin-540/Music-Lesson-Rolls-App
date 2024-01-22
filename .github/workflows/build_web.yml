@@ -47,7 +47,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: "/build/linux/x64/release/bundle/music_lessons_attendance"
+          file: "build/linux/x64/release/bundle/music_lessons_attendance"
           update_latest_release: true
           tags: false
           draft: false
