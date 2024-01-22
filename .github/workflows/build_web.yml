@@ -6,12 +6,9 @@ on:
       - "main"
 
 jobs:
-  pre-release:
-    name: "Pre Release"
+  WebAndLinux:
+    name: "Ubuntu builds - web and linux"
     runs-on: "ubuntu-latest"
-    
-  
-
     steps:
       - uses: subosito/flutter-action@v2
       - uses: actions/checkout@v3
@@ -33,3 +30,31 @@ jobs:
 
       - name: "print url"
         run: echo ${{ steps.auto-releases.outputs.upload_url }}
+  Windows:
+    name: "Windows build"
+    runs-on: "windows-latest"
+    steps:
+      - uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v3
+      - name: "GH Stuff"
+        id: latest_release_info
+        uses: jossef/action-latest-release-info@v1.2.1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: "Dependencies"
+        run: flutter pub get
+      - name: "Windows build"
+        run: flutter build windows
+      - name: "print stuff"
+        run: echo "${{ steps.latest_release_info.outputs.id }}"
+      - uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "build/windows/x64/runner/release/Austin-Scholarship-2023.exe"
+          tags: false
+          draft: false
+          verbose: true
+
+      
