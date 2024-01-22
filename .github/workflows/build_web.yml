@@ -31,4 +31,4 @@ jobs:
           files: LatestWeb.zip
 
       - name: "print url"
-        run: echo ${{ env.AUTOMATIC_RELEASES_TAG }}
+        run: echo ${{ env.UPLOAD_URL }}
