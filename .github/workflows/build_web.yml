@@ -61,6 +61,18 @@ jobs:
         run: flutter build apk
       - name: "zip android"
         run: zip LatestAndroid.zip build/app/outputs/flutter-apk/app-release.apk
+
+      - uses: xresloader/upload-to-github-release@v1
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "LatestAndroid.zip"
+          update_latest_release: true
+          tags: false
+          draft: false
+          verbose: true
+
+
       - name: "GH Stuff" 
         id: latest_release_info
         uses: jossef/action-latest-release-info@v1.2.1
