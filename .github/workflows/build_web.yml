@@ -20,7 +20,7 @@ jobs:
       - name: "Build"
         run: flutter build web
       - name: "zip"
-        run: zip -r Latest.zip build/web/
+        run: zip -r LatestWeb.zip build/web/
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -28,4 +28,4 @@ jobs:
           automatic_release_tag: "latest"
           prerelease: false
           title: "Latest Build - Web"
-          files: Latest.zip
+          files: LatestWeb.zip
