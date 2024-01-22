@@ -1,6 +1,6 @@
 {
-    "name": "music_lessons_attendance",
-    "short_name": "music_lessons_attendance",
+    "name": "SHC Music Lesson Rolls",
+    "short_name": "SHC Rolls",
     "start_url": "app.shcmusiclessonrolls.com/",
     "display": "standalone",
     "background_color": "#0175C2",
