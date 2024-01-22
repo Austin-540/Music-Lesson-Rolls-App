@@ -7,7 +7,7 @@ on:
 
 jobs:
   WebAndLinux:
-    name: "Ubuntu builds - web and linux"
+    name: "Ubuntu builds - web, linux and android"
     runs-on: "ubuntu-latest"
     steps:
       - uses: subosito/flutter-action@v2
@@ -52,6 +52,15 @@ jobs:
           tags: false
           draft: false
           verbose: true
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: "Build Android"
+        run: flutter build apk
+      - name: "zip android"
+        run: zip LatestAndroid.zip build/app/outputs/flutter-apk/app-release.apk
       - name: "GH Stuff" 
         id: latest_release_info
         uses: jossef/action-latest-release-info@v1.2.1
