@@ -59,15 +59,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-          
+
       - name: "Edit Release"
         uses: irongut/EditRelease@v1.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           id: ${{ steps.latest_release_info.outputs.id }}
-          name: "Latest Version Downloads"
+          name: " "
           prerelease: false
-          body: "Install instructions\n\nWeb: Unzip LatestWeb.zip and serve the files inside. \n\nWindows: Download and unzip LatestWindows.zip. Follow the foler path and run music_lessons_attendance.exe.  \n\nLinux: Download and unzip LatestLinux.zip. Follow the folder path and run music_lessons_attendance. The data and lib folders must be in the same folder as the executable."
+          body: "\n\nInstall instructions\n\n\n\nWeb: Unzip LatestWeb.zip and serve the files inside. \n\nWindows: Download and unzip LatestWindows.zip. Follow the foler path and run music_lessons_attendance.exe. If Windows Defender prevents you from running the app, press 'more info', then 'run anyway'. The publisher will be 'unknown publisher' \n\nLinux: Download and unzip LatestLinux.zip. Follow the folder path and run music_lessons_attendance. The data and lib folders must be in the same folder as the executable."
     
 
   Windows:

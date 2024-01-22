@@ -70,3 +70,7 @@ backend/examples/base/pb_public
 backend/examples/base/base.exe
 backend/examples/base/secrets.py
 integration_test/password.txt
+macos/Podfile
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/Flutter/ephemeral/flutter_export_environment.sh
+macos/Flutter/ephemeral/Flutter-Generated.xcconfig

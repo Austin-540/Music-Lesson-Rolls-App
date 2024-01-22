@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors
 
 import 'dart:async';
 import 'package:adaptive_theme/adaptive_theme.dart';
@@ -31,6 +31,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  String getPlatform() {
+    String platform = "Undefined";
+    if (kIsWeb) {
+      platform = "Web";
+    }
+                    if(Platform.isWindows) {
+                      platform = "Windows";
+                    } else if (Platform.isLinux) {
+                      platform = "Linux";
+                    } else if (Platform.isAndroid) {
+                      platform = "Android";
+                    }
+    return platform;
+  }
   Future logIn() async {
     
     try {
@@ -62,6 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   title: const Text("Please update"),
                   content: Text(
                       "You are using an outdated version of the website. You may need to restart your web browser for it to update.\n\nYour website version: $version\nLatest version: ${latestVersion.body}"),
+                  actions: [kIsWeb? SizedBox(): TextButton(onPressed: (){
+                    launchUrl(Uri.parse("https://github.com/Austin-540/Austin-Scholarship-2023/releases/download/latest/Latest${getPlatform()}.zip"));
+                    }, child: Text("Download latest ${getPlatform()} release"))],
                 ));
       }
 
