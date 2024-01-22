@@ -1,4 +1,4 @@
-name: "pre-release"
+name: "Actions"
 
 on:
   push:
@@ -40,7 +40,7 @@ jobs:
       - name: "GH Stuff"
         id: latest_release_info
         uses: jossef/action-latest-release-info@v1.2.1
-        
+
         env:
           GITHUB_TOKEN: ${{ github.token }}
         
