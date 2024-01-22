@@ -83,5 +83,13 @@ jobs:
           tags: false
           draft: false
           verbose: true
+      - name: "Edit Release"
+        uses: irongut/EditRelease@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          id: ${{ steps.latest_release_info.outputs.id }}
+          name: "Latest Version Downloads"
+          prerelease: false
+          body: "Install instructions\n\nWeb: Unzip LatestWeb.zip and serve the files inside. \n\nWindows: Download and run music_lessons_attendance.exe \n\nLinux: Download and unzip LatestLinux.zip. Follow the folder path and run music_lessons_attendance. The data and lib folders must be in the same folder."
 
-      
+    
