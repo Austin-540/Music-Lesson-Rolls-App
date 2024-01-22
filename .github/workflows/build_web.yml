@@ -31,4 +31,4 @@ jobs:
           files: LatestWeb.zip
 
       - name: "print url"
-        run: echo ${{ env.UPLOAD_URL }}
+        run: echo ${{ steps.pre-release.outputs.upload_url }}
