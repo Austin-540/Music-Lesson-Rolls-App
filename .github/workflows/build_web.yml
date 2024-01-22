@@ -18,7 +18,7 @@ jobs:
       - name: "Dependencies"
         run: flutter pub get
       - name: "Build"
-        run: flutter build web
+        run: flutter build web --release --web-renderer canvaskit
       - name: "zip"
         run: zip -r LatestWeb.zip build/web/
 
@@ -27,5 +27,8 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: false
-          title: "Latest Build - Web"
+          title: "Latest Versions"
           files: LatestWeb.zip
+
+      - name: "print url"
+        run: echo "${{ steps.action-automatic-releases.outputs.upload_url }}"
