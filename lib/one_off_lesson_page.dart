@@ -137,7 +137,14 @@ class OneOffLessonSubmitPage extends StatefulWidget {
 }
 
 class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
+  var alreadySubmitted = false;
+  
   Future submitRoll() async {
+    if (alreadySubmitted == true) {
+    throw "Already submitted";
+  } else {
+    alreadySubmitted = true;
+  }
     for (int x = 0; x <= widget.listOfStudents.length - 1; x++) {
       bool? finalVar;
       if (x != widget.listOfStudents.length - 1) {
