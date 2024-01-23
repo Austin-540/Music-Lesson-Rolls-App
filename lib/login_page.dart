@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pocketbase/pocketbase.dart';
@@ -86,8 +84,10 @@ class _LoginScreenState extends State<LoginScreen> {
         "model": pb.authStore.model,
       });
       await storage.write(key: "pb_auth", value: encoded);
+      if (!context.mounted) return;
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: "Today's Lessons")), (route) => false);
     } on ClientException catch (e) {
+      if (!context.mounted) return;
       showDialog(
         barrierDismissible: false,
         context: context, builder: (context) => AlertDialog(
@@ -101,6 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.pop(context);}, child: const Text("Try Again"))],
       ));
     } catch (e) {
+      if (!context.mounted) return;
       showDialog(context: context, builder: (context)=> AlertDialog(
         title: const Text("Something went wrong :/"),
         content: Text(e.toString()),

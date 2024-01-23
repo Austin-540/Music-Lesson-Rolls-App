@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously, prefer_const_constructors
-
 import 'dart:async';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'dart:convert';
@@ -71,13 +69,14 @@ class _MyHomePageState extends State<MyHomePage> {
       final latestVersion = await http.get(Uri.parse(
           "https://austin-540.github.io/Database-Stuff/current_version.html"));
       if (latestVersion.body != "$version\n") {
+        if (!context.mounted) return;
         showDialog(
             context: context,
             builder: (context) => AlertDialog(
                   title: const Text("Please update"),
                   content: Text(
                       "You are using an outdated version of the website. You may need to restart your web browser for it to update.\n\nYour website version: $version\nLatest version: ${latestVersion.body}"),
-                  actions: [kIsWeb? SizedBox(): TextButton(onPressed: (){
+                  actions: [kIsWeb? const SizedBox(): TextButton(onPressed: (){
                     launchUrl(Uri.parse("https://github.com/Austin-540/Austin-Scholarship-2023/releases/download/latest/Latest${getPlatform()}.zip"));
                     }, child: Text("Download latest ${getPlatform()} release"))],
                 ));
@@ -89,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
       if (checkForCustomError.body == "OK\n") {
         return authDataMap; //finish the FutureBuilder
       } else {
+        if (!context.mounted) return;
         showDialog(
             context: context,
             builder: (context) => AlertDialog(
@@ -132,7 +132,9 @@ class _MyHomePageState extends State<MyHomePage> {
     await storage.delete(key: "username");
     pb.authStore.clear();
     await Future.delayed(const Duration(milliseconds: 500));
+    if (!context.mounted) return;
     kIsWeb? launchUrl(Uri.parse("app.shcmusiclessonrolls.com/",), webOnlyWindowName: "_self"):
+    
     showDialog(
       barrierDismissible: false,
       context: context, builder: (context) => const AlertDialog(
@@ -146,8 +148,10 @@ class _MyHomePageState extends State<MyHomePage> {
     const storage = FlutterSecureStorage();
     final themeFromFSS = await storage.read(key: "theme");
     if (themeFromFSS == "dark") {
+      if (!context.mounted) return;
       AdaptiveTheme.of(context).setDark();
     } else {
+      if (!context.mounted) return;
       AdaptiveTheme.of(context).setLight();
     }
 
@@ -327,6 +331,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       launchUrl(Uri.parse(
                                           "mailto:$recipientEmail?subject=App%20Feedback"));
                                     } catch (e) {
+                                      if (!context.mounted) return;
                                       showDialog(
                                           context: context,
                                           builder: (context) => Dialog(

@@ -15,12 +15,13 @@ class _UploadingCSVPageState extends State<UploadingCSVPage> {
   XFile? file;
   Future pickFile() async {
     file = await openFile(); //opens the native file picker
+    if (!context.mounted) return;
     if (file!.name.endsWith("csv")) {
       //if file is CSV update UI, otherwise show an alert
       setState(() {});
     } else {
       file = null;
-      // ignore: use_build_context_synchronously
+
       showDialog(
           context: context,
           builder: (context) => const AlertDialog(
