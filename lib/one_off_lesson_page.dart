@@ -37,59 +37,59 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: ListView(
-        children: [Column(children: [
-          Center(
-              child: Text(
-            time,
-            style: const TextStyle(fontSize: 40),
-          )),
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton.icon(
-                  label: const Text("Select Time"),
-                  icon: const Icon(Icons.access_time),
-                  onPressed: () async {
-                    final timeOfDay = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
-                    if (timeOfDay != null) {
-                      //if it is null keep it as "Pick lesson time"
-                      String ampm = "undefined_period_of_day";
-                      if (timeOfDay.period == DayPeriod.am) {
-                        ampm = "AM";
-                      } else {
-                        ampm = "PM";                      }
-
-                      setState(() {
-                        time =
-                            "${timeOfDay.hour}:${timeOfDay.minute.toString().padLeft(2, '0')} $ampm"; //convert to string
-                      });
-                    }
-                  })),
-          for (int x = 0; x < listOfStudents.length; x++) ...[
-            //For each student have a card with their name and a button to remove them
-            Card(
-              child: Row(
-                children: [
-                  const Spacer(),
-                  Text(
-                    listOfStudents[x],
-                    style: const TextStyle(fontSize: 25),
-                  ),
-                  const Spacer(), 
-                  IconButton(
-                      onPressed: () => setState(() {
-                            listOfStudents.removeAt(x);
-                          }),
-                      icon: const Icon(Icons.delete))
-                ],
-              ),
-            )
-          ],
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: paddingWidth, vertical: 15),
-            child: TextField(
+        children: [Padding(
+          padding: EdgeInsets.symmetric(horizontal: paddingWidth),
+          child: Column(children: [
+            Center(
+                child: Text(
+              time,
+              style: const TextStyle(fontSize: 40),
+            )),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton.icon(
+                    label: const Text("Select Time"),
+                    icon: const Icon(Icons.access_time),
+                    onPressed: () async {
+                      final timeOfDay = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if (timeOfDay != null) {
+                        //if it is null keep it as "Pick lesson time"
+                        String ampm = "undefined_period_of_day";
+                        if (timeOfDay.period == DayPeriod.am) {
+                          ampm = "AM";
+                        } else {
+                          ampm = "PM";                      }
+          
+                        setState(() {
+                          time =
+                              "${timeOfDay.hour>12?timeOfDay.hour-12:timeOfDay.hour}:${timeOfDay.minute.toString().padLeft(2, '0')} $ampm"; //convert to string
+                        });
+                      }
+                    })),
+            for (int x = 0; x < listOfStudents.length; x++) ...[
+              //For each student have a card with their name and a button to remove them
+              Card(
+                child: Row(
+                  children: [
+                    const Spacer(),
+                    Text(
+                      listOfStudents[x],
+                      style: const TextStyle(fontSize: 25),
+                    ),
+                    const Spacer(), 
+                    IconButton(
+                        onPressed: () => setState(() {
+                              listOfStudents.removeAt(x);
+                            }),
+                        icon: const Icon(Icons.delete))
+                  ],
+                ),
+              )
+            ],
+            TextField(
               decoration: const InputDecoration(hintText: "Student's Name"),
               controller: textEditingController,
               onEditingComplete: () {},
@@ -102,39 +102,42 @@ class _OneOffLessonPageState extends State<OneOffLessonPage> {
                 }
               }),
             ),
-          ),
-          ElevatedButton(
-              onPressed: () {
-                if (time != "Pick lesson time" && listOfStudents.isNotEmpty) {
-                  //if both bits of info have been entered
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => OneOffLessonSubmitPage(
-                              listOfStudents: listOfStudents, time: time)),
-                      (route) => false);
-                } else if (time == "Pick lesson time") {
-                  setState(() {
-                    showTimeError = true;
-                  });
-                } else if (listOfStudents.isEmpty) {
-                  setState(() {
-                    showEmptyListError = true;
-                  });
-                }
-              },
-              child: const Text("Submit Lesson")),
-          showTimeError
-              ? const Text("You need to select a time before submitting.",
-                  style: TextStyle(color: Colors.red))
-              : const SizedBox(),
-          showEmptyListError
-              ? const Text(
-                  "Press enter after typing each name.",
-                  style: TextStyle(color: Colors.red),
-                )
-              : const SizedBox(),
-        ])],
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    if (time != "Pick lesson time" && listOfStudents.isNotEmpty) {
+                      //if both bits of info have been entered
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OneOffLessonSubmitPage(
+                                  listOfStudents: listOfStudents, time: time)),
+                          (route) => false);
+                    } else if (time == "Pick lesson time") {
+                      setState(() {
+                        showTimeError = true;
+                      });
+                    } else if (listOfStudents.isEmpty) {
+                      setState(() {
+                        showEmptyListError = true;
+                      });
+                    }
+                  },
+                  child: const Text("Submit Lesson")),
+            ),
+            showTimeError
+                ? const Text("You need to select a time before submitting.",
+                    style: TextStyle(color: Colors.red))
+                : const SizedBox(),
+            showEmptyListError
+                ? const Text(
+                    "Press enter after typing each name.",
+                    style: TextStyle(color: Colors.red),
+                  )
+                : const SizedBox(),
+          ]),
+        )],
       ),
     );
   }
