@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
-
+import 'color_schemes.g.dart';
 
 
 void main() async {
@@ -15,8 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AdaptiveTheme(
-      light: ThemeData(useMaterial3: true, brightness: Brightness.light, colorSchemeSeed: const Color.fromARGB(255, 134, 193, 234)),
-      dark: ThemeData(useMaterial3: true, brightness: Brightness.dark, colorSchemeSeed: const Color.fromARGB(255, 64, 134, 255)),
+      light: ThemeData(useMaterial3: true, brightness: Brightness.light, colorScheme: lightColorScheme),
+      dark: ThemeData(useMaterial3: true, brightness: Brightness.dark, colorScheme: darkColorScheme),
       initial: AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
         title: 'Music Lesson Rolls',

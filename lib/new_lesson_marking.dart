@@ -41,35 +41,21 @@ class _NewLessonInListState extends State<NewLessonInList> {
 
     Color? statusColour;
     bool activeStatus;
-    if (Theme.of(context).brightness == Brightness.light) {
+    DateTime now = DateTime.now();
       if (widget.details['weekday'] ==
-          DateFormat('EEEE').format(DateTime.now())) {
+          DateFormat('EEEE').format(now)) {
         activeStatus = true;
         if (widget.status == "Completed") {
-          statusColour = const Color.fromARGB(255, 214, 252, 205);
+          statusColour = Theme.of(context).colorScheme.tertiaryContainer;
         } else if (widget.status == "Overdue") {
-          statusColour = const Color.fromARGB(255, 255, 182, 182);
+          statusColour = Theme.of(context).colorScheme.errorContainer;
         } else {
           statusColour = null; //uses default colour
         }
       } else {
         activeStatus = false;
       }
-    } else {
-      if (widget.details['weekday'] ==
-          DateFormat('EEEE').format(DateTime.now())) {
-        activeStatus = true;
-        if (widget.status == "Completed") {
-          statusColour = const Color.fromARGB(255, 9, 48, 0);
-        } else if (widget.status == "Overdue") {
-          statusColour = const Color.fromARGB(255, 86, 0, 0);
-        } else {
-          statusColour = null; //uses default colour
-        }
-      } else {
-        activeStatus = false;
-      }
-    }
+    
     // return [activeStatus, statusColour];
 
     return Padding(

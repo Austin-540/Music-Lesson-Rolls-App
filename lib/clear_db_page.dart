@@ -79,7 +79,7 @@ class _ClearDBPageState extends State<ClearDBPage> {
                           const Text("You are about to delete this data:"),
                           for (int x = 0; x < snapshot.data[0].length; x++) ...[
                             Card(
-                              color: const Color.fromARGB(255, 251, 142, 142),
+                              color: Theme.of(context).colorScheme.errorContainer,
                               child: Row(
                                 children: [
                                   const Spacer(),
