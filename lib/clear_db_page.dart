@@ -151,7 +151,14 @@ class DeleteStuffPage extends StatefulWidget {
 }
 
 class _DeleteStuffPageState extends State<DeleteStuffPage> {
+  bool alreadySubmitted = false;
+
   Future deleteStuff() async {
+    if (alreadySubmitted) {
+      return "";
+    } else {
+      alreadySubmitted = true;
+    }
     final records = await pb.collection('rolls').getFullList(
           sort: '-created',
         );
