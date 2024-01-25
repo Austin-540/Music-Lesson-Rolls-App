@@ -8,10 +8,6 @@ secrets = getSecrets()
 sentEmail = False
 
 
-#If you are reading this code in the future
-#I'm sorry for making it so unreadable.
-
-
 def mark_roll(wksheet, name, status):
     all_values = wksheet.get_all_values()
     print(all_values)
