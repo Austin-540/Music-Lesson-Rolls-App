@@ -155,7 +155,7 @@ class _DeleteStuffPageState extends State<DeleteStuffPage> {
 
   Future deleteStuff() async {
     if (alreadySubmitted) {
-      return "";
+      throw "already submitted";
     } else {
       alreadySubmitted = true;
     }
