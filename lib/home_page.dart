@@ -29,6 +29,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Future? logInData;
+
+  @override
+  void initState() {
+    super.initState();
+    logInData = logIn();
+  }
 
   String getPlatform() {
     String platform = "Undefined";
@@ -388,7 +395,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Center(
           child: FutureBuilder(
             //future builder for "Welcome $name"
-            future: logIn(),
+            future: logInData,
             initialData: null,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
