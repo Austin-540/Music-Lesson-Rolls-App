@@ -73,16 +73,18 @@ class _MyHomePageState extends State<MyHomePage> {
       final authDataMap = jsonDecode(authData.toString())[0];
       loggedInTeacher = authDataMap["id"];
 
-      final latestVersion = await http.get(Uri.parse(
-          "https://austin-540.github.io/Database-Stuff/current_version.html"));
-      if (latestVersion.body != "$version\n") {
+      final latestVersionRecordList = await pb.collection('current_version').getFullList(
+  sort: '-created',
+);
+      final latestVersion = latestVersionRecordList[0].data['current_version'];
+      if (latestVersion != version) {
         if (!context.mounted) return;
         showDialog(
             context: context,
             builder: (context) => AlertDialog(
                   title: const Text("Please update"),
                   content: Text(
-                      "You are using an outdated version of the website. You may need to restart your web browser for it to update.\n\nYour website version: $version\nLatest version: ${latestVersion.body}"),
+                      "You are using an outdated version of the website. You may need to restart your web browser for it to update.\n\nYour website version: $version\nLatest version: $latestVersion"),
                   actions: [kIsWeb? const SizedBox(): TextButton(onPressed: (){
                     launchUrl(Uri.parse("https://github.com/Austin-540/Austin-Scholarship-2023/releases/download/latest/Latest${getPlatform()}.zip"));
                     }, child: Text("Download latest ${getPlatform()} release"))],
