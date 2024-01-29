@@ -24,6 +24,30 @@ func main() {
 	// Optional plugin flags:
 	// ---------------------------------------------------------------
 
+	var hooksDir string
+	app.RootCmd.PersistentFlags().StringVar(
+		&hooksDir,
+		"hooksDir",
+		"",
+		"the directory with the JS app hooks",
+	)
+
+	var hooksWatch bool
+	app.RootCmd.PersistentFlags().BoolVar(
+		&hooksWatch,
+		"hooksWatch",
+		true,
+		"auto restart the app on pb_hooks file change",
+	)
+
+	var hooksPool int
+	app.RootCmd.PersistentFlags().IntVar(
+		&hooksPool,
+		"hooksPool",
+		25,
+		"the total prewarm goja.Runtime instances for the JS app hooks execution",
+	)
+
 	var migrationsDir string
 	app.RootCmd.PersistentFlags().StringVar(
 		&migrationsDir,
@@ -70,24 +94,26 @@ func main() {
 	// Plugins and hooks:
 	// ---------------------------------------------------------------
 
-	// load js pb_migrations
-	jsvm.MustRegisterMigrations(app, &jsvm.MigrationsOptions{
-		Dir: migrationsDir,
+	// load jsvm (hooks and migrations)
+	jsvm.MustRegister(app, jsvm.Config{
+		MigrationsDir: migrationsDir,
+		HooksDir:      hooksDir,
+		HooksWatch:    hooksWatch,
+		HooksPoolSize: hooksPool,
 	})
 
 	// migrate command (with js templates)
-	migratecmd.MustRegister(app, app.RootCmd, &migratecmd.Options{
+	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
 		TemplateLang: migratecmd.TemplateLangJS,
 		Automigrate:  automigrate,
 		Dir:          migrationsDir,
 	})
 
 	// GitHub selfupdate
-	ghupdate.MustRegister(app, app.RootCmd, nil)
+	ghupdate.MustRegister(app, app.RootCmd, ghupdate.Config{})
 
-	app.OnAfterBootstrap().Add(func(e *core.BootstrapEvent) error {
+	app.OnAfterBootstrap().PreAdd(func(e *core.BootstrapEvent) error {
 		app.Dao().ModelQueryTimeout = time.Duration(queryTimeout) * time.Second
-		println("Hello World - vASYNC0")
 		return nil
 	})
 
