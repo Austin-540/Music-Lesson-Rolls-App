@@ -178,6 +178,24 @@ class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
       await pb
           .collection('one_off_rolls')
           .create(body: body); //create a record with each students' info
+
+      await Future.delayed(const Duration(milliseconds: 200));
+      final dataInDB = await pb.collection('one_off_rolls').getFullList(
+  sort: '-created',
+);
+      if (dataInDB.isNotEmpty) {
+        if (!mounted) return;
+        for (var record in dataInDB) {
+          await pb.collection('one_off_rolls').delete(record.id);
+        }
+        if (!mounted) return;
+        showDialog(context: context, 
+        builder: (context) => const AlertDialog(
+          title: Text("Something went wrong."),
+          content: Text("The server accepted the lesson you submitted, but wasn't able to send the email."),
+          icon: Icon(Icons.info_outline),
+        ));
+      }
     }
     return "Success"; //finish FutureBuilder
   }
@@ -212,7 +230,12 @@ class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
               ],
             );
           } else if (snapshot.hasError) {
-            return const Text("error");
+            return Column(
+              children: [
+                const Text("error"),
+                Text(snapshot.error.toString())
+              ],
+            );
           } else {
             return const Center(child: CircularProgressIndicator());
           }

@@ -1,18 +1,33 @@
 #!/usr/bin/python
 
 import sqlite3
-from secrets import getSecrets
+from my_secrets import getSecrets
 import smtplib, ssl
 from tabulate import tabulate
 from datetime import datetime
 from datetime import date
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
+def sendEmail(contents, reciever_email, subject):
+    msg = MIMEMultipart()
+    msg['From'] = secrets['my_email']
+    msg['To'] = secrets['reciever_email']
+    msg['Subject'] = subject
+    body = f"""\
+<pre>
+<code>
+{contents}
+</code>
+</pre>
+    """
+    msg.attach(MIMEText(body, 'html'))
 
-def sendEmail(contents, reciever_email):
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
         server.login(secrets['my_email'], secrets['my_password'])
-        server.sendmail(secrets['my_email'], reciever_email, contents)
+        server.sendmail(secrets['my_email'], secrets['reciever_email'], msg.as_string())
+
+
 
     cur.execute("DELETE FROM rolls") #Delete the rolls that were uploaded, not that the email is sent
     cur.execute("DELETE FROM send_email_ready") #delete the signal that the email is ready to be sent
@@ -63,6 +78,7 @@ else:
         import google_sheets
     except Exception as error:
         print(f"**\n\n\n{error}\n\n\n**")
+        print("error in google sheets, continuing")
         
 print("line 66")
 
@@ -75,6 +91,7 @@ for student in allRolls:
 	time = getLessonTime(student)
 print("Line 75")
 secrets = getSecrets() #secrets from secrets.py file
+print(secrets)
 
 con = sqlite3.connect("/home/austin/pb_data/data.db")
 cur = con.cursor()
@@ -100,14 +117,14 @@ try:
 
     table = tabulate(allDetails, headers=['Name', 'Homeroom', 'Status'], tablefmt='grid')
 
-    now = datetime.now().strftime("%d-%m-%Y, %H:%M")
+    subjectLine = datetime.now().strftime("%d-%m-%Y, %H:%M")
 
 
-    sendEmail(f"""Subject: {now}\n
-        {table}
+    sendEmail(f"""{table}
 
-        Lesson start time: {time[0]}
-    {already_marked}""", secrets['reciever_email'])
+Lesson start time: {time[0]}
+    {already_marked}
+""", secrets['reciever_email'], subjectLine)
 
 except Exception as e: 
     sendEmail(f"""Subject: Error while trying to send email \n
