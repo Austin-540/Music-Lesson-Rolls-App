@@ -179,7 +179,10 @@ class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
           .collection('one_off_rolls')
           .create(body: body); //create a record with each students' info
 
-      await Future.delayed(const Duration(milliseconds: 200));
+      
+    }
+
+    await Future.delayed(const Duration(milliseconds: 200));
       final dataInDB = await pb.collection('one_off_rolls').getFullList(
   sort: '-created',
 );
@@ -196,7 +199,6 @@ class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
           icon: Icon(Icons.info_outline),
         ));
       }
-    }
     return "Success"; //finish FutureBuilder
   }
 
