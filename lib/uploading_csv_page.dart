@@ -102,7 +102,13 @@ class UploadingLoadingPage extends StatefulWidget {
 }
 
 class _UploadingLoadingPageState extends State<UploadingLoadingPage> {
+  bool alreadySubmitted = false;
   Future uploadFile() async {
+    if (alreadySubmitted) {
+      return "";
+    } else {
+      alreadySubmitted = true;
+    }
     final stringFile =
         await widget.file.readAsString(); //read the file as plaintext
     await pb.collection('csv_files').create(
