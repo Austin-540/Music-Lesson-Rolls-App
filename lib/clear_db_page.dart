@@ -14,6 +14,7 @@ class ClearDBPage extends StatefulWidget {
 class _ClearDBPageState extends State<ClearDBPage> {
   Future<List> getDataInDB() async {
     final recordsInRolls = await pb.collection('rolls').getFullList(
+      batch: 1000,
         sort: '-created', expand: "students, lesson.teacher.username");
     final recordsInRollsMap = jsonDecode(recordsInRolls.toString());
     var lessonDetails = [];
@@ -160,6 +161,7 @@ class _DeleteStuffPageState extends State<DeleteStuffPage> {
       alreadySubmitted = true;
     }
     final records = await pb.collection('rolls').getFullList(
+      batch: 1000,
           sort: '-created',
         );
 

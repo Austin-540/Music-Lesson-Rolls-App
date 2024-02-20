@@ -179,7 +179,9 @@ class _MyHomePageState extends State<MyHomePage> {
     final lessonList = await pb.collection('lessons').getFullList(
         sort: '+time',
         expand: "students,teacher",
+        batch: 1000,
         filter: "weekday = '${DateFormat('EEEE').format(DateTime.now())}'");
+  
     // print(lessonList);
     final fullList = jsonDecode(lessonList.toString());
 

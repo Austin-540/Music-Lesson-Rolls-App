@@ -17,7 +17,7 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
   Future getLessons() async {
     final lessons = await pb
         .collection('lessons')
-        .getFullList(sort: '+time', expand: "students, teacher");
+        .getFullList(sort: '+time', expand: "students, teacher", batch: 1000);
     //tradeoff of not specifying weekday here: will take longer if you're only looking at todays lessons, but you will only need to see one loading screen if you're looking at a different days lessons
     return jsonDecode(lessons.toString());
   }
