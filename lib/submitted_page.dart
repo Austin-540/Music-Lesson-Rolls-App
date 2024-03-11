@@ -17,6 +17,17 @@ class SubmittedPage extends StatefulWidget {
 }
 
 class _SubmittedPageState extends State<SubmittedPage> {
+  Future pushAwayFromPage() async {
+    await Future.delayed(Duration(milliseconds: 1500));
+    if (!mounted) return;
+    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const MyHomePage(title: "Home Page")),
+                        (route) => false);
+  }
+
   var alreadySubmitted = false;
   Future submitRoll() async {
     if (alreadySubmitted == true) {
@@ -69,36 +80,31 @@ class _SubmittedPageState extends State<SubmittedPage> {
           if (snapshot.hasData) {
             return Column(
               children: [
-                Center(
-                    child: 
-                    Theme.of(context).brightness == Brightness.dark?
-                    AnimatedGradientBorder(
-                        borderSize: 2,
-                        glowSize: 15,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(800)),
-                        gradientColors: const [
-                          Colors.purple,
-                          Colors.blue,
-                          Colors.red,
-                        ],
-                        child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(800)),
-                                color:
-                                    Theme.of(context).colorScheme.background),
-                            child: const AnimatedCheckmark())):
-                            const AnimatedCheckmark()
-                            ),
-                ElevatedButton(
-                    onPressed: () => Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const MyHomePage(title: "Home Page")),
-                        (route) => false),
-                    child: const Text("Home Page"))
+                FutureBuilder(
+                  future: pushAwayFromPage(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) => Center(
+                      child: 
+                      Theme.of(context).brightness == Brightness.dark?
+                      AnimatedGradientBorder(
+                          borderSize: 2,
+                          glowSize: 15,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(800)),
+                          gradientColors: const [
+                            Colors.purple,
+                            Colors.blue,
+                            Colors.red,
+                          ],
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(800)),
+                                  color:
+                                      Theme.of(context).colorScheme.background),
+                              child: const AnimatedCheckmark())):
+                              const AnimatedCheckmark()
+                              ),
+                ),
               ],
             );
           } else if (snapshot.hasError) {
