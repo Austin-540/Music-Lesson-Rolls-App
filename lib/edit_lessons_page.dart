@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -50,7 +52,7 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.home_outlined), onPressed: () {
+        leading: IconButton(icon: const Icon(Icons.home_outlined), onPressed: () {
           kIsWeb? launchUrl(Uri.parse("app.shcmusiclessonrolls.com/",), webOnlyWindowName: "_self"):
     showDialog(
       barrierDismissible: false,
@@ -60,18 +62,18 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
       ));
   
         },),
-          title: Text("Edit Lessons"),
+          title: const Text("Edit Lessons"),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary),
       body: FutureBuilder(
         future: getLessonsToEdit(),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else {
             return ListView(children: [
-              Center(child: Text("Updating a lesson here won't automatically update the Google Sheet.", textAlign: TextAlign.center,)),
+              const Center(child: Text("Updating a lesson here won't automatically update the Google Sheet.", textAlign: TextAlign.center,)),
               Padding(
 
                 padding: EdgeInsets.symmetric(horizontal: paddingWidth),
@@ -87,23 +89,23 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                           if (!mounted) return;
                 
                           showDialog(context: context, builder: (context) => AlertDialog(
-                            title: Text("Add a lesson"),
+                            title: const Text("Add a lesson"),
                             content: Column(children: [
                               TextFormField(
                                 onChanged: (value) => instrument = value,
-                                decoration: InputDecoration(labelText: "Instrument"),
+                                decoration: const InputDecoration(labelText: "Instrument"),
                               ),
                               TextFormField(
                                 onChanged: (value) => time = value,
-                                decoration: InputDecoration(labelText: "Time", hintText: "Enter the time as 4 digit 24hr time"),
+                                decoration: const InputDecoration(labelText: "Time", hintText: "Enter the time as 4 digit 24hr time"),
                               ),
                               TextFormField(
                                 onChanged: (value) => weekday = value,
-                                decoration: InputDecoration(labelText: "Weekday"),
+                                decoration: const InputDecoration(labelText: "Weekday"),
                               )
                             ]),
                             actions: [
-                              TextButton(onPressed: ()=>Navigator.pop(context), child: Text("Cancel")),
+                              TextButton(onPressed: ()=>Navigator.pop(context), child: const Text("Cancel")),
                               TextButton(onPressed: ()async{
                                 try {
                                     if (int.tryParse(time) == null) {
@@ -121,23 +123,25 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                 };
                 
                 await pb.collection('lessons').create(body: body);
+                if (!mounted) return;
                 
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => EditLessonsPage()), (route) => false);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false);
                 
                 
                                 } catch(e) {
+                                  if (!mounted) return;
                                   showDialog(context: context, builder: (context) => AlertDialog(
-                      title: Text("Something went wrong :/"),
+                      title: const Text("Something went wrong :/"),
                       content: Text(e.toString()),));
                                 }
                 
                 
-                              }, child: Text("Submit"))
+                              }, child: const Text("Submit"))
                             ],
                           ), );
                         },
-                        icon: Icon(Icons.add),
-                        label: Text("Add a lesson"))
+                        icon: const Icon(Icons.add),
+                        label: const Text("Add a lesson"))
                   ],
                 ),
               ),
@@ -158,18 +162,27 @@ class LessonCard extends StatefulWidget {
 }
 
 class _LessonCardState extends State<LessonCard> {
+
+  @override
+ void initState() {
+    super.initState();
+    checkboxValue = widget.lessonData.data['dont_send_email'];
+ }
+
+
+
   Future deleteLesson(lessonID, context) async {
     try {
       await pb.collection('lessons').delete(lessonID);
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => EditLessonsPage()),
+          MaterialPageRoute(builder: (context) => const EditLessonsPage()),
           (route) => false);
     } catch (e) {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                title: Text("Something went wrong :/"),
+                title: const Text("Something went wrong :/"),
                 content: Text(e.toString()),
               ));
     }
@@ -177,9 +190,12 @@ class _LessonCardState extends State<LessonCard> {
 
   String newLessonTime = "";
   String studentName = "";
+  bool? checkboxValue;
+  
 
   @override
   Widget build(BuildContext context) {
+    
     List? studentList = widget.lessonData.expand['students'];
     studentList = studentList ?? [];
     return Padding(
@@ -191,7 +207,7 @@ class _LessonCardState extends State<LessonCard> {
             Row(
               children: [
                 Text(widget.lessonData.data['weekday']),
-                Spacer()
+                const Spacer()
               ],
             ),
             //Time
@@ -199,17 +215,17 @@ class _LessonCardState extends State<LessonCard> {
               children: [
                 Text(
                   widget.lessonData.data['time'],
-                  style: TextStyle(fontSize: 40),
+                  style: const TextStyle(fontSize: 40),
                 ),
                 IconButton(
                     onPressed: () {
                       showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                                title: Text("Edit Lesson Time"),
+                                title: const Text("Edit Lesson Time"),
                                 content: Column(
                                   children: [
-                                    Text(
+                                    const Text(
                                         "Enter the time as 4 digits in 24hr time."),
                                     TextFormField(
                                       onChanged: (value) =>
@@ -220,7 +236,7 @@ class _LessonCardState extends State<LessonCard> {
                                 actions: [
                                   TextButton(
                                       onPressed: () => Navigator.pop(context),
-                                      child: Text("Cancel")),
+                                      child: const Text("Cancel")),
                                   TextButton(
                                       onPressed: () async {
                                         try {
@@ -230,37 +246,38 @@ class _LessonCardState extends State<LessonCard> {
                                           await pb.collection('lessons').update(
                                               widget.lessonData.id,
                                               body: {'time': newLessonTime});
+                                              if(!mounted) return;
                                           Navigator.pushAndRemoveUntil(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      EditLessonsPage()),
+                                                      const EditLessonsPage()),
                                               (route) => false);
                                         } catch (e) {
                                           showDialog(
                                               context: context,
                                               builder: (context) => AlertDialog(
-                                                  title: Text(
+                                                  title: const Text(
                                                       "Something went wrong :/"),
                                                   content: Text(e.toString())));
                                         }
                                       },
-                                      child: Text("Submit"))
+                                      child: const Text("Submit"))
                                 ],
                               ));
                     },
-                    icon: Icon(Icons.edit_outlined)),
-                Spacer(),
+                    icon: const Icon(Icons.edit_outlined)),
+                const Spacer(),
                 IconButton(
                     onPressed: () async {
                       showDialog(context: context, builder: (context) => AlertDialog(
-                        title: Text("Are you sure?"),
-                        content: Text("Delete this lesson?"),
-                        actions: [TextButton(onPressed: ()=>Navigator.pop(context), child: Text("Cancel")),
-                        TextButton(onPressed: ()=>deleteLesson(widget.lessonData.id, context), child: Text("I'm sure"))],
+                        title: const Text("Are you sure?"),
+                        content: const Text("Delete this lesson?"),
+                        actions: [TextButton(onPressed: ()=>Navigator.pop(context), child: const Text("Cancel")),
+                        TextButton(onPressed: ()=>deleteLesson(widget.lessonData.id, context), child: const Text("I'm sure"))],
                       ));
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.delete_forever_outlined,
                       color: Colors.red,
                     ))
@@ -280,12 +297,12 @@ class _LessonCardState extends State<LessonCard> {
             FilledButton.icon(
                 onPressed: () {
                   showDialog(context: context, builder: (context) => AlertDialog(
-                    title: Text("Add a student"),
-                    content: TextFormField(decoration: InputDecoration(label: Text("Name")),
+                    title: const Text("Add a student"),
+                    content: TextFormField(decoration: const InputDecoration(label: Text("Name")),
                     onChanged: (value) => studentName = value,),
 
                     actions: [
-                      TextButton(onPressed: () =>Navigator.pop(context), child: Text("Cancel")),
+                      TextButton(onPressed: () =>Navigator.pop(context), child: const Text("Cancel")),
                       TextButton(onPressed: () async{
                         try{
                            final record = await pb.collection('students').create(body: {
@@ -307,8 +324,9 @@ class _LessonCardState extends State<LessonCard> {
                           body: {
                             "students": listOfStudents
                           });
+                          if (!mounted) return;
 
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> EditLessonsPage()), (route) => false);
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const EditLessonsPage()), (route) => false);
                           
 
 
@@ -316,18 +334,44 @@ class _LessonCardState extends State<LessonCard> {
                         } catch (e) {
                           if(!mounted) return;
                           showDialog(context: context, builder: (context) => AlertDialog(
-      title: Text("Something went wrong :/"),
+      title: const Text("Something went wrong :/"),
       content: Text(e.toString()),));
                         }
 
 
 
-                      }, child: Text("Submit"))
+                      }, child: const Text("Submit"))
                     ],
                   ));
                 },
-                icon: Icon(Icons.add),
-                label: Text("Add a student"))
+                icon: const Icon(Icons.add),
+                label: const Text("Add a student")),
+
+                Row(
+                  children: [
+                    Checkbox(value: checkboxValue, onChanged: (value)async{
+                      setState(() {
+                        checkboxValue = value;
+                      });
+
+                      await pb.collection('lessons').update(widget.lessonData.id,
+                      body: {
+                        'dont_send_email': value
+                      });
+                      if (!mounted) return;
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false);
+                    }),
+                    const Text("This lesson is outside school time"),
+                    const Spacer(),
+                    IconButton(onPressed: () {
+                      showDialog(context: context, builder: (context) => AlertDialog(
+                        title: const Text("'This lesson is outside school time' option"),
+                        content: const Text("This option is false by default. It tells the app not to send an email to Ms Relf.\n\nSet this to true if the lesson will exclusively take place before 8:40AM or after 3:15PM.\n\nThis will show a red asterix next to the lesson time."),
+                        actions: [TextButton(onPressed: () =>Navigator.pop(context), child: const Text("OK"))],
+                      ));
+                    }, icon: const Icon(Icons.help_outline))
+                  ],
+                )
 
             //Switch for sending email
           ]),
@@ -337,7 +381,7 @@ class _LessonCardState extends State<LessonCard> {
   }
 }
 
-class NameAndDeleteButton extends StatelessWidget {
+class NameAndDeleteButton extends StatefulWidget {
   const NameAndDeleteButton(
       {super.key, required this.name, required this.student_db_id, required this.studentList, required this.lessonID});
   final String name;
@@ -346,36 +390,43 @@ class NameAndDeleteButton extends StatelessWidget {
   final lessonID;
 
   @override
+  State<NameAndDeleteButton> createState() => _NameAndDeleteButtonState();
+}
+
+class _NameAndDeleteButtonState extends State<NameAndDeleteButton> {
+  @override
   Widget build(BuildContext context) {
     return Row(children: [
-      Text(name),
-      Spacer(),
+      Text(widget.name),
+      const Spacer(),
       IconButton(
           onPressed: () async{
             try {
-            List newStudentList = studentList;
-            newStudentList.removeWhere((element) => element.id == student_db_id);
+            List newStudentList = widget.studentList;
+            newStudentList.removeWhere((element) => element.id == widget.student_db_id);
             List formattedNewStudentList = [];
             for (var student in newStudentList) {
               formattedNewStudentList.add(student.id);
             }
 
-            await pb.collection('lessons').update(lessonID, 
+            await pb.collection('lessons').update(widget.lessonID, 
             body: {
               "students": formattedNewStudentList
             });
-
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => EditLessonsPage()), (route) => false);
+            if (!mounted) return;
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false);
               
             } catch (e) {
+              
+              if (!mounted) return;
               showDialog(context: context, builder: (context) => AlertDialog(
-      title: Text("Something went wrong :/"),
+      title: const Text("Something went wrong :/"),
       content: Text(e.toString())));
             }
 
             
           },
-          icon: Icon(Icons.delete_outline))
+          icon: const Icon(Icons.delete_outline))
     ]);
   }
 }

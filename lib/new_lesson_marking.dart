@@ -72,6 +72,9 @@ class _NewLessonInListState extends State<NewLessonInList> {
                       i12hrTime,
                       style: const TextStyle(fontSize: 35),
                     ),
+                    widget.details['dont_send_email'] == true? 
+                    const Text("*", style: TextStyle(fontSize: 35, color: Color.fromARGB(255, 223, 61, 61),),):const SizedBox(),
+
                     const Spacer(),
                     Column(
                       crossAxisAlignment:

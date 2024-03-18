@@ -297,7 +297,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   QudsPopupMenuItem(
                                     title: const Text("Edit Lessons"),
                                     leading: const Icon(Icons.edit_outlined),
-                                    onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => EditLessonsPage()), (route) => false)
+                                    onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false)
                                   ),
                               QudsPopupMenuItem(
                                   title: const Text("App Info"),
