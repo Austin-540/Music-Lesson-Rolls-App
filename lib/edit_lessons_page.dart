@@ -35,7 +35,7 @@ class EditLessonsPage extends StatefulWidget {
 class _EditLessonsPageState extends State<EditLessonsPage> {
   Future getLessonsToEdit() async {
     final resultList =
-        await pb.collection('lessons').getFullList(expand: 'students');
+        await pb.collection('lessons').getFullList(expand: 'students', sort: 'time');
     return resultList;
   }
 
@@ -246,7 +246,6 @@ class _LessonCardState extends State<LessonCard> {
                                           await pb.collection('lessons').update(
                                               widget.lessonData.id,
                                               body: {'time': newLessonTime});
-                                              if(!mounted) return;
                                           Navigator.pushAndRemoveUntil(
                                               context,
                                               MaterialPageRoute(
