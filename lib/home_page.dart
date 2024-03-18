@@ -7,6 +7,7 @@ import 'package:music_lessons_attendance/uploading_csv_page.dart';
 import 'package:quds_popup_menu/quds_popup_menu.dart';
 import 'new_lesson_marking.dart';
 import 'dart:io';
+import 'edit_lessons_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
@@ -292,6 +293,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                   QudsPopupMenuItem(
                                     title: const Text("Open Spreadsheet"), onPressed: () {launchUrl(Uri.parse("https://docs.google.com/spreadsheets/d/1dVxlgpGOyiAyGYhhiIW931gFhbEWHQL0oqVbnh2Qtlw/"));},
                                     leading: const Icon(Icons.table_chart_outlined)
+                                  ),
+                                  QudsPopupMenuItem(
+                                    title: const Text("Edit Lessons"),
+                                    leading: const Icon(Icons.edit_outlined),
+                                    onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => EditLessonsPage()), (route) => false)
                                   ),
                               QudsPopupMenuItem(
                                   title: const Text("App Info"),
