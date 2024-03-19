@@ -82,66 +82,69 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                     for (int i = 0; i < snapshot.data.length; i++) ...[
                       LessonCard(lessonData: snapshot.data[i]),
                     ],
-                    ElevatedButton.icon(
-                        onPressed: () async {
-                          var teacherProfileData = await pb.collection('users').getFullList();
-                          var teacherId = teacherProfileData[0].id;
-                          if (!mounted) return;
-                
-                          showDialog(context: context, builder: (context) => AlertDialog(
-                            title: const Text("Add a lesson"),
-                            content: Column(children: [
-                              TextFormField(
-                                onChanged: (value) => instrument = value,
-                                decoration: const InputDecoration(labelText: "Instrument"),
-                              ),
-                              TextFormField(
-                                onChanged: (value) => time = value,
-                                decoration: const InputDecoration(labelText: "Time", hintText: "Enter the time as 4 digit 24hr time"),
-                              ),
-                              TextFormField(
-                                onChanged: (value) => weekday = value,
-                                decoration: const InputDecoration(labelText: "Weekday"),
-                              )
-                            ]),
-                            actions: [
-                              TextButton(onPressed: ()=>Navigator.pop(context), child: const Text("Cancel")),
-                              TextButton(onPressed: ()async{
-                                try {
-                                    if (int.tryParse(time) == null) {
-                                      throw "Invalid time format - Time must be in 24hr time as 4 digits, with no colon.";
-                            }
-                
-                                  final body = <String, dynamic>{
-                  "teacher": teacherId,
-                  "instrument": instrument,
-                  "students": [],
-                  "weekday": weekday,
-                  "time": time,
-                  "date_last_marked": "",
-                  "dont_send_email": false
-                };
-                
-                await pb.collection('lessons').create(body: body);
-                if (!mounted) return;
-                
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false);
-                
-                
-                                } catch(e) {
-                                  if (!mounted) return;
-                                  showDialog(context: context, builder: (context) => AlertDialog(
-                      title: const Text("Something went wrong :/"),
-                      content: Text(e.toString()),));
-                                }
-                
-                
-                              }, child: const Text("Submit"))
-                            ],
-                          ), );
-                        },
-                        icon: const Icon(Icons.add),
-                        label: const Text("Add a lesson"))
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: ElevatedButton.icon(
+                          onPressed: () async {
+                            var teacherProfileData = await pb.collection('users').getFullList();
+                            var teacherId = teacherProfileData[0].id;
+                            if (!mounted) return;
+                                      
+                            showDialog(context: context, builder: (context) => AlertDialog(
+                              title: const Text("Add a lesson"),
+                              content: Column(children: [
+                                TextFormField(
+                                  onChanged: (value) => instrument = value,
+                                  decoration: const InputDecoration(labelText: "Instrument"),
+                                ),
+                                TextFormField(
+                                  onChanged: (value) => time = value,
+                                  decoration: const InputDecoration(labelText: "Time", hintText: "Enter the time as 4 digit 24hr time"),
+                                ),
+                                TextFormField(
+                                  onChanged: (value) => weekday = value,
+                                  decoration: const InputDecoration(labelText: "Weekday"),
+                                )
+                              ]),
+                              actions: [
+                                TextButton(onPressed: ()=>Navigator.pop(context), child: const Text("Cancel")),
+                                TextButton(onPressed: ()async{
+                                  try {
+                                      if (int.tryParse(time) == null) {
+                                        throw "Invalid time format - Time must be in 24hr time as 4 digits, with no colon.";
+                              }
+                                      
+                                    final body = <String, dynamic>{
+                                        "teacher": teacherId,
+                                        "instrument": instrument,
+                                        "students": [],
+                                        "weekday": weekday,
+                                        "time": time,
+                                        "date_last_marked": "",
+                                        "dont_send_email": false
+                                      };
+                                      
+                                      await pb.collection('lessons').create(body: body);
+                                      if (!mounted) return;
+                                      
+                                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false);
+                                      
+                                      
+                                  } catch(e) {
+                                    if (!mounted) return;
+                                    showDialog(context: context, builder: (context) => AlertDialog(
+                        title: const Text("Something went wrong :/"),
+                        content: Text(e.toString()),));
+                                  }
+                                      
+                                      
+                                }, child: const Text("Submit"))
+                              ],
+                            ), );
+                          },
+                          icon: const Icon(Icons.add),
+                          label: const Text("Add a lesson")),
+                    )
                   ],
                 ),
               ),
