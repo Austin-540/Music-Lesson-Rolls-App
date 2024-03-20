@@ -187,6 +187,15 @@ class _NewLessonInListState extends State<NewLessonInList> {
                             shadowColor: MaterialStateProperty.resolveWith(
                                 (states) => null)),
                         onPressed: () {
+                          if (_rollOptions.isEmpty) {
+                            showDialog(context: context, builder: (context) => AlertDialog(
+                              title: const Text("You can't submit an empty lesson."),
+                              content: const Text("Try going into the edit lessons page to add a student or delete this lesson."),
+                              actions: [
+                                TextButton(onPressed: ()=>Navigator.pop(context), child: const Text("OK"))
+                              ],
+                            ));
+                          }
                           if (_rollOptions
                               .sublist(0, widget.details['students'].length)
                               .contains("none")) {
