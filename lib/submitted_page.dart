@@ -1,6 +1,7 @@
 import 'package:glowy_borders/glowy_borders.dart';
 import 'package:music_lessons_attendance/clear_db_page.dart';
 import 'package:music_lessons_attendance/home_page.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'globals.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,11 @@ import 'package:flutter/material.dart';
 class SubmittedPage extends StatefulWidget {
   //used when submitting a regular lesson (not one off)
   const SubmittedPage(
-      {super.key, required this.lessonDetails, required this.statuses});
+      {super.key, required this.lessonDetails, required this.statuses, required this.studentNames, required this.sendEmail});
   final Map lessonDetails;
   final List statuses;
+  final List studentNames;
+  final bool sendEmail;
 
   @override
   State<SubmittedPage> createState() => _SubmittedPageState();
@@ -36,32 +39,39 @@ class _SubmittedPageState extends State<SubmittedPage> {
       alreadySubmitted = true;
     }
     final currentlyInDb =
-        await pb.collection("rolls").getFullList(sort: '-created');
+        await pb.collection("send_email_ready").getFullList(sort: '-created');
     if (currentlyInDb.isNotEmpty) {
       throw "Things currently in DB";
     }
-
+    String students = "";
+    String statuses = "";
     for (int x = 0; x < widget.lessonDetails['students'].length; x++) {
-      bool? finalVar;
-      if (x != widget.lessonDetails['students'].length - 1) {
-        //is this the final student?
-        finalVar = false;
-      } else {
-        finalVar = true;
-      }
+      statuses += widget.statuses[x];
+      statuses += "{";
+      students += widget.studentNames[x];
+      students += "{";
+    }
+      if (students.isNotEmpty) {
+  students = students.substring(0, students.length - 1);
+}
+
+if (statuses.isNotEmpty) {
+  statuses = statuses.substring(0, statuses.length - 1);
+}
 
       final body = <String, dynamic>{
-        "students": widget.lessonDetails['students'][x],
-        "lesson": widget.lessonDetails['id'],
-        "present": widget.statuses[x],
-        "final": finalVar
+        "empty": "_",
+        "lesson_time": widget.lessonDetails['time'],
+        "students": students,
+        "statuses": statuses,
+        "teacher_username": await FlutterSecureStorage().read(key: "username"),
+        "send_email": widget.sendEmail
       };
-      await pb.collection('rolls').create(body: body);
+      pb.collection('send_email_ready').create(body: body);
       await pb.collection('lessons').update(widget.lessonDetails['id'], body: {
         "date_last_marked": "${DateTime.now().day}_${DateTime.now().month}"
       }); //submit that student to PB
-    }
-    await pb.collection('send_email_ready').create(body: {"empty": "_"});
+    
 
     return "Success";
   }

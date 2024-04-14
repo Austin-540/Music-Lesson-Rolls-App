@@ -23,6 +23,11 @@ class _NewLessonInListState extends State<NewLessonInList> {
 
   @override
   Widget build(BuildContext context) {
+    List studentNames = [];
+    for (int x =0; x < widget.details['expand']['students'].length; x++) {
+      studentNames.add(widget.details['expand']['students'][x]['name']);
+    }
+
     String i12hrTime;
 
     //convert computer readable time into 12hr time for humans
@@ -195,7 +200,8 @@ class _NewLessonInListState extends State<NewLessonInList> {
                                 TextButton(onPressed: ()=>Navigator.pop(context), child: const Text("OK"))
                               ],
                             ));
-                          }
+                            return;
+                          } 
                           if (_rollOptions
                               .sublist(0, widget.details['students'].length)
                               .contains("none")) {
@@ -218,6 +224,8 @@ class _NewLessonInListState extends State<NewLessonInList> {
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           SubmittedPage(
+                                                            sendEmail: !widget.details['dont_send_email'],
+                                                            studentNames: studentNames,
                                                               lessonDetails:
                                                                   widget
                                                                       .details,
@@ -233,6 +241,8 @@ class _NewLessonInListState extends State<NewLessonInList> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => SubmittedPage(
+                                      sendEmail: !widget.details['dont_send_email'],
+                                      studentNames: studentNames,
                                         lessonDetails: widget.details,
                                         statuses: _rollOptions)),
                                 (route) => false);

@@ -162,25 +162,20 @@ class _OneOffLessonSubmitPageState extends State<OneOffLessonSubmitPage> {
   } else {
     alreadySubmitted = true;
   }
+  String formattedStudentNamesString = "";
     for (int x = 0; x <= widget.listOfStudents.length - 1; x++) {
-      bool? finalVar;
-      if (x != widget.listOfStudents.length - 1) {
-        finalVar = false;
-      } else {
-        finalVar = true;
-      }
-
+      
+      formattedStudentNamesString += widget.listOfStudents[x];
+      formattedStudentNamesString += "{";      
+    }
+    formattedStudentNamesString = formattedStudentNamesString.substring(0, formattedStudentNamesString.length - 1);
       final body = <String, dynamic>{
-        "final": finalVar,
-        "student_name": widget.listOfStudents[x],
+        "student_names":formattedStudentNamesString,
         "time": widget.time,
       };
       await pb
           .collection('one_off_rolls')
           .create(body: body); //create a record with each students' info
-
-      
-    }
 
     await Future.delayed(const Duration(milliseconds: 200));
       final dataInDB = await pb.collection('one_off_rolls').getFullList(
