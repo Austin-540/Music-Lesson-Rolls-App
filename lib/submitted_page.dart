@@ -38,11 +38,7 @@ class _SubmittedPageState extends State<SubmittedPage> {
     } else {
       alreadySubmitted = true;
     }
-    final currentlyInDb =
-        await pb.collection("send_email_ready").getFullList(sort: '-created');
-    if (currentlyInDb.isNotEmpty) {
-      throw "Things currently in DB";
-    }
+    
     String students = "";
     String statuses = "";
     for (int x = 0; x < widget.lessonDetails['students'].length; x++) {

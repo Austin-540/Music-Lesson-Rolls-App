@@ -305,7 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         })
                                   ]),
                                   QudsPopupMenuItem(
-                                    title: const Text("One off lesson"), 
+                                    title: const Text("One Off Lessons"), 
                                     leading: Icon(Icons.person_add_alt),
                                     onPressed: ()=>Navigator.push(context,MaterialPageRoute(builder:(context) => OneOffLessonPage()))),
                                   QudsPopupMenuItem(
