@@ -3,6 +3,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
+import 'package:music_lessons_attendance/one_off_lesson_page.dart';
 import 'package:music_lessons_attendance/uploading_csv_page.dart';
 import 'package:quds_popup_menu/quds_popup_menu.dart';
 import 'new_lesson_marking.dart';
@@ -77,6 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
       final latestVersionRecordList = await pb.collection('current_version').getFullList(
   sort: '-created',
 );
+      String? fss_version = await FlutterSecureStorage().read(key: "currentVersion");
+      
       final latestVersion = latestVersionRecordList[0].data['current_version'];
       if (latestVersion != version) {
         if (!context.mounted) return;
@@ -90,6 +93,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     launchUrl(Uri.parse("https://github.com/Austin-540/Austin-Scholarship-2023/releases/download/latest/Latest${getPlatform()}.zip"));
                     }, child: Text("Download latest ${getPlatform()} release"))],
                 ));
+      } else {
+        if (fss_version != version) {
+      FlutterSecureStorage().write(key: "currentVersion", value: version);
+      showDialog(context: context, 
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Text("The app was updated"),
+        content: Text(latestVersionRecordList[0].data['change_notes']),
+        actions: [TextButton(onPressed: ()=>Navigator.pop(context), child: Text("OK"))],
+      ));
+      }
       }
 
       final checkForCustomError = await http
@@ -290,6 +304,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                               "https://app.shcmusiclessonrolls.com/_/#/collections?collectionId=as04pbul6udp6bt&filter=&sort=-created"));
                                         })
                                   ]),
+                                  QudsPopupMenuItem(
+                                    title: const Text("One off lesson"), 
+                                    leading: Icon(Icons.person_add_alt),
+                                    onPressed: ()=>Navigator.push(context,MaterialPageRoute(builder:(context) => OneOffLessonPage()))),
                                   QudsPopupMenuItem(
                                     title: const Text("Open Spreadsheet"), onPressed: () {launchUrl(Uri.parse("https://docs.google.com/spreadsheets/d/1dVxlgpGOyiAyGYhhiIW931gFhbEWHQL0oqVbnh2Qtlw/"));},
                                     leading: const Icon(Icons.table_chart_outlined)

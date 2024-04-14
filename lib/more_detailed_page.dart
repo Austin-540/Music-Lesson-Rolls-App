@@ -33,18 +33,7 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
       body: ListView(
         //allow scrolling
         children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton.icon(
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const OneOffLessonPage())),
-                  icon: const Icon(Icons.add),
-                  label: const Text("Mark a one-off lesson")),
-            ),
-          ),
+          Center(child: Text("One off lessons have moved to the profile picture menu on the home page")),
           FutureBuilder(
             future: getLessons(),
             initialData: null,
