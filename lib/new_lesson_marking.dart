@@ -24,8 +24,13 @@ class _NewLessonInListState extends State<NewLessonInList> {
   @override
   Widget build(BuildContext context) {
     List studentNames = [];
+    try {
     for (int x =0; x < widget.details['expand']['students'].length; x++) {
       studentNames.add(widget.details['expand']['students'][x]['name']);
+    }
+
+    } catch (_) {
+      studentNames = [];
     }
 
     String i12hrTime;
