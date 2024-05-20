@@ -73,7 +73,7 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
             );
           } else {
             return ListView(children: [
-              const Center(child: Text("Updating a lesson here won't automatically update the Google Sheet.", textAlign: TextAlign.center,)),
+              const Center(child: Text("Warning: It can take up to 5 minutes for an update here to be added to the Google Sheet", textAlign: TextAlign.center,)),
               Padding(
 
                 padding: EdgeInsets.symmetric(horizontal: paddingWidth),
@@ -88,7 +88,6 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                           onPressed: () async {
                             var teacherProfileData = await pb.collection('users').getFullList();
                             var teacherId = teacherProfileData[0].id;
-                            if (!mounted) return;
                                       
                             showDialog(context: context, builder: (context) => AlertDialog(
                               title: const Text("Add a lesson"),
@@ -125,13 +124,11 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                                       };
                                       
                                       await pb.collection('lessons').create(body: body);
-                                      if (!mounted) return;
                                       
                                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false);
                                       
                                       
                                   } catch(e) {
-                                    if (!mounted) return;
                                     showDialog(context: context, builder: (context) => AlertDialog(
                         title: const Text("Something went wrong :/"),
                         content: Text(e.toString()),));
@@ -246,9 +243,10 @@ class _LessonCardState extends State<LessonCard> {
                                           if (int.tryParse(newLessonTime) == null) {
                                             throw "Only numbers are allowed";
                                           }
-                                          await pb.collection('lessons').update(
+                                           pb.collection('lessons').update(
                                               widget.lessonData.id,
                                               body: {'time': newLessonTime});
+                                              await Future.delayed(Duration(seconds: 1));
                                           Navigator.pushAndRemoveUntil(
                                               context,
                                               MaterialPageRoute(
@@ -322,10 +320,11 @@ class _LessonCardState extends State<LessonCard> {
 
                           listOfStudents.add(record.id);
 
-                          await pb.collection('lessons').update(widget.lessonData.id, 
+                           pb.collection('lessons').update(widget.lessonData.id, 
                           body: {
                             "students": listOfStudents
                           });
+                          await Future.delayed(Duration(seconds: 1));
                           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const EditLessonsPage()), (route) => false);
                         } catch (e) {
                           if(!mounted) return;
@@ -350,11 +349,11 @@ class _LessonCardState extends State<LessonCard> {
                         checkboxValue = value;
                       });
 
-                      await pb.collection('lessons').update(widget.lessonData.id,
+                      pb.collection('lessons').update(widget.lessonData.id,
                       body: {
                         'dont_send_email': value
                       });
-                      if (!mounted) return;
+                      await Future.delayed(Duration(seconds: 1));
                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false);
                     }),
                     const Text("This lesson is outside school time"),
@@ -405,16 +404,14 @@ class _NameAndDeleteButtonState extends State<NameAndDeleteButton> {
               formattedNewStudentList.add(student.id);
             }
 
-            await pb.collection('lessons').update(widget.lessonID, 
+           pb.collection('lessons').update(widget.lessonID, 
             body: {
               "students": formattedNewStudentList
             });
-            if (!mounted) return;
+            await Future.delayed(Duration(seconds: 1));
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false);
               
             } catch (e) {
-              
-              if (!mounted) return;
               showDialog(context: context, builder: (context) => AlertDialog(
       title: const Text("Something went wrong :/"),
       content: Text(e.toString())));
