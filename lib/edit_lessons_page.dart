@@ -51,47 +51,18 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(icon: const Icon(Icons.home_outlined), onPressed: () {
-          kIsWeb? launchUrl(Uri.parse("app.shcmusiclessonrolls.com/",), webOnlyWindowName: "_self"):
-    showDialog(
-      barrierDismissible: false,
-      context: context, builder: (context) => const AlertDialog(
-      title: Text("Automatic restart isn't supported here."),
-      content: Text("Please close the app. When you restart the app you will be taken to the home page."),
-      ));
-  
-        },),
-          title: const Text("Edit Lessons"),
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary),
-      body: FutureBuilder(
-        future: getLessonsToEdit(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            return ListView(children: [
-              const Center(child: Text("Warning: It can take up to 5 minutes for an update here to be added to the Google Sheet", textAlign: TextAlign.center,)),
-              Padding(
-
-                padding: EdgeInsets.symmetric(horizontal: paddingWidth),
-                child: Column(
-                  children: [
-                    for (int i = 0; i < snapshot.data.length; i++) ...[
-                      LessonCard(lessonData: snapshot.data[i]),
-                    ],
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: ElevatedButton.icon(
-                          onPressed: () async {
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.add),
+        
+        onPressed: () async{
                             var teacherProfileData = await pb.collection('users').getFullList();
                             var teacherId = teacherProfileData[0].id;
                                       
                             showDialog(context: context, builder: (context) => AlertDialog(
                               title: const Text("Add a lesson"),
-                              content: Column(children: [
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
                                 TextFormField(
                                   onChanged: (value) => instrument = value,
                                   decoration: const InputDecoration(labelText: "Instrument"),
@@ -138,10 +109,39 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                                 }, child: const Text("Submit"))
                               ],
                             ), );
-                          },
-                          icon: const Icon(Icons.add),
-                          label: const Text("Add a lesson")),
-                    )
+                          
+      }, label: Text("Make a new lesson")),
+      appBar: AppBar(
+        leading: IconButton(icon: const Icon(Icons.home_outlined), onPressed: () {
+          kIsWeb? launchUrl(Uri.parse("https://app.shcmusiclessonrolls.com/",), webOnlyWindowName: "_self"):
+    showDialog(
+      barrierDismissible: false,
+      context: context, builder: (context) => const AlertDialog(
+      title: Text("Automatic restart isn't supported here."),
+      content: Text("Please close the app. When you restart the app you will be taken to the home page."),
+      ));
+  
+        },),
+          title: const Text("Edit Lessons"),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary),
+      body: FutureBuilder(
+        future: getLessonsToEdit(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return ListView(children: [
+              const Center(child: Text("Warning: It can take up to 5 minutes for an update here to be added to the Google Sheet", textAlign: TextAlign.center,)),
+              Padding(
+
+                padding: EdgeInsets.symmetric(horizontal: paddingWidth),
+                child: Column(
+                  children: [
+                    for (int i = 0; i < snapshot.data.length; i++) ...[
+                      LessonCard(lessonData: snapshot.data[i]),
+                    ],
                   ],
                 ),
               ),
@@ -224,9 +224,11 @@ class _LessonCardState extends State<LessonCard> {
                           builder: (context) => AlertDialog(
                                 title: const Text("Edit Lesson Time"),
                                 content: Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     const Text(
                                         "Enter the time as 4 digits in 24hr time."),
+                                        const Text("For example: 1500 for 3PM"),
                                     TextFormField(
                                       onChanged: (value) =>
                                           newLessonTime = value,
@@ -356,11 +358,11 @@ class _LessonCardState extends State<LessonCard> {
                       await Future.delayed(Duration(seconds: 1));
                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false);
                     }),
-                    const Text("This lesson is outside school time"),
+                    const Text("Is this lesson outside school time?"),
                     const Spacer(),
                     IconButton(onPressed: () {
                       showDialog(context: context, builder: (context) => AlertDialog(
-                        title: const Text("'This lesson is outside school time' option"),
+                        title: const Text("'Is this lesson outside school time?' option"),
                         content: const Text("This option is false by default. It tells the app not to send an email to Ms Relf.\n\nSet this to true if the lesson will exclusively take place before 8:40AM or after 3:15PM.\n\nThis will show a red asterix next to the lesson time."),
                         actions: [TextButton(onPressed: () =>Navigator.pop(context), child: const Text("OK"))],
                       ));
