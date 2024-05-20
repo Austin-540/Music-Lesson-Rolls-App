@@ -326,13 +326,7 @@ class _LessonCardState extends State<LessonCard> {
                           body: {
                             "students": listOfStudents
                           });
-                          if (!mounted) return;
-
                           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const EditLessonsPage()), (route) => false);
-                          
-
-
-
                         } catch (e) {
                           if(!mounted) return;
                           showDialog(context: context, builder: (context) => AlertDialog(
