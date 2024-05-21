@@ -21,7 +21,7 @@ class SubmittedPage extends StatefulWidget {
 
 class _SubmittedPageState extends State<SubmittedPage> {
   Future pushAwayFromPage() async {
-    await Future.delayed(Duration(milliseconds: 1500));
+    await Future.delayed(const Duration(milliseconds: 1500));
     if (!mounted) return;
     Navigator.pushAndRemoveUntil(
                         context,
@@ -60,7 +60,7 @@ if (statuses.isNotEmpty) {
         "lesson_time": widget.lessonDetails['time'],
         "students": students,
         "statuses": statuses,
-        "teacher_username": await FlutterSecureStorage().read(key: "username"),
+        "teacher_username": await const FlutterSecureStorage().read(key: "username"),
         "send_email": widget.sendEmail
       };
       pb.collection('send_email_ready').create(body: body);

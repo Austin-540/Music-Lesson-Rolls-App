@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'one_off_lesson_page.dart';
 import 'package:flutter/material.dart';
 import 'package:music_lessons_attendance/home_page.dart';
 import 'globals.dart';
@@ -33,7 +32,7 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
       body: ListView(
         //allow scrolling
         children: [
-          Center(child: Text("One off lessons have moved to the profile picture menu on the home page")),
+          const Center(child: Text("One off lessons have moved to the profile picture menu on the home page")),
           FutureBuilder(
             future: getLessons(),
             initialData: null,

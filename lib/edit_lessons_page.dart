@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:music_lessons_attendance/home_page.dart';
 import 'globals.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -52,7 +51,7 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        icon: Icon(Icons.add),
+        icon: const Icon(Icons.add),
         
         onPressed: () async{
                             var teacherProfileData = await pb.collection('users').getFullList();
@@ -110,7 +109,7 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                               ],
                             ), );
                           
-      }, label: Text("Make a new lesson")),
+      }, label: const Text("Make a new lesson")),
       appBar: AppBar(
         leading: IconButton(icon: const Icon(Icons.home_outlined), onPressed: () {
           kIsWeb? launchUrl(Uri.parse("https://app.shcmusiclessonrolls.com/",), webOnlyWindowName: "_self"):
@@ -248,7 +247,7 @@ class _LessonCardState extends State<LessonCard> {
                                            pb.collection('lessons').update(
                                               widget.lessonData.id,
                                               body: {'time': newLessonTime});
-                                              await Future.delayed(Duration(seconds: 1));
+                                              await Future.delayed(const Duration(seconds: 1));
                                           Navigator.pushAndRemoveUntil(
                                               context,
                                               MaterialPageRoute(
@@ -326,7 +325,7 @@ class _LessonCardState extends State<LessonCard> {
                           body: {
                             "students": listOfStudents
                           });
-                          await Future.delayed(Duration(seconds: 1));
+                          await Future.delayed(const Duration(seconds: 1));
                           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const EditLessonsPage()), (route) => false);
                         } catch (e) {
                           if(!mounted) return;
@@ -355,7 +354,7 @@ class _LessonCardState extends State<LessonCard> {
                       body: {
                         'dont_send_email': value
                       });
-                      await Future.delayed(Duration(seconds: 1));
+                      await Future.delayed(const Duration(seconds: 1));
                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false);
                     }),
                     const Text("Is this lesson outside school time?"),
@@ -383,8 +382,8 @@ class NameAndDeleteButton extends StatefulWidget {
       {super.key, required this.name, required this.student_db_id, required this.studentList, required this.lessonID});
   final String name;
   final String student_db_id;
-  final studentList;
-  final lessonID;
+  final List studentList;
+  final String lessonID;
 
   @override
   State<NameAndDeleteButton> createState() => _NameAndDeleteButtonState();
@@ -410,7 +409,7 @@ class _NameAndDeleteButtonState extends State<NameAndDeleteButton> {
             body: {
               "students": formattedNewStudentList
             });
-            await Future.delayed(Duration(seconds: 1));
+            await Future.delayed(const Duration(seconds: 1));
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false);
               
             } catch (e) {

@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final latestVersionRecordList = await pb.collection('current_version').getFullList(
   sort: '-created',
 );
-      String? fss_version = await FlutterSecureStorage().read(key: "currentVersion");
+      String? fss_version = await const FlutterSecureStorage().read(key: "currentVersion");
       
       final latestVersion = latestVersionRecordList[0].data['current_version'];
       if (latestVersion != version) {
@@ -95,13 +95,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ));
       } else {
         if (fss_version != version) {
-      FlutterSecureStorage().write(key: "currentVersion", value: version);
+      const FlutterSecureStorage().write(key: "currentVersion", value: version);
       showDialog(context: context, 
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: Text("The app was updated"),
+        title: const Text("The app was updated"),
         content: Text(latestVersionRecordList[0].data['change_notes']),
-        actions: [TextButton(onPressed: ()=>Navigator.pop(context), child: Text("OK"))],
+        actions: [TextButton(onPressed: ()=>Navigator.pop(context), child: const Text("OK"))],
       ));
       }
       }
@@ -306,8 +306,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ]),
                                   QudsPopupMenuItem(
                                     title: const Text("One Off Lessons"), 
-                                    leading: Icon(Icons.person_add_alt),
-                                    onPressed: ()=>Navigator.push(context,MaterialPageRoute(builder:(context) => OneOffLessonPage()))),
+                                    leading: const Icon(Icons.person_add_alt),
+                                    onPressed: ()=>Navigator.push(context,MaterialPageRoute(builder:(context) => const OneOffLessonPage()))),
                                   QudsPopupMenuItem(
                                     title: const Text("Open Spreadsheet"), onPressed: () {launchUrl(Uri.parse("https://docs.google.com/spreadsheets/d/1dVxlgpGOyiAyGYhhiIW931gFhbEWHQL0oqVbnh2Qtlw/"));},
                                     leading: const Icon(Icons.table_chart_outlined)

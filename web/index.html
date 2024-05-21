@@ -34,7 +34,7 @@
 
   <script>
     // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = flutter_service_worker_version;
+    var serviceWorkerVersion = {{flutter_service_worker_version}};
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
@@ -67,7 +67,7 @@
       setTimeout(function() {
         var loader = document.querySelector('.loader');
         loader.style.display = 'none';
-    }, 7000);
+    }, 15000);
       // Download main.dart.js
       }
     );
