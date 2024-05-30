@@ -64,9 +64,11 @@ if (statuses.isNotEmpty) {
         "send_email": widget.sendEmail
       };
       pb.collection('send_email_ready').create(body: body);
-      await pb.collection('lessons').update(widget.lessonDetails['id'], body: {
+      pb.collection('lessons').update(widget.lessonDetails['id'], body: {
         "date_last_marked": "${DateTime.now().day}_${DateTime.now().month}"
       }); //submit that student to PB
+
+      await Future.delayed(const Duration(milliseconds: 500));
     
 
     return "Success";
