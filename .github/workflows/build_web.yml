@@ -28,6 +28,16 @@ jobs:
           title: "Latest Versions"
           files: LatestWeb.zip
 
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        id: 'auto-releases2'
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "lates"
+          prerelease: false
+          title: "Latest Versions main.dart.js"
+          files: build/web/main.dart.js
+      
+
       - name: "print url"
         run: echo ${{ steps.auto-releases.outputs.upload_url }}
       
