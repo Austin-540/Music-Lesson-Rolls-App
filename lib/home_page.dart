@@ -448,7 +448,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               );
                             } else if (snapshot.hasError) {
                               //if getLessons() didn't work:
-                              return const Text("error");
+                              return Text("error -- ${snapshot.error}");
                             } else {
                               //while waiting for getLessons():
                               return const Center(

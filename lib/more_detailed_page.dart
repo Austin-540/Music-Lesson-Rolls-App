@@ -44,7 +44,7 @@ class _MoreDetailedLessonsPageState extends State<MoreDetailedLessonsPage> {
                   ],
                 );
               } else if (snapshot.hasError) {
-                return const Text("Error");
+                return Text("Error -- ${snapshot.error}");
               } else {
                 return const Center(
                     child: Padding(
