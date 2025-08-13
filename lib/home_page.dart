@@ -90,7 +90,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       "You are using an outdated version of the website. You may need to restart your web browser for it to update.\n\nYour website version: $version\nLatest version: $latestVersion"),
                   actions: [kIsWeb? const SizedBox(): TextButton(onPressed: (){
                     launchUrl(Uri.parse("https://github.com/Austin-540/Austin-Scholarship-2023/releases/download/latest/Latest${getPlatform()}.zip"));
-                    }, child: Text("Download latest ${getPlatform()} release"))],
+                    }, child: Text("Download latest ${getPlatform()} release")),
+                    
+                    TextButton(onPressed: () {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    }, child: Text("Ignore")),
+
+                    TextButton(
+                      onPressed: () {
+                        launchUrl(Uri.parse("https://app.shcmusiclessonrolls.com/",), webOnlyWindowName: "_self");
+                      },
+                      child: Text("Try force update (not always successful)"),)
+                    ],
                 ));
       } else {
         if (fssVersion != version) {

@@ -95,10 +95,10 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                                   }
                                   try {
                                       if (int.tryParse(time) == null) {
-                                        throw "Invalid time format - Time must be in 24hr time as 4 digits, with no colon. For example 2:15PM would be \"1415.\"";
+                                        throw "Invalid time format - Time must be in 24hr time as 4 digits, with no colon. For example 2:15PM would be \"1415\".";
                                       }
                                       if (time.length != 4) {
-                                        throw "Invalid time format - Time must be in 24hr time as 4 digits, with no colon. For example 2:15PM would be \"1415.\"";
+                                        throw "Invalid time format - Time must be in 24hr time as 4 digits, with no colon. For example 2:15PM would be \"1415\".";
                                       }
                                       
                                     final body = <String, dynamic>{
@@ -263,6 +263,14 @@ class _LessonCardState extends State<LessonCard> {
                                       child: const Text("Cancel")),
                                   TextButton(
                                       onPressed: () async {
+                                        newLessonTime = newLessonTime.trim();
+                                        newLessonTime = newLessonTime.replaceAll(":", "");
+                                        newLessonTime = newLessonTime.replaceAll(" ", "");
+                                        newLessonTime = newLessonTime.replaceAll("AM", "");
+                                        newLessonTime = newLessonTime.replaceAll("am", "");
+                                        if (newLessonTime.length == 3) {
+                                          newLessonTime = "0$newLessonTime"; // Add leading zero if needed
+                                  }
                                         try {
                                           if (int.tryParse(newLessonTime) == null) {
                                             throw "Only numbers are allowed";
