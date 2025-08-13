@@ -194,7 +194,7 @@ class _NewLessonInListState extends State<NewLessonInList> {
                 activeStatus
                     ? OutlinedButton(
                         style: ButtonStyle(
-                            shadowColor: MaterialStateProperty.resolveWith(
+                            shadowColor: WidgetStateProperty.resolveWith(
                                 (states) => null)),
                         onPressed: () {
                           if (_rollOptions.isEmpty) {

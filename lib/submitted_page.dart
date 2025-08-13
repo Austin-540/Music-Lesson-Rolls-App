@@ -108,7 +108,7 @@ if (statuses.isNotEmpty) {
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(800)),
                                   color:
-                                      Theme.of(context).colorScheme.background),
+                                      Theme.of(context).colorScheme.surface),
                               child: const AnimatedCheckmark())):
                               const AnimatedCheckmark()
                               ),

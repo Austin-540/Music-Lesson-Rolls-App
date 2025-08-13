@@ -1,8 +1,8 @@
 import 'package:pocketbase/pocketbase.dart';
 
-final pb = PocketBase('https://app.shcmusiclessonrolls.com/');
+final pb = PocketBase('https://gtest2.shcmusiclessonrolls.com/');
 
-const version = "v6.1.3";
+const version = "v6.1.4";
 //Also change this value in pubspec.yaml
 //If I knew that the proper way to do this was in pubspec.yaml i would have done that
 //But now its difficult to retroactively fix

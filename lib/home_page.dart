@@ -19,7 +19,6 @@ import 'login_page.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 import 'more_detailed_page.dart';
-import 'clear_db_page.dart';
 import 'package:http/http.dart' as http;
 
 class MyHomePage extends StatefulWidget {
@@ -78,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final latestVersionRecordList = await pb.collection('current_version').getFullList(
   sort: '-created',
 );
-      String? fss_version = await const FlutterSecureStorage().read(key: "currentVersion");
+      String? fssVersion = await const FlutterSecureStorage().read(key: "currentVersion");
       
       final latestVersion = latestVersionRecordList[0].data['current_version'];
       if (latestVersion != version) {
@@ -94,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     }, child: Text("Download latest ${getPlatform()} release"))],
                 ));
       } else {
-        if (fss_version != version) {
+        if (fssVersion != version) {
       const FlutterSecureStorage().write(key: "currentVersion", value: version);
       showDialog(context: context, 
       barrierDismissible: false,
@@ -182,12 +181,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
     String? maybeUsername = await storage.read(key: "username");
-    if (maybeUsername == null) {
-      username = "Undefined";
-    } else {
-      username = maybeUsername;
-    }
-    return username;
+    if (maybeUsername != null) {
+    username = maybeUsername;
+    } 
+      return username;
   }
 
   Future getLessons() async {
@@ -286,15 +283,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                             leading: const Icon(
                                                 Icons.error_outline_rounded)),
                                     QudsPopupMenuItem(
-                                        title: const Text("Clear The Backend"),
-                                        onPressed: () => Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ClearDBPage())),
-                                        leading: const Icon(
-                                            Icons.delete_forever_outlined)),
-                                    QudsPopupMenuItem(
                                         title: const Text("Manually Edit Lessons"),
                                         leading: const Icon(Icons.edit_outlined),
                                         subTitle: const Text(
@@ -329,8 +317,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                         applicationVersion: version,
                                         applicationLegalese:
                                             """Created by Austin-540. Check out the source code on GitHub if you want.  
-                         
-                                     Copyright (c) 2023 Austin-540
                                      
                                      This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
                                      
@@ -354,7 +340,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                           ))),
                               QudsPopupMenuItem(
-                                  title: const Text("Send Feedback"),
+                                  title: const Text("Contact the developer"),
                                   leading: const Icon(Icons.feedback_outlined),
                                   onPressed: () async {
                                     final records =
@@ -543,15 +529,26 @@ class ListOfLessons extends StatelessWidget {
       }
     } else {
       //if lessonList is empty, show a message
-      return const Padding(
-        padding: EdgeInsets.all(20.0),
+      return Padding(
+        padding: const EdgeInsets.all(20.0),
         child: Card(
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Text(
-              "Looks like there's nothing to show",
-              style: TextStyle(fontSize: 15),
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  "Looks like there's nothing to show",
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
+              TextButton(child: const Text("Edit lessons"), 
+              onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false),
+              
+              ),
+              TextButton(child: const Text("Re-mark a lesson from today"),
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreDetailedLessonsPage())),)
+            ],
           ),
         ),
       );

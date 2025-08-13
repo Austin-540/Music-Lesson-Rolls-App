@@ -40,7 +40,7 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
-  <style>
+  <!-- <style>
     .loader {
     border: 16px solid #f3f3f3;
     border-top: 16px solid #3498db;
@@ -70,8 +70,108 @@
     }, 15000);
       // Download main.dart.js
       }
-    );
-  </script>
+    ); -->
+  <!-- </script> -->
+
+
+
+
+
+<div class="loader">
+  <div class="bar1"></div>
+  <div class="bar2"></div>
+  <div class="bar3"></div>
+  <div class="bar4"></div>
+  <div class="bar5"></div>
+  <div class="bar6"></div>
+</div>
+
+<style>
+
+body,html {
+  background-color: #ffffff;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.loader {
+  height: 45vh;
+  text-align: center;
+  width: 62vw;
+  align-items: center;
+  font-size: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+  
+div {
+    height: 100%;
+    display: inline-block;
+    float: left;
+    margin-left: 2px;
+    -webkit-animation: delay 1.0s infinite ease-in-out;
+    animation: delay 1.0s infinite ease-in-out;
+}
+
+  .bar1{
+    background-color: #E40303 ;
+    width: 10vw
+  }
+  .bar2{
+    background-color: #FF8C00;
+    -webkit-animation-delay: -0.7s;
+    animation-delay: -0.7s;
+    width: 10vw;
+  }
+  .bar3{
+    background-color: #FFED00;
+    -webkit-animation-delay: -0.6s;
+    animation-delay: -0.6s;
+    width: 10vw;
+  }
+  .bar4{
+    background-color: #008026;
+    -webkit-animation-delay: -0.5s;
+    animation-delay: -0.5s;
+    width: 10vw;
+  }
+  .bar5{
+    background-color: #004CFF;
+    -webkit-animation-delay: -0.4s;
+    animation-delay: -0.4s;
+    width: 10vw;
+  }
+  .bar6{
+    background-color: #732982;
+    -webkit-animation-delay: -0.3s;
+    animation-delay: -0.3s;
+    width: 10vw;
+  }
+}
+
+
+@-webkit-keyframes delay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.05) }  
+  20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes delay {
+  0%, 40%, 100% { 
+    transform: scaleY(0.05);
+    -webkit-transform: scaleY(0.05);
+  }  20% { 
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+
+  
+</style>
+
+
+
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

@@ -38,9 +38,10 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
     return resultList;
   }
 
-  String instrument = "";
+  String instrument = "Music Lesson";
   String time = "";
-  String weekday ="";
+  Set weekdaySelected = {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][DateTime.now().weekday-1]};
+  String weekday = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][DateTime.now().weekday-1];
 
   @override
   Widget build(BuildContext context) {
@@ -63,25 +64,42 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                 TextFormField(
-                                  onChanged: (value) => instrument = value,
-                                  decoration: const InputDecoration(labelText: "Instrument"),
-                                ),
-                                TextFormField(
                                   onChanged: (value) => time = value,
                                   decoration: const InputDecoration(labelText: "Time", hintText: "Enter the time as 4 digit 24hr time"),
                                 ),
-                                TextFormField(
-                                  onChanged: (value) => weekday = value,
-                                  decoration: const InputDecoration(labelText: "Weekday"),
-                                )
+                                DropdownButtonFormField(
+                                  value: weekday,
+                                  onChanged: (value) => setState(() => weekday = value!),
+                                  items: const [
+                                    DropdownMenuItem(value: "Monday", child: Text("Monday")),
+                                    DropdownMenuItem(value: "Tuesday", child: Text("Tuesday")),
+                                    DropdownMenuItem(value: "Wednesday", child: Text("Wednesday")),
+                                    DropdownMenuItem(value: "Thursday", child: Text("Thursday")),
+                                    DropdownMenuItem(value: "Friday", child: Text("Friday")),
+                                    DropdownMenuItem(value: "Saturday", child: Text("Saturday")),
+                                    DropdownMenuItem(value: "Sunday", child: Text("Sunday")),
+                                  ],
+                                  decoration: const InputDecoration(labelText: "Pick the weekday"),
+                                ),
                               ]),
                               actions: [
                                 TextButton(onPressed: ()=>Navigator.pop(context), child: const Text("Cancel")),
                                 TextButton(onPressed: ()async{
+                                  time = time.trim();
+                                  time = time.replaceAll(":", "");
+                                  time = time.replaceAll(" ", "");
+                                  time = time.replaceAll("AM", "");
+                                  time = time.replaceAll("am", "");
+                                  if (time.length == 3) {
+                                    time = "0$time"; // Add leading zero if needed
+                                  }
                                   try {
                                       if (int.tryParse(time) == null) {
-                                        throw "Invalid time format - Time must be in 24hr time as 4 digits, with no colon.";
-                              }
+                                        throw "Invalid time format - Time must be in 24hr time as 4 digits, with no colon. For example 2:15PM would be \"1415.\"";
+                                      }
+                                      if (time.length != 4) {
+                                        throw "Invalid time format - Time must be in 24hr time as 4 digits, with no colon. For example 2:15PM would be \"1415.\"";
+                                      }
                                       
                                     final body = <String, dynamic>{
                                         "teacher": teacherId,
@@ -132,14 +150,19 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
             );
           } else {
             return ListView(children: [
-              const Center(child: Text("Warning: It can take up to 5 minutes for an update here to be added to the Google Sheet", textAlign: TextAlign.center,)),
+              SegmentedButton(segments: [ButtonSegment(value: "Monday", label: Text("M")), ButtonSegment(value: "Tuesday", label: Text("T")), ButtonSegment(value: "Wednesday", label: Text("W")), ButtonSegment(value: "Thursday", label: Text("T")), ButtonSegment(value: "Friday", label: Text("F")), ButtonSegment(value: "Saturday", label: Text("S")), ButtonSegment(value: "Sunday", label: Text("S"))],
+              onSelectionChanged: (p0) => setState(() {
+                weekdaySelected = p0;
+              }), 
+              selected: weekdaySelected),
               Padding(
 
                 padding: EdgeInsets.symmetric(horizontal: paddingWidth),
                 child: Column(
                   children: [
                     for (int i = 0; i < snapshot.data.length; i++) ...[
-                      LessonCard(lessonData: snapshot.data[i]),
+                      (snapshot.data[i].data["weekday"] == weekdaySelected.first)?
+                      LessonCard(lessonData: snapshot.data[i]): SizedBox()
                     ],
                   ],
                 ),
@@ -321,7 +344,7 @@ class _LessonCardState extends State<LessonCard> {
 
                           listOfStudents.add(record.id);
 
-                           pb.collection('lessons').update(widget.lessonData.id, 
+                          await pb.collection('lessons').update(widget.lessonData.id, 
                           body: {
                             "students": listOfStudents
                           });
