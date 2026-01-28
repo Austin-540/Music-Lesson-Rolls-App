@@ -17,6 +17,7 @@ import 'globals.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'login_page.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'reset_lessons_page.dart';
 
 import 'more_detailed_page.dart';
 import 'package:http/http.dart' as http;
@@ -117,6 +118,21 @@ class _MyHomePageState extends State<MyHomePage> {
       ));
       }
       }
+
+      final checkIfThisIsFirstLoginOfTheYear = (await pb.collection("users").getOne(pb.authStore.model.data["id"])).get("year_of_most_recent_login", "0") != DateTime.now().year.toString();
+      await pb.collection("users").update(pb.authStore.model.data['id'], body: {"year_of_most_recent_login": DateTime.now().year.toString()});
+      if (checkIfThisIsFirstLoginOfTheYear) {
+        showDialog(context: context, 
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Text("Looks like this is your first time logging in for ${DateTime.now().year}"),
+        content: Text("Do you want to edit your existing lessons, reset your lessons, or ignore this?"),
+        actions: [TextButton(onPressed: ()=>Navigator.pop(context), child: const Text("Ignore")),
+        TextButton(onPressed: ()=>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditLessonsPage()), (route) => false), child: const Text("Edit Existing Lessons")),
+        TextButton(onPressed: ()=>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const ResetLessonsPage()), (route) => false), child: const Text("Reset Lessons (You will get a preview before it actually resets everything)"))],
+      ));
+      }
+
 
       final checkForCustomError = await http
           .get(Uri.parse("https://austin-540.github.io/Database-Stuff/"));

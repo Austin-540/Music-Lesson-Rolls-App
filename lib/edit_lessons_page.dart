@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:music_lessons_attendance/reset_lessons_page.dart';
 import 'globals.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -39,7 +40,7 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
   }
 
   String instrument = "Music Lesson";
-  String time = "";
+  String time = "0000";
   Set weekdaySelected = {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][DateTime.now().weekday-1]};
   String weekday = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][DateTime.now().weekday-1];
 
@@ -63,10 +64,18 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                TextFormField(
-                                  onChanged: (value) => time = value,
-                                  decoration: const InputDecoration(labelText: "Time", hintText: "Enter the time as 4 digit 24hr time"),
-                                ),
+                                  StatefulBuilder(
+                                    builder: (BuildContext context, setState) {
+                                      return TextButton(child:Text("${time.substring(0,2)}:${time.substring(2,4)}"),
+                                onPressed: () async{
+                                  var time_new = (await showTimePicker(context: context, initialTime: TimeOfDay.now()));
+                                  if (time_new == null) {return;}
+                                  var time_new_string = "${time_new.hour.toString().padLeft(2, "0")}${time_new.minute.toString().padLeft(2,"0")}";
+                                setState(() {time = time_new_string;});},);
+                                    },
+                                  ),
+                                
+
                                 DropdownButtonFormField(
                                   value: weekday,
                                   onChanged: (value) => setState(() => weekday = value!),
@@ -129,6 +138,7 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                           
       }, label: const Text("Make a new lesson")),
       appBar: AppBar(
+        actions: [TextButton(child: Text("Reset"), onPressed: ()=>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ResetLessonsPage()), (route) => false),)],
         leading: IconButton(icon: const Icon(Icons.home_outlined), onPressed: () {
           kIsWeb? launchUrl(Uri.parse("https://app.shcmusiclessonrolls.com/",), webOnlyWindowName: "_self"):
     showDialog(
