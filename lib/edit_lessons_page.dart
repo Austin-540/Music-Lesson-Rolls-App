@@ -138,7 +138,7 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                           
       }, label: const Text("Make a new lesson")),
       appBar: AppBar(
-        actions: [TextButton(child: Text("Reset"), onPressed: ()=>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ResetLessonsPage()), (route) => false),)],
+        actions: [TextButton(child: const Text("Reset"), onPressed: ()=>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const ResetLessonsPage()), (route) => false),)],
         leading: IconButton(icon: const Icon(Icons.home_outlined), onPressed: () {
           kIsWeb? launchUrl(Uri.parse("https://app.shcmusiclessonrolls.com/",), webOnlyWindowName: "_self"):
     showDialog(
@@ -160,7 +160,7 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
             );
           } else {
             return ListView(children: [
-              SegmentedButton(segments: [ButtonSegment(value: "Monday", label: Text("M")), ButtonSegment(value: "Tuesday", label: Text("T")), ButtonSegment(value: "Wednesday", label: Text("W")), ButtonSegment(value: "Thursday", label: Text("T")), ButtonSegment(value: "Friday", label: Text("F")), ButtonSegment(value: "Saturday", label: Text("S")), ButtonSegment(value: "Sunday", label: Text("S"))],
+              SegmentedButton(segments: [const ButtonSegment(value: "Monday", label: Text("M")), const ButtonSegment(value: "Tuesday", label: Text("T")), const ButtonSegment(value: "Wednesday", label: Text("W")), const ButtonSegment(value: "Thursday", label: Text("T")), const ButtonSegment(value: "Friday", label: Text("F")), const ButtonSegment(value: "Saturday", label: Text("S")), const ButtonSegment(value: "Sunday", label: Text("S"))],
               onSelectionChanged: (p0) => setState(() {
                 weekdaySelected = p0;
               }), 
@@ -172,7 +172,7 @@ class _EditLessonsPageState extends State<EditLessonsPage> {
                   children: [
                     for (int i = 0; i < snapshot.data.length; i++) ...[
                       (snapshot.data[i].data["weekday"] == weekdaySelected.first)?
-                      LessonCard(lessonData: snapshot.data[i]): SizedBox()
+                      LessonCard(lessonData: snapshot.data[i]): const SizedBox()
                     ],
                   ],
                 ),
