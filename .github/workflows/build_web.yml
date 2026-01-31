@@ -7,7 +7,7 @@ on:
 
 jobs:
   WebAndLinux:
-    name: "Ubuntu builds - web, linux and android"
+    name: "Ubuntu build - web"
     runs-on: "ubuntu-latest"
     steps:
       - uses: subosito/flutter-action@v2
