@@ -7,7 +7,7 @@ on:
 
 jobs:
   WebAndLinux:
-    name: "Ubuntu builds - web, linux and android"
+    name: "Ubuntu build - web"
     runs-on: "ubuntu-latest"
     steps:
       - uses: subosito/flutter-action@v2
@@ -15,7 +15,7 @@ jobs:
       - name: "Dependencies"
         run: flutter pub get
       - name: "Build web"
-        run: flutter build web --release --web-renderer canvaskit
+        run: flutter build web --release
       - name: "zip"
         run: zip -r LatestWeb.zip build/web/
 
@@ -27,104 +27,8 @@ jobs:
           prerelease: false
           title: "Latest Versions"
           files: LatestWeb.zip
-
-      - uses: "marvinpinto/action-automatic-releases@latest"
-        id: 'auto-releases2'
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "lates"
-          prerelease: false
-          title: "Latest Versions main.dart.js"
-          files: build/web/main.dart.js
-      
-
       - name: "print url"
         run: echo ${{ steps.auto-releases.outputs.upload_url }}
       
-      - name: "Linux dependencies"
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y ninja-build libgtk-3-dev
-      - run: flutter config --enable-linux-desktop
-
-      
-
-      - name: "build linux"
-        run: flutter build linux
-      - name: "rename linux file"
-        run: zip -r LatestLinux.zip build/linux/x64/release/bundle/
-      - uses: xresloader/upload-to-github-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          file: "LatestLinux.zip"
-          update_latest_release: true
-          tags: false
-          draft: false
-          verbose: true
-      - uses: actions/setup-java@v2
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-
-      - name: "Build Android"
-        run: flutter build apk
-      - name: "zip android"
-        run: zip LatestAndroid.zip build/app/outputs/flutter-apk/app-release.apk
-
-      - uses: xresloader/upload-to-github-release@v1
-        env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          file: "LatestAndroid.zip"
-          update_latest_release: true
-          tags: false
-          draft: false
-          verbose: true
-
-
-      - name: "GH Stuff" 
-        id: latest_release_info
-        uses: jossef/action-latest-release-info@v1.2.1
-
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
-
-      - name: "Edit Release"
-        uses: irongut/EditRelease@v1.2.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: ${{ steps.latest_release_info.outputs.id }}
-          name: " "
-          prerelease: false
-          body: "\n\nInstall instructions\n\n\n\nWeb: Unzip LatestWeb.zip and serve the files inside. \n\nWindows: Download and unzip LatestWindows.zip. Follow the foler path and run music_lessons_attendance.exe. If Windows Defender prevents you from running the app, press 'more info', then 'run anyway'. The publisher will be 'unknown publisher' \n\nLinux: Download and unzip LatestLinux.zip. Follow the folder path and run music_lessons_attendance. The data and lib folders must be in the same folder as the executable."
-    
-
-  Windows:
-    needs: WebAndLinux
-    name: "Windows build"
-    runs-on: "windows-latest"
-    steps:
-      - uses: subosito/flutter-action@v2
-      - uses: actions/checkout@v3
-        
-
-      - name: "Dependencies"
-        run: flutter pub get
-      - name: "Windows build"
-        run: flutter build windows
-
-      - name: "zip"
-        run: powershell Compress-Archive build/windows/x64/runner/release LatestWindows.zip
-      - uses: xresloader/upload-to-github-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          file: "LatestWindows.zip"
-          update_latest_release: true
-          tags: false
-          draft: false
-          verbose: true
 
     
